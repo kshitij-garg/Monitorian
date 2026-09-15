@@ -1,6 +1,11 @@
-# Monitorian
+# Monitorian 2.0 Unofficial
 
-Monitorian is a Windows desktop tool to adjust the brightness of multiple monitors with ease.
+Monitorian 2.0 Unofficial is an extended fork of the original Windows desktop tool to adjust the brightness of multiple monitors with ease.
+
+## Credits & Acknowledgements
+This project is an unofficial fork and extension of the incredible open-source [Monitorian](https://github.com/emoacht/Monitorian) tool created by [emoacht](https://github.com/emoacht). All original foundation, architecture, and core features belong to them! If you like this tool, please consider starring their original repository.
+
+---
 
 <img src="Images/Screenshot_main.png" alt="Screenshot" width="487.5"><br>
 (DPI: 200%)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,8 +12,28 @@ namespace Monitorian.Core.Models;
 
 public static class AppDataService
 {
-	public static string FolderPath => _folderPath ??=
-		Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), ProductInfo.Product);
+	public static bool IsPortable { get; private set; }
+
+	public static string FolderPath
+	{
+		get
+		{
+			if (_folderPath is null)
+			{
+				var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+				if (File.Exists(Path.Combine(baseDirectory, "portable.ini")))
+				{
+					IsPortable = true;
+					_folderPath = baseDirectory;
+				}
+				else
+				{
+					_folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), ProductInfo.Product);
+				}
+			}
+			return _folderPath;
+		}
+	}
 	private static string _folderPath;
 
 	public static string EnsureFolderPath()

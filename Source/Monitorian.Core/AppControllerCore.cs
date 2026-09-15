@@ -151,6 +151,8 @@ public class AppControllerCore
 		NotifyIconContainer.Dispose();
 		WindowPainter.Dispose();
 
+		_osdWindow?.Close();
+
 		_sessionWatcher.Dispose();
 		_powerWatcher.Dispose();
 		_displaySettingsWatcher.Dispose();
@@ -529,6 +531,8 @@ public class AppControllerCore
 		}
 	}
 
+	private Views.OsdWindow _osdWindow;
+
 	private void ReflectMouseWheel(int delta)
 	{
 		var monitors = Monitors.Where(x => x.IsTarget && x.IsControllable).ToArray();
@@ -547,6 +551,13 @@ public class AppControllerCore
 		{
 			monitor.DecrementBrightness(ViewManager.WheelFactor, false);
 		}
+
+		if (_osdWindow == null)
+			_osdWindow = new Views.OsdWindow();
+
+		var iconRect = NotifyIconContainer.GetIconRect();
+		var pivot = new System.Windows.Point(iconRect.X + iconRect.Width / 2, iconRect.Y);
+		_osdWindow.ShowValue(monitor.Brightness, pivot);
 	}
 
 	protected internal MonitorViewModel SelectedMonitor

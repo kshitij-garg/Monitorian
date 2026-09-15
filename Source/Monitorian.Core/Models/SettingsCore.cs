@@ -93,7 +93,7 @@ public class SettingsCore : BindableBase
 		get => _restoresBrightnessOnWake;
 		set => SetProperty(ref _restoresBrightnessOnWake, value);
 	}
-	private bool _restoresBrightnessOnWake;
+	private bool _restoresBrightnessOnWake = true;
 
 	/// <summary>
 	/// Whether to invert scroll direction
@@ -162,7 +162,7 @@ public class SettingsCore : BindableBase
 		get => _enablesIconWheel;
 		set => SetProperty(ref _enablesIconWheel, value);
 	}
-	private bool _enablesIconWheel;
+	private bool _enablesIconWheel = true;
 
 	/// <summary>
 	/// Monitor customizations by user

@@ -5,6 +5,18 @@ Monitorian 2.0 Unofficial is an extended fork of the original Windows desktop to
 ## Credits & Acknowledgements
 This project is an unofficial fork and extension of the incredible open-source [Monitorian](https://github.com/emoacht/Monitorian) tool created by [emoacht](https://github.com/emoacht). All original foundation, architecture, and core features belong to them! If you like this tool, please consider starring their original repository.
 
+## Our Mission with Monitorian 2.0 Unofficial
+Our goal with this 2.0 fork is to rapidly prototype and deliver highly requested quality-of-life features from the community, such as **Portable Mode**, **Tray Icon Scroll OSD**, **Incremental UI Settings**, and **Brightness Restore on Wake**.
+
+We firmly believe in contributing back to the open-source community. All of the features introduced in this repository have been submitted as Pull Requests to the original repository. **If the original maintainer merges these changes upstream, we will likely archive/delete this repository and continue our development directly in the original repo.**
+
+### New Features Added in 2.0
+- **Portable Mode**: Run Monitorian completely standalone by placing an empty `portable.ini` file next to the executable. No `AppData` clutter!
+- **Scroll OSD**: Smoothly adjust brightness by scrolling your mouse wheel over the tray icon, complete with a beautiful auto-theming Windows 11 style On-Screen Display.
+- **Restore on Wake**: Automatically restores your monitors to their configured brightness levels after waking from sleep or screen timeout.
+- **Exposed Settings**: Hidden CLI commands are now easily accessible checkboxes in the settings menu.
+- **Frictionless Defaults**: The best features (Scroll OSD and Restore on Wake) are enabled by default for a true "it just works" experience.
+
 ---
 
 <img src="Images/Screenshot_main.png" alt="Screenshot" width="487.5"><br>

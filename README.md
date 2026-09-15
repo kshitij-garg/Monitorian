@@ -1,5 +1,9 @@
 # Monitorian 2.0 Unofficial
 
+[![GitHub Release](https://img.shields.io/github/v/release/kshitij-garg/Monitorian-2.0?style=for-the-badge&color=2ea44f)](https://github.com/kshitij-garg/Monitorian-2.0/releases)
+[![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-blue?style=for-the-badge)](#)
+[![License](https://img.shields.io/github/license/kshitij-garg/Monitorian-2.0?style=for-the-badge)](LICENSE.txt)
+
 Monitorian 2.0 Unofficial is an extended fork of the original Windows desktop tool to adjust the brightness of multiple monitors with ease.
 
 ## Credits & Acknowledgements
@@ -11,11 +15,14 @@ Our goal with this 2.0 fork is to rapidly prototype and deliver highly requested
 We firmly believe in contributing back to the open-source community. All of the features introduced in this repository have been submitted as Pull Requests to the original repository. **If the original maintainer merges these changes upstream, we will likely archive/delete this repository and continue our development directly in the original repo.**
 
 ### New Features Added in 2.0
-- **Portable Mode**: Run Monitorian completely standalone by placing an empty `portable.ini` file next to the executable. No `AppData` clutter!
-- **Scroll OSD**: Smoothly adjust brightness by scrolling your mouse wheel over the tray icon, complete with a beautiful auto-theming Windows 11 style On-Screen Display.
-- **Restore on Wake**: Automatically restores your monitors to their configured brightness levels after waking from sleep or screen timeout.
-- **Exposed Settings**: Hidden CLI commands are now easily accessible checkboxes in the settings menu.
-- **Frictionless Defaults**: The best features (Scroll OSD and Restore on Wake) are enabled by default for a true "it just works" experience.
+
+| Feature | Description |
+| :--- | :--- |
+| 🧳 **Portable Mode** | Run Monitorian completely standalone by placing an empty `portable.ini` file next to the executable. No `AppData` clutter! |
+| 🖱️ **Scroll OSD** | Smoothly adjust brightness by scrolling your mouse wheel over the tray icon, complete with a beautiful auto-theming Windows 11 style On-Screen Display. |
+| ⏰ **Restore on Wake** | Automatically restores your monitors to their configured brightness levels after waking from sleep or screen timeout. |
+| ⚙️ **Exposed Settings** | Hidden CLI commands are now easily accessible checkboxes right in the GUI settings menu. |
+| ✨ **Frictionless Defaults**| The best features (Scroll OSD and Restore on Wake) are enabled by default for a true "it just works" experience. |
 
 ---
 

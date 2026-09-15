@@ -39,6 +39,18 @@ The following is a chronological list of the user's prompts that guided the deve
 10. **"i dont think you have tracked all the documentation i asked you to maintain from the beginning"**
     - *AI Action:* Created this `AI_CONTRIBUTION.md` document to retroactively log all prompts and contributions accurately.
 
+11. **"i want us to create the repo in my profile as if its Monitorian 2.0 until the PRs are merged"**
+    - *AI Action:* Consolidated all feature branches into a new `master` branch. Installed the Visual Studio 2022 Build Tools via `winget` to ensure the project could compile natively. Used the GitHub CLI to create the `kshitij-garg/Monitorian-2.0` repository and pushed the consolidated code.
+
+12. **"okay this is awesome. Lets rebrand the whole suite thats in my repo to be Monitorian 2.0 Unofficial."**
+    - *AI Action:* Rebranded `AssemblyTitle` and `AssemblyProduct` in `AssemblyInfo.cs` files. Added a Credits section to the README. Generated the final `v2.0.0` GitHub Release and politely updated all 4 upstream PRs to inform the original maintainer.
+
+13. **"also make sure the new features are on by default. Dont add unncessary friction"**
+    - *AI Action:* Modified `SettingsCore.cs` to enable the Scroll OSD and Restore Brightness on Wake features by default, rebuilding and repushing the release to ensure a frictionless out-of-the-box experience.
+
+14. **"recheck and revalidate everything. I want all documentation to be updated nicely and my repo should be better structured"**
+    - *AI Action:* Cleaned up the repository root by deleting scratch scripts and JSON analysis data. Overhauled the `README.md` to look incredibly professional with Shields.io badges and a beautiful feature table, and finalized this contribution log.
+
 ## Summary of AI Contributions
 
 | Feature / Fix | Branch | Pull Request | Status | Description |

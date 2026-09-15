@@ -1,4 +1,9 @@
-﻿# Contributing to Monitorian
+# Contributing to Monitorian 2.0 Unofficial
+
+> [!IMPORTANT]
+> **This repository is the Monitorian 2.0 Unofficial fork.** 
+> If you are looking for the original Monitorian repository or want to report an issue with the base software, please visit [emoacht/Monitorian](https://github.com/emoacht/Monitorian).
+> Contributions here should specifically target the extended features (Portable Mode, Scroll OSD, Restore on Wake).
 
 Thanks to your interest in contributing to this project.
 

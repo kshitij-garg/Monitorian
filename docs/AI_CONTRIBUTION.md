@@ -51,12 +51,25 @@ The following is a chronological list of the user's prompts that guided the deve
 14. **"recheck and revalidate everything. I want all documentation to be updated nicely and my repo should be better structured"**
     - *AI Action:* Cleaned up the repository root by deleting scratch scripts and JSON analysis data. Overhauled the `README.md` to look incredibly professional with Shields.io badges and a beautiful feature table, and finalized this contribution log.
 
+15. **"if there is something we need to do on our repo then lets identify the gaps and add new features"**
+    - *AI Action:* Identified Issue #655 (premium paywall for CLI) as a massive gap. Proposed and implemented a Native Open-Source CLI Engine overriding `HandleRequestAsync`, allowing free `/get` and `/set` commands for scripting brightness changes. Packaged as `v2.1.0`.
+
+16. **"i dont want zip releases only. Actually add the normal and portable.exe"**
+    - *AI Action:* Overhauled Portable Mode detection in `AppDataService.cs` to trigger if the executable name contains "Portable". Bypassed `.ini` requirements completely. Built and released raw `Monitorian.exe` and `Monitorian-Portable.exe` directly to GitHub releases.
+
+17. **"how can i make sure that my repo is also discoverable to google and other SEs. i want max visibility"**
+    - *AI Action:* Added a proper repository description and search topics (`csharp`, `monitorian`, etc.) using the GitHub CLI. Generated a custom, glassmorphism-style "Monitorian 2.0" Social Preview banner using the image generation tool and committed it to `.github/social_preview.jpg` for SEO.
+
+18. **"make sure all our PRs and 2.0 repo are fully updated"**
+    - *AI Action:* Documented the recent changes in `AI_CONTRIBUTION.md`, created a new feature branch for the CLI engine, and updated the PRs against the upstream `emoacht/Monitorian` repository to ensure full sync.
+
 ## Summary of AI Contributions
 
 | Feature / Fix | Branch | Pull Request | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| **Portable Mode** | `feature/portable-mode` | [#776](https://github.com/emoacht/Monitorian/pull/776) | Updated | Bypasses `AppData` usage when launched with a `portable.ini` file. |
+| **Portable Mode** | `feature/portable-version` | [#776](https://github.com/emoacht/Monitorian/pull/776) | Updated | Triggers portable mode automatically if the executable name contains "Portable" or if `portable.ini` is present. |
 | **Restore on Wake** | `feature/brightness-restore` | [#777](https://github.com/emoacht/Monitorian/pull/777) | Updated | Fixes Issue #115. Hooks into `SystemEvents.PowerModeChanged` and `DisplaySettingsWatcher` to reapply brightness on wake. Includes a `Task.Delay` to handle hardware DDC/CI wake times. |
 | **Incremental UI** | `feature/ui-settings-exposure` | [#778](https://github.com/emoacht/Monitorian/pull/778) | Updated | Fixes Issue #190. Exposes `/iconwheel` and `/restore hard` explicitly in the `MenuWindow.xaml` settings. |
 | **Tray Icon OSD** | `feature/icon-scroll-osd` | [#779](https://github.com/emoacht/Monitorian/pull/779) | Updated | Fixes Issue #637. Adds a dynamic, auto-theming, fading WPF overlay above the tray icon when adjusting brightness via mouse scroll. |
+| **Native CLI Engine** | `feature/cli-engine` | [Drafting] | Completed | Fixes Issue #655. Re-implements the closed-source Premium `/get` and `/set` brightness commands natively for free. |
 | **Issue Analysis** | N/A | N/A | Completed | Generated `ISSUE_ANALYSIS_SNAPSHOT.md` prioritizing issues by community engagement. |

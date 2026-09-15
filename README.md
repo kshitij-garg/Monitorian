@@ -1,5 +1,13 @@
 # Monitorian 2.0 Unofficial
 
+> [!NOTE]
+> **Mission Statement & Project Goals**
+> This repository is an unofficial continuation (Monitorian 2.0) built to address critical friction points in the original project. Our primary goal is to provide **maximum accessibility** to all users. 
+> 
+> We have completely unlocked the Premium CLI engine for free, integrated smart Portable Mode execution out-of-the-box without requiring `.ini` or `.zip` files, and redesigned the core features (such as OSD overlays and Brightness-Restore) to be enabled by default. 
+>
+> We fully credit the original developers for their incredible foundation. We have opened Pull Requests (#776, #777, #778, #779, #781) on the upstream repository. **If the original maintainer merges our changes, we will likely delete this repository and continue our development directly there.** Until then, this repository serves as the definitive, frictionless version of Monitorian.
+
 [![GitHub Release](https://img.shields.io/github/v/release/kshitij-garg/Monitorian-2.0?style=for-the-badge&color=2ea44f)](https://github.com/kshitij-garg/Monitorian-2.0/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-blue?style=for-the-badge)](#)
 [![License](https://img.shields.io/github/license/kshitij-garg/Monitorian-2.0?style=for-the-badge)](LICENSE.txt)

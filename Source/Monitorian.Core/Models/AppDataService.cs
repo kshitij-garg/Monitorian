@@ -21,7 +21,9 @@ public static class AppDataService
 			if (_folderPath is null)
 			{
 				var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-				if (File.Exists(Path.Combine(baseDirectory, "portable.ini")))
+				var exeName = Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()?.Location ?? "");
+				if (File.Exists(Path.Combine(baseDirectory, "portable.ini")) || 
+				    exeName.IndexOf("Portable", StringComparison.OrdinalIgnoreCase) >= 0)
 				{
 					IsPortable = true;
 					_folderPath = baseDirectory;

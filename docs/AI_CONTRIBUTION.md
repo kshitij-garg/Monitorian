@@ -75,10 +75,18 @@ The following is a chronological list of the user's prompts that guided the deve
       - **Portable Startup Crash Fix:** Diagnosed the `exception.log` crash (`ArgumentNullException: startupTaskId`). When running `Monitorian-Portable.exe`, .NET looked for `Monitorian-Portable.exe.config`. Because only `Monitorian.exe.config` was present, `ConfigurationManager.AppSettings` returned `null`, which threw an exception in `StartupAgent.Start`. Added safe default fallbacks in `ProductInfo.cs` (`StartupTaskId => GetAppSettings() ?? "MonitorianStartupTask"`, `ProjectUrl => GetAppSettings() ?? "https://github.com/emoacht/Monitorian"`) and defensive fallback in `StartupAgent.cs`.
       - **Automated MSBuild Output:** Added `GeneratePortableCopy` target to `Monitorian.csproj` to automatically copy `Monitorian.exe` and its `.config` to `Monitorian-Portable.exe` and `Monitorian-Portable.exe.config` after build. Tested and verified that both executables start with zero exceptions.
 
+22. **"i think its fine. lets just update the changes on our own repo instead of the emoacht one since he has refused all of our PRs that worked also. Lets make sure we dont use anything from his readme that uses his screenshots or videos. Lets keep everything as a fork but cleanup as if we are a fully new product and then push the changes. Make sure the build uploaded works seamlessless. Reduce any friction/wasteful/incorrect info/releases from our repo"**
+    - *AI Action:*
+      - **Purged Legacy Assets:** Completely purged all legacy screenshots and images from `Images/` and stripped all references to external videos, proprietary Store add-ons, and third-party installer zips.
+      - **Productized README:** Overhauled `README.md` to establish Monitorian 2.0 as a premier, independent, open-source continuation and fork. Created modern CLI documentation, direct release download tables, clean ASCII architecture diagrams, and preserved all community translator credits while maintaining MIT license attribution.
+      - **Release Hygiene & Cleanup:** Purged deprecated, broken historical releases (`v2.0.0` and `v2.1.0`) containing old crash logs and missing config issues. Built, verified, and published `v2.2.0: Frictionless Multi-Monitor Control` on `kshitij-garg/Monitorian-2.0` with verified standalone `Monitorian.exe`, `Monitorian-Portable.exe`, and complete bundle `Monitorian-2.2.0.zip`.
+
 ## Summary of AI Contributions
 
 | Feature / Fix | Branch | Pull Request | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
+| **Productization & Rebrand** | `master` | N/A | Completed | Transitioned to independent product fork. Rebuilt README without upstream media, eliminated dead links, and polished documentation. |
+| **Release v2.2.0 Publishing** | `master` | N/A | Completed | Purged broken historical releases. Published verified single-file executables and full bundles to GitHub Releases. |
 | **Portable Mode** | `feature/portable-version` | [#776](https://github.com/emoacht/Monitorian/pull/776) | Updated | Addressed upstream review comments: declared `PortableFileName` constant, removed `IsPortable`, added write permission check, and purged AI docs. |
 | **Startup Robustness & Portable Build** | `master` | N/A | Completed | Eliminated crash when `.config` is missing or renamed (`Monitorian-Portable.exe`). Automated portable build output in `Monitorian.csproj`. |
 | **Restore on Wake** | `feature/brightness-restore` | [#777](https://github.com/emoacht/Monitorian/pull/777) | Updated | Fixes Issue #115. Hooks into `SystemEvents.PowerModeChanged` and `DisplaySettingsWatcher` to reapply brightness on wake. Includes a `Task.Delay` to handle hardware DDC/CI wake times. |
@@ -87,4 +95,5 @@ The following is a chronological list of the user's prompts that guided the deve
 | **Native CLI Engine** | `feature/cli-engine` | [#781](https://github.com/emoacht/Monitorian/pull/781) | Completed | Fixes Issue #655. Re-implements the closed-source Premium `/get` and `/set` brightness commands natively for free. |
 | **Test Validation** | N/A | N/A | Completed | Passed 37/37 native unit tests via a custom reflection runner to validate all logic. |
 | **Issue Analysis** | N/A | N/A | Completed | Generated `ISSUE_ANALYSIS_SNAPSHOT.md` prioritizing issues by community engagement. |
+
 

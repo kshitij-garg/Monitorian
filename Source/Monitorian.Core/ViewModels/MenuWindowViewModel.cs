@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -27,6 +27,18 @@ public class MenuWindowViewModel : ViewModelBase
 	{
 		Task.Run(() =>
 		{
+			try
+			{
+				if (!string.IsNullOrEmpty(ProductInfo.LicenseUrl))
+				{
+					Process.Start(new ProcessStartInfo(ProductInfo.LicenseUrl) { UseShellExecute = true });
+					return;
+				}
+			}
+			catch
+			{
+			}
+
 			var licenseFileBody = DocumentService.ReadEmbeddedFile(LicenseFileName);
 			var licenseFileHtml = DocumentService.BuildHtml(LicenseFileName, ProductInfo.Product, licenseFileBody);
 

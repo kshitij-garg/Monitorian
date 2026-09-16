@@ -44,8 +44,7 @@
 					 Text="{x:Static properties:Invariant.License}">
 					<i:Interaction.Triggers>
 						<i:EventTrigger EventName="MouseDown">
-							<i:CallMethodAction TargetObject="{Binding}"
-												MethodName="OpenLicense"/>
+							<i:LaunchUriOrFileAction Path="{x:Static models:ProductInfo.LicenseUrl}"/>
 						</i:EventTrigger>
 					</i:Interaction.Triggers>
 				</Run>

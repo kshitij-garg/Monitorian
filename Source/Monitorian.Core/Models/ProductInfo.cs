@@ -57,7 +57,12 @@ public static class ProductInfo
 	/// <summary>
 	/// Project Url
 	/// </summary>
-	public static string ProjectUrl => GetAppSettings() ?? "https://github.com/emoacht/Monitorian";
+	public static string ProjectUrl => GetAppSettings() ?? "https://github.com/kshitij-garg/Monitorian-2.0";
+
+	/// <summary>
+	/// License Url
+	/// </summary>
+	public static string LicenseUrl => GetAppSettings() ?? "https://github.com/kshitij-garg/Monitorian-2.0/blob/master/LICENSE.txt";
 
 	private static TAttribute GetAttribute<TAttribute>(this Assembly assembly) where TAttribute : Attribute =>
 		(TAttribute)Attribute.GetCustomAttribute(assembly, typeof(TAttribute));

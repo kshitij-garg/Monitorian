@@ -93,10 +93,18 @@ The following is a chronological list of the user's prompts that guided the deve
       5. `Images/ui_portable_workflow.jpg`: File Explorer workflow showing zero-config portable execution.
       Updated `README.md` to cleanly integrate all 5 images across the relevant feature sections and pushed the commit to `kshitij-garg/Monitorian-2.0`.
 
+25. **"the site and license links in the right click on app menu does not lead to our repo and license. fix it"**
+    - *AI Action:*
+      - **Project and License Link Routing:** Updated `ProjectUrl` in `Source/Monitorian/App.config` and default fallback in `ProductInfo.cs` to `https://github.com/kshitij-garg/Monitorian-2.0`. Added `LicenseUrl` pointing to `https://github.com/kshitij-garg/Monitorian-2.0/blob/master/LICENSE.txt`.
+      - **Menu Window Navigation:** Updated the "License" menu link in `MenuWindow.xaml` to trigger `LaunchUriOrFileAction` directly to `ProductInfo.LicenseUrl`, aligning it with the "Site" link navigation pattern. Enhanced `MenuWindowViewModel.OpenLicense()` with a prioritized URL launch fallback.
+      - **License & Documentation Updates:** Updated `Resources/License.txt` and root `LICENSE.txt` to include Monitorian 2.0 attribution and Kshitij Garg copyright while preserving upstream MIT notices. Updated all documentation references in `docs/CONTRIBUTING.md` and `docs/TEMPLATE.md` to point to `kshitij-garg/Monitorian-2.0`.
+      - **Compilation & Verification:** Rebuilt the Release solution with MSBuild, updating `Monitorian.exe`, `Monitorian-Portable.exe`, and their corresponding config files.
+
 ## Summary of AI Contributions
 
 | Feature / Fix | Branch | Pull Request | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
+| **Site & License Menu Navigation** | `master` | N/A | Completed | Re-routed right-click menu "Site" and "License" links directly to the Monitorian 2.0 repository and license. Updated app configuration and documentation. |
 | **Productization & Rebrand** | `master` | N/A | Completed | Transitioned to independent product fork. Rebuilt README without upstream media, eliminated dead links, and polished documentation. |
 | **Release v2.2.0 Publishing** | `master` | N/A | Completed | Purged broken historical releases. Published verified single-file executables and full bundles to GitHub Releases. |
 | **Portable Mode** | `feature/portable-version` | [#776](https://github.com/emoacht/Monitorian/pull/776) | Updated | Addressed upstream review comments: declared `PortableFileName` constant, removed `IsPortable`, added write permission check, and purged AI docs. |
@@ -107,5 +115,6 @@ The following is a chronological list of the user's prompts that guided the deve
 | **Native CLI Engine** | `feature/cli-engine` | [#781](https://github.com/emoacht/Monitorian/pull/781) | Completed | Fixes Issue #655. Re-implements the closed-source Premium `/get` and `/set` brightness commands natively for free. |
 | **Test Validation** | N/A | N/A | Completed | Passed 37/37 native unit tests via a custom reflection runner to validate all logic. |
 | **Issue Analysis** | N/A | N/A | Completed | Generated `ISSUE_ANALYSIS_SNAPSHOT.md` prioritizing issues by community engagement. |
+
 
 

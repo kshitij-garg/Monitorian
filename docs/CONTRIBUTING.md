@@ -17,9 +17,9 @@ Thanks to your interest in contributing to this project.
 
 ## 2. Issues
 
-- Check [Detection of external monitors](https://github.com/emoacht/Monitorian#detection-of-external-monitors) and [Reporting](https://github.com/emoacht/Monitorian#reporting).
+- Check [Detection of external monitors](https://github.com/kshitij-garg/Monitorian-2.0#detection-of-external-monitors) and [Reporting](https://github.com/kshitij-garg/Monitorian-2.0#reporting).
 
-- Search [Issues](https://github.com/emoacht/Monitorian/issues) to date. To search open and closed issues at once, remove `is:open` from default syntax in Filters box and use only `is:issue` syntax.
+- Search [Issues](https://github.com/kshitij-garg/Monitorian-2.0/issues) to date. To search open and closed issues at once, remove `is:open` from default syntax in Filters box and use only `is:issue` syntax.
 
 - Include all information necessary for a reader who has no knowledge about your monitor or other devices to understand and reproduce the issue.
 
@@ -31,7 +31,7 @@ Thanks to your interest in contributing to this project.
 
 - Do not open feature requests or suggestions in __Ideas__ of __Discussions__ in this project. This is for aggregating them in __Issues__.
 
-- Search [Issues](https://github.com/emoacht/Monitorian/issues) to date.
+- Search [Issues](https://github.com/kshitij-garg/Monitorian-2.0/issues) to date.
 
 - This app's main focus and competence is brightness of monitors. This app uses DDC/CI for this purpose, and not vice versa. The importance for keeping focused cannot be overemphasized.
 
@@ -45,7 +45,7 @@ Thanks to your interest in contributing to this project.
 
 ### 4.1 PR for language
 
-- Read [Globalization](https://github.com/emoacht/Monitorian#globalization) in readme.
+- Read [Globalization](https://github.com/kshitij-garg/Monitorian-2.0#globalization) in readme.
 - Use phrases used by the OS as much as possible.
 - Do not try to explain everything. You cannot create a flawless expression in a short sentence like menu item.
 - Do not edit the readme.

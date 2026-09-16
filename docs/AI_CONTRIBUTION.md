@@ -144,12 +144,19 @@ The following is a chronological list of the user's prompts that guided the deve
       - **Version 2.3.0:** Updated the application assembly and local release defaults to v2.3.0 and finalized the matching changelog.
       - **GitHub Release Process:** Added repeatable GitHub artifact packaging and `docs/RELEASING.md` with build verification, hardware testing, tagging, asset upload, and checksum instructions.
 
+32. **"the app which was running has crashed again. can you check what happened and fix it"**
+    - *AI Action:*
+      - **Runtime Evidence:** Read the v2.3.0 `exception.log` and identified the exact `XamlParseException`: `PlainScrollBarStyle` targeted `ScrollBar` but was assigned directly to `ScrollViewer` in the tray menu and language ComboBox.
+      - **WPF Style Fix:** Added a correctly typed `PlainScrollViewerStyle` that applies the custom scrollbar style through nested resources, then updated both invalid usages.
+      - **Regression Guard:** Extended CI validation to reject any future direct application of `PlainScrollBarStyle` to a `ScrollViewer`.
+
 ## Summary of AI Contributions
 
 | Feature / Fix | Branch | Pull Request | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | **Release v2.3.0 Preparation** | `master` | N/A | Completed | Added crash fixes, expanded CLI behavior, CI/security automation, versioned artifacts, checksums, tests, and release documentation. |
 | **Language Switch Stability** | `master` | N/A | Completed | Removed the asynchronous menu teardown race and redundant culture switching. |
+| **Tray Menu Crash Fix** | `master` | N/A | Completed | Corrected the WPF ScrollBar/ScrollViewer style mismatch found in the runtime exception log. |
 | **Windows CI & Security** | `master` | N/A | Completed | Added Debug/Release builds, tests, localization and package validation, CodeQL, and Dependabot. |
 | **In-App Language Selector & Menu Revamp** | `master` | N/A | Completed | Revamped right-click menu into structured categories; added dark-mode language picker with real-time switching across all 28 languages and persistent settings storage. |
 | **Top 5 Indian Languages Localization** | `master` | N/A | Completed | Added native localization for Hindi, Bengali, Marathi, Telugu, and Tamil. Embedded in single-file executables and synced all 28 satellite directories. |

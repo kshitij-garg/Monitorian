@@ -19,7 +19,7 @@
 
 	<ScrollViewer VerticalScrollBarVisibility="Auto"
 				  HorizontalScrollBarVisibility="Disabled"
-				  Style="{StaticResource PlainScrollBarStyle}">
+				  Style="{StaticResource PlainScrollViewerStyle}">
 		<StackPanel Margin="0,4">
 			<TextBlock x:Name="AppTitle"
 					   Margin="10,4,10,2"

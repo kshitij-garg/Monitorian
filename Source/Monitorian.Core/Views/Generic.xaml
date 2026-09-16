@@ -470,6 +470,13 @@
 		</Setter>
 	</Style>
 
+	<Style x:Key="PlainScrollViewerStyle" TargetType="{x:Type ScrollViewer}">
+		<Style.Resources>
+			<Style TargetType="{x:Type ScrollBar}"
+				   BasedOn="{StaticResource PlainScrollBarStyle}"/>
+		</Style.Resources>
+	</Style>
+
 	<!-- Language ComboBox Item -->
 	<Style x:Key="LanguageComboBoxItemStyle" TargetType="{x:Type ComboBoxItem}">
 		<Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -570,7 +577,7 @@
 									MaxHeight="220"
 									Margin="0,2,0,4">
 								<ScrollViewer x:Name="DropDownScrollViewer"
-											  Style="{StaticResource PlainScrollBarStyle}"
+											  Style="{StaticResource PlainScrollViewerStyle}"
 											  SnapsToDevicePixels="True">
 									<ItemsPresenter x:Name="ItemsPresenter"
 													KeyboardNavigation.DirectionalNavigation="Contained"

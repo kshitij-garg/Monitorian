@@ -11,6 +11,7 @@ $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
 $appOutput = Join-Path $repoRoot "Source\Monitorian\bin\$Configuration"
 $coreOutput = Join-Path $repoRoot "Source\Monitorian.Core\bin\$Configuration"
 $resourceSource = Join-Path $repoRoot "Source\Monitorian.Core\Properties"
+$viewSource = Join-Path $repoRoot "Source\Monitorian.Core\Views"
 
 function Assert-File {
     param(
@@ -34,6 +35,13 @@ Assert-File (Join-Path $coreOutput "Monitorian.Core.dll")
 
 if ((Get-Item $appPath).Length -lt 512KB) {
     throw "Monitorian.exe is smaller than 512 KB; Costura dependency embedding likely failed."
+}
+
+$invalidScrollViewerStyle = Get-ChildItem $viewSource -Filter "*.xaml" -Recurse | Where-Object {
+    (Get-Content $_.FullName -Raw) -match '(?s)<ScrollViewer\b[^>]*Style="\{StaticResource PlainScrollBarStyle\}"'
+}
+if ($invalidScrollViewerStyle) {
+    throw "PlainScrollBarStyle cannot be applied directly to ScrollViewer: $($invalidScrollViewerStyle.FullName -join ', ')"
 }
 
 $baseResourcePath = Join-Path $resourceSource "Resources.resx"

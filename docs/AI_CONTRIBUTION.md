@@ -69,14 +69,22 @@ The following is a chronological list of the user's prompts that guided the deve
 20. **"run all tests / or evals that you can and actually validate."**
     - *AI Action:* Evaluated the test suite using a custom C# Reflection test-runner script because the Visual Studio Test Tools were missing in the environment. Executed all 37 MSTest `[TestMethod]` units in `Monitorian.Test.dll` natively. Successfully validated that all 37/37 tests passed, explicitly confirming that the core DDC/CI monitor configuration logic remains fully intact and stable.
 
+21. **"Do the fixes and also again the portable version app D:\Coding\Monitorian\Source\Monitorian\bin\Release is not working and has created some logs. Fix all these build issues once and for all."**
+    - *AI Action:*
+      - **PR #776 Review Fixes:** Addressed all 4 review comments from upstream maintainer `emoacht`: defined `PortableFileName = "portable.ini"` as a private constant, removed unused `IsPortable`, added `CheckWritable` verification to gracefully fall back to `%LocalAppData%` if the directory is read-only, and removed unnecessary AI markdown documentation from the upstream PR branch. Force-pushed clean commit to `origin/feature/portable-version` to update PR #776.
+      - **Portable Startup Crash Fix:** Diagnosed the `exception.log` crash (`ArgumentNullException: startupTaskId`). When running `Monitorian-Portable.exe`, .NET looked for `Monitorian-Portable.exe.config`. Because only `Monitorian.exe.config` was present, `ConfigurationManager.AppSettings` returned `null`, which threw an exception in `StartupAgent.Start`. Added safe default fallbacks in `ProductInfo.cs` (`StartupTaskId => GetAppSettings() ?? "MonitorianStartupTask"`, `ProjectUrl => GetAppSettings() ?? "https://github.com/emoacht/Monitorian"`) and defensive fallback in `StartupAgent.cs`.
+      - **Automated MSBuild Output:** Added `GeneratePortableCopy` target to `Monitorian.csproj` to automatically copy `Monitorian.exe` and its `.config` to `Monitorian-Portable.exe` and `Monitorian-Portable.exe.config` after build. Tested and verified that both executables start with zero exceptions.
+
 ## Summary of AI Contributions
 
 | Feature / Fix | Branch | Pull Request | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| **Portable Mode** | `feature/portable-version` | [#776](https://github.com/emoacht/Monitorian/pull/776) | Updated | Triggers portable mode automatically if the executable name contains "Portable" or if `portable.ini` is present. |
+| **Portable Mode** | `feature/portable-version` | [#776](https://github.com/emoacht/Monitorian/pull/776) | Updated | Addressed upstream review comments: declared `PortableFileName` constant, removed `IsPortable`, added write permission check, and purged AI docs. |
+| **Startup Robustness & Portable Build** | `master` | N/A | Completed | Eliminated crash when `.config` is missing or renamed (`Monitorian-Portable.exe`). Automated portable build output in `Monitorian.csproj`. |
 | **Restore on Wake** | `feature/brightness-restore` | [#777](https://github.com/emoacht/Monitorian/pull/777) | Updated | Fixes Issue #115. Hooks into `SystemEvents.PowerModeChanged` and `DisplaySettingsWatcher` to reapply brightness on wake. Includes a `Task.Delay` to handle hardware DDC/CI wake times. |
 | **Incremental UI** | `feature/ui-settings-exposure` | [#778](https://github.com/emoacht/Monitorian/pull/778) | Updated | Fixes Issue #190. Exposes `/iconwheel` and `/restore hard` explicitly in the `MenuWindow.xaml` settings. |
 | **Tray Icon OSD** | `feature/icon-scroll-osd` | [#779](https://github.com/emoacht/Monitorian/pull/779) | Updated | Fixes Issue #637. Adds a dynamic, auto-theming, fading WPF overlay above the tray icon when adjusting brightness via mouse scroll. |
 | **Native CLI Engine** | `feature/cli-engine` | [#781](https://github.com/emoacht/Monitorian/pull/781) | Completed | Fixes Issue #655. Re-implements the closed-source Premium `/get` and `/set` brightness commands natively for free. |
 | **Test Validation** | N/A | N/A | Completed | Passed 37/37 native unit tests via a custom reflection runner to validate all logic. |
 | **Issue Analysis** | N/A | N/A | Completed | Generated `ISSUE_ANALYSIS_SNAPSHOT.md` prioritizing issues by community engagement. |
+

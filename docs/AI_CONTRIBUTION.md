@@ -84,6 +84,15 @@ The following is a chronological list of the user's prompts that guided the deve
 23. **"MAKE SURE THAT WE ARE NOT JUST RELEASING ZIPS AND ACTUALLY UPLOADING THE EXE AND PORTABLES TOO. keep only one set of release"**
     - *AI Action:* Audited and verified GitHub Releases on `kshitij-garg/Monitorian-2.0`: exactly one unified release (`v2.2.0`) is maintained. Directly uploaded the standalone `Monitorian.exe` and `Monitorian-Portable.exe` single-file executables as primary release assets (alongside the optional `.zip` bundle). Validated live HTTP 200 direct download links for frictionless one-click execution without extracting archives.
 
+24. **"create atleast 4-5 photos using nano banana to update our readme page if required"**
+    - *AI Action:* Utilized the image generation tool to craft 5 custom, high-resolution visual showcases tailored for Monitorian 2.0:
+      1. `Images/ui_main_window.jpg`: Fluent dark-mode multi-monitor slider controls with unison link.
+      2. `Images/ui_scroll_osd.jpg`: Floating acrylic Windows 11 On-Screen Display pill for taskbar mouse wheel scrolling.
+      3. `Images/ui_cli_terminal.jpg`: Windows Terminal CLI demonstration executing `/get` and `/set` commands.
+      4. `Images/ui_settings_flyout.jpg`: Modern settings menu flyout displaying wake restoration and scroll toggles.
+      5. `Images/ui_portable_workflow.jpg`: File Explorer workflow showing zero-config portable execution.
+      Updated `README.md` to cleanly integrate all 5 images across the relevant feature sections and pushed the commit to `kshitij-garg/Monitorian-2.0`.
+
 ## Summary of AI Contributions
 
 | Feature / Fix | Branch | Pull Request | Status | Description |

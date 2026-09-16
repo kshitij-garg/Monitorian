@@ -100,10 +100,20 @@ The following is a chronological list of the user's prompts that guided the deve
       - **License & Documentation Updates:** Updated `Resources/License.txt` and root `LICENSE.txt` to include Monitorian 2.0 attribution and Kshitij Garg copyright while preserving upstream MIT notices. Updated all documentation references in `docs/CONTRIBUTING.md` and `docs/TEMPLATE.md` to point to `kshitij-garg/Monitorian-2.0`.
       - **Compilation & Verification:** Rebuilt the Release solution with MSBuild, updating `Monitorian.exe`, `Monitorian-Portable.exe`, and their corresponding config files.
 
+26. **"also add support for top 5 non english indian languages. Add me as main contritor and update release page"**
+    - *AI Action:*
+      - **Indian Languages Localization:** Created complete native localization resource files for the top 5 non-English Indian languages: Hindi (`hi`), Bengali (`bn`), Marathi (`mr`), Telugu (`te`), and Tamil (`ta`). Added all 25 UI string keys for each language.
+      - **MSBuild & Single-File Bundling:** Registered all 5 `.resx` files in `Source/Monitorian.Core/Monitorian.Core.csproj`. Updated `Source/Monitorian/FodyWeavers.xml` with `<Costura IncludeSatelliteAssemblies="true" />` and added an automated MSBuild post-build target in `Source/Monitorian/Monitorian.csproj` to synchronize all 28 satellite language assemblies into the Release output folder.
+      - **Validation:** Validated string extraction across all 5 cultures via .NET `ResourceManager` and verified 37/37 passing MSTest units.
+      - **Main Contributor Attribution:** Updated `README.md` to credit `kshitij-garg` as Main Contributor & Project Lead with a badge and header attribution, and added `kshitij-garg` under Community & Localization for the 5 Indian languages.
+      - **Release Page Update:** Rebuilt single-file binaries and bundle archive `Monitorian-2.2.0.zip`. Re-uploaded assets and updated release notes and SHA-256 hashes on the GitHub Release page `v2.2.0`.
+
 ## Summary of AI Contributions
 
 | Feature / Fix | Branch | Pull Request | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
+| **Top 5 Indian Languages Localization** | `master` | N/A | Completed | Added native localization for Hindi, Bengali, Marathi, Telugu, and Tamil. Embedded in single-file executables and synced all 28 satellite directories. |
+| **Main Contributor Attribution** | `master` | N/A | Completed | Credited `kshitij-garg` as Main Contributor & Project Lead across README, metadata, and GitHub release page. |
 | **Site & License Menu Navigation** | `master` | N/A | Completed | Re-routed right-click menu "Site" and "License" links directly to the Monitorian 2.0 repository and license. Updated app configuration and documentation. |
 | **Productization & Rebrand** | `master` | N/A | Completed | Transitioned to independent product fork. Rebuilt README without upstream media, eliminated dead links, and polished documentation. |
 | **Release v2.2.0 Publishing** | `master` | N/A | Completed | Purged broken historical releases. Published verified single-file executables and full bundles to GitHub Releases. |

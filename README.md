@@ -1,556 +1,167 @@
-# Monitorian 2.0 Unofficial
+# Monitorian 2.0
 
-> [!NOTE]
-> **Mission Statement & Project Goals**
-> This repository is an unofficial continuation (Monitorian 2.0) built to address critical friction points in the original project. Our primary goal is to provide **maximum accessibility** to all users. 
-> 
-> We have completely unlocked the Premium CLI engine for free, integrated smart Portable Mode execution out-of-the-box without requiring `.ini` or `.zip` files, and redesigned the core features (such as OSD overlays and Brightness-Restore) to be enabled by default. 
->
-> We fully credit the original developers for their incredible foundation. We have opened Pull Requests (#776, #777, #778, #779, #781) on the upstream repository. **If the original maintainer merges our changes, we will likely delete this repository and continue our development directly there.** Until then, this repository serves as the definitive, frictionless version of Monitorian.
+![Monitorian 2.0 Banner](.github/social_preview.jpg)
 
-[![GitHub Release](https://img.shields.io/github/v/release/kshitij-garg/Monitorian-2.0?style=for-the-badge&color=2ea44f)](https://github.com/kshitij-garg/Monitorian-2.0/releases)
+[![GitHub Release](https://img.shields.io/github/v/release/kshitij-garg/Monitorian-2.0?style=for-the-badge&color=2ea44f)](https://github.com/kshitij-garg/Monitorian-2.0/releases/latest)
 [![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-blue?style=for-the-badge)](#)
 [![License](https://img.shields.io/github/license/kshitij-garg/Monitorian-2.0?style=for-the-badge)](LICENSE.txt)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge)](#)
 
-Monitorian 2.0 Unofficial is an extended fork of the original Windows desktop tool to adjust the brightness of multiple monitors with ease.
-
-## Credits & Acknowledgements
-This project is an unofficial fork and extension of the incredible open-source [Monitorian](https://github.com/emoacht/Monitorian) tool created by [emoacht](https://github.com/emoacht). All original foundation, architecture, and core features belong to them! If you like this tool, please consider starring their original repository.
-
-## Our Mission with Monitorian 2.0 Unofficial
-Our goal with this 2.0 fork is to rapidly prototype and deliver highly requested quality-of-life features from the community, such as **Portable Mode**, **Tray Icon Scroll OSD**, **Incremental UI Settings**, and **Brightness Restore on Wake**.
-
-We firmly believe in contributing back to the open-source community. All of the features introduced in this repository have been submitted as Pull Requests to the original repository. **If the original maintainer merges these changes upstream, we will likely archive/delete this repository and continue our development directly in the original repo.**
-
-### New Features Added in 2.0
-
-| Feature | Description |
-| :--- | :--- |
-| 🧳 **Portable Mode** | Run Monitorian completely standalone by placing an empty `portable.ini` file next to the executable. No `AppData` clutter! |
-| 🖱️ **Scroll OSD** | Smoothly adjust brightness by scrolling your mouse wheel over the tray icon, complete with a beautiful auto-theming Windows 11 style On-Screen Display. |
-| ⏰ **Restore on Wake** | Automatically restores your monitors to their configured brightness levels after waking from sleep or screen timeout. |
-| ⚙️ **Exposed Settings** | Hidden CLI commands are now easily accessible checkboxes right in the GUI settings menu. |
-| ✨ **Frictionless Defaults**| The best features (Scroll OSD and Restore on Wake) are enabled by default for a true "it just works" experience. |
+**Monitorian 2.0** is an open-source Windows desktop utility to adjust the brightness and contrast of multiple monitors with ease. Developed as an enhanced continuation and independent fork of Monitorian, version 2.0 introduces community-requested quality-of-life improvements with absolute zero friction: a free native CLI engine, tray scroll OSD, automatic brightness restore on wake, and true single-file portable execution.
 
 ---
 
-<img src="Images/Screenshot_main.png" alt="Screenshot" width="487.5"><br>
-(DPI: 200%)
+## Direct Downloads
 
-The user can change the brightness of monitors, including external ones, either individually or in unison. For the system with an ambient light sensor, the adjusted brightness can be shown along with configured one.
+No installer or administrator privileges required. Download and run directly:
 
-![Screenshot](Images/Screenshot_unison.png)<br>
-(DPI: 100%)
+| Binary | Description | Direct Link |
+| :--- | :--- | :--- |
+| **`Monitorian.exe`** | **True Single-File Standalone Executable**<br>Self-contained with all dependencies bundled via Costura.Fody. | [Download `Monitorian.exe`](https://github.com/kshitij-garg/Monitorian-2.0/releases/latest/download/Monitorian.exe) |
+| **`Monitorian-Portable.exe`** | **Zero-Config Portable Executable**<br>Automatically keeps all configuration files in its local folder without writing to `%LocalAppData%`. | [Download `Monitorian-Portable.exe`](https://github.com/kshitij-garg/Monitorian-2.0/releases/latest/download/Monitorian-Portable.exe) |
+| **`Monitorian-2.2.0.zip`** | **Complete Release Archive**<br>Includes standalone executables, configurations, and all 20+ localization satellite language packs. | [Download `Monitorian-2.2.0.zip`](https://github.com/kshitij-garg/Monitorian-2.0/releases/latest/download/Monitorian-2.2.0.zip) |
 
-In addition, the user can change the adjustable range of brightness and contrast for each monitor seamlessly.
+---
 
-![Screenshot](Images/Screenshot_range.png)&nbsp;
-![Screenshot](Images/Screenshot_contrast.png)<br>
-
-https://user-images.githubusercontent.com/7205690/210137118-66cfdd6e-9847-41b3-a836-d1ff8cf73f3d.mp4
-
-Additional languages:
-
- - Arabic (ar) by [@MohammadShughri](https://github.com/mohammadshughri)
- - Catalan (ca) by [@ericmp33](https://github.com/ericmp33)
- - German (de) by [@uDEV2019](https://github.com/uDEV2019)
- - Greek (el-GR) by [@NickMihal](https://github.com/NickMihal)
- - Spanish (es) by [@josemirm](https://github.com/josemirm) and [@ericmp33](https://github.com/ericmp33)
- - Persian (fa-IR) by [@sinadalvand](https://github.com/sinadalvand)
- - French (fr) by [@AlexZeGamer](https://github.com/AlexZeGamer) and [@Rikiiiiiii](https://github.com/rikiiiiiii)
- - Italian (it) by [@GhostyJade](https://github.com/GhostyJade)
- - Japanese (ja-JP) by [@emoacht](https://github.com/emoacht)
- - Korean (ko-KR) by [@VenusGirl](https://github.com/VenusGirl)
- - Dutch (nl-NL) by [@JordyEGNL](https://github.com/JordyEGNL)
- - Polish (pl-PL) by [@Daxxxis](https://github.com/Daxxxis) and [@FakeMichau](https://github.com/FakeMichau)
- - Portuguese (pt-BR) by [@guilhermgonzaga](https://github.com/guilhermgonzaga)
- - Romanian (ro) by [@calini](https://github.com/calini)
- - Russian (ru-RU) by [@SigmaTel71](https://github.com/SigmaTel71) and [@San4es](https://github.com/San4es)
- - Slovenian (sl) by [@anderlli0053](https://github.com/anderlli0053)
- - Albanian (sq) by @RDN000
- - Swedish (sv-SE) by [@Sopor](https://github.com/Sopor)
- - Turkish (tr-TR) by [@webbudesign](https://github.com/webbudesign)
- - Ukrainian (uk-UA) by [@kaplun07](https://github.com/kaplun07)
- - Vietnamese (vi-VN) by [@dongsinhho](https://github.com/dongsinhho)
- - Simplified Chinese (zh-Hans) by [@ComMouse](https://github.com/ComMouse), [@zhujunsan](https://github.com/zhujunsan), [@XMuli](https://github.com/XMuli), [@FISHandCHEAP](https://github.com/Fishandcheap) and [@FrzMtrsprt](https://github.com/FrzMtrsprt)
- - Traditional Chinese (zh-Hant) by [@toto6038](https://github.com/toto6038) and [@XMuli](https://github.com/XMuli)
-
-## Requirements
-
- * Windows 7 or newer
- * .NET Framework __4.8__
- * An external monitor must be DDC/CI enabled.
-![OSD](Images/Dell_ddcci.jpg)
-
-## Download
-
- * Microsoft Store (Windows 10 (1607) or newer):<br>
-   [Monitorian](https://www.microsoft.com/store/apps/9nw33j738bl0)<br>
-   <a href='//www.microsoft.com/store/apps/9nw33j738bl0?cid=storebadge&ocid=badge'><img src='https://developer.microsoft.com/store/badges/images/English_get-it-from-MS.png' alt='Monitorian' width='142px' height='52px'/></a>
-
- * Winget (a.k.a. [Windows Package Manager](https://docs.microsoft.com/en-us/windows/package-manager), App Installer):
-   ```
-   winget install Monitorian -s msstore
-   ```
-
- * Other:<br>
-:floppy_disk: [Installer](https://github.com/emoacht/Monitorian/releases/download/4.15.2-Installer/MonitorianInstaller4152.zip)
-
-## Install/Uninstall
-
-If you wish to place executable files on your own, you can extract them from installer file (.msi) by the following command:
+## What's New in Monitorian 2.0
 
 ```
-msiexec /a [source msi file path] targetdir=[destination folder path (absolute path)] /qn
+┌────────────────────────────────────────────────────────────────────────┐
+│                          MONITORIAN 2.0                                │
+│                                                                        │
+│   [Free CLI Engine]        [Tray Scroll OSD]       [Restore on Wake]   │
+│   Native /get & /set       Hover & wheel adjust    Auto-reapply level  │
+│                                                                        │
+│   [Single-File Executable] [Zero-Config Portable]  [Exposed Settings]  │
+│   No external DLLs needed  Zero AppData footprint  Direct UI controls  │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-In such case, please note the following:
+### Key Highlights
 
- - The settings file (and other file) will be created at: `[system drive]\Users\[user name]\AppData\Local\Monitorian\`
-   - **Note:** You can create an empty file named `portable.ini` alongside the executable to force it to store settings locally in its own folder instead of using the system's `AppData` directory.
- - When you check [Start on sign in], a registry value will be added to: `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run`
+| Feature | Details |
+| :--- | :--- |
+| ⚡ **Free Native CLI Engine** | Unlocks free command-line brightness and contrast automation directly in the app. No paid store add-ons or subscriptions required. |
+| 🎛️ **Tray Icon Scroll OSD** | Hover over the notification area icon and scroll your mouse wheel to adjust brightness. Features a Windows 11-style auto-theming On-Screen Display. |
+| 🔄 **Restore Brightness on Wake** | Resolves the common DDC/CI issue where external monitors reset to 100% or hardware defaults after waking from sleep, hibernation, or display timeout. |
+| 🧳 **True Single-File Portable Mode** | All WPF dependencies (`StartupAgency`, `ScreenFrame`, `Microsoft.Xaml.Behaviors`) are embedded directly into the binary. Zero installation friction. |
+| ⚙️ **Exposed UI Settings** | Frequently used power-user settings are now exposed directly as toggles in the GUI settings menu. |
+| ✨ **Frictionless Defaults** | Scroll OSD and Wake Restoration are active by default so everything works immediately upon first launch. |
 
-## Remarks
+---
 
- - The monitor name shown in main window can be changed to distinguish monitors easily. To change the name, press and hold it until it turns to be editable.
- - To adjust the brightness by a touchpad, place two fingers on it and swipe horizontally. The touchpad must be a precision touchpad.
- - You can scroll over the application's tray icon with your mouse wheel to adjust brightness seamlessly. A small on-screen display (OSD) will show the brightness percentage. This feature can be toggled in the application's settings menu.
- - Advanced settings also include an option to actively restore your last explicitly set brightness when the computer wakes from sleep or a screen timeout.
- - The number of monitors shown at a time is up to 4.
- - In case an external monitor is not shown, read [detection of external monitors](#detection-of-external-monitors).
- - This app identifies each monitor by an unique identifier given by the OS. Even with the same PC and monitor, this identifier may vary depending on the type of connection (e.g. USB-C DisplayPort Alt mode) or the selection of connectors of the same type. Consequently, if a monitor is reconnected to the different connector, it may not be regarded as the same monitor and some functions may not work as expected.
+## Command-Line Interface (CLI) Quick Reference
 
-## Add-on Features
+Monitorian 2.0 provides native command-line control for scripting, batch operations, Task Scheduler, and third-party launchers (e.g. Stream Deck, AutoHotkey).
 
-Add-on features are available for Microsoft Store version on a subscription basis.
+### Common Commands
 
-### Hot keys & Shortcut keys (Add-on features)
+```powershell
+# Get brightness of all connected monitors
+Monitorian.exe /get
 
-![Screenshot](Images/Screenshot_keys_en.png)
+# Set brightness of all monitors to 50%
+Monitorian.exe /set 50
 
-All hot keys for brightness can be switched to contrast by `To contrast` hot key. It can be switched back to brightness by `To brightness` hot key.
+# Set brightness of a specific monitor by name or device ID
+Monitorian.exe /set "Dell U2720Q" 75
 
-### Command-line options (Add-on features)
+# Relative adjustments (increase or decrease by percentage)
+Monitorian.exe /set +10
+Monitorian.exe /set -15
 
-You can use command-line options to get/set the brightness or contrast.
-
-| Actions                                | Options                                |
-|----------------------------------------|----------------------------------------|
-| Get brightness of a monitor.           | /get                                   |
-| Get brightness of a specified monitor. | /get [Device Instance ID]              |
-| Get brightness of all monitors.        | /get all                               |
-| Set brightness of a monitor.           | /set [Brightness]                      |
-| Set brightness of a specified monitor. | /set [Device Instance ID] [Brightness] |
-| Set brightness of all monitors.        | /set all [Brightness]                  |
-
-The device instance ID is an unique identifier given by the OS to each monitor. It must be enclosed in quotes. 
-
-You can switch to contrast by inserting `contrast` after `/get` or `/set` (e.g. `/get contrast all`).
-
-If this app is called with `/get` or `/set`, it will return
-
-```
-[Device Instance ID] [Monitor name] [Brightness] B
+# Get or adjust contrast
+Monitorian.exe /get contrast
+Monitorian.exe /set contrast 60
+Monitorian.exe /set contrast "LG UltraGear" 55
 ```
 
-'B' at the end indicates brightness. In addition, '*' will be added in the case of a selected monitor. 
+### CLI Command Summary
 
-If this app is called with `/get contrast` or `/set contrast`, it will return
+| Action | Command Syntax |
+| :--- | :--- |
+| **Get All Brightness** | `Monitorian.exe /get` |
+| **Get Single Monitor Brightness** | `Monitorian.exe /get "Monitor Name"` or `Monitorian.exe /get [DeviceID]` |
+| **Set Global Brightness** | `Monitorian.exe /set [0-100]` |
+| **Set Single Monitor Brightness** | `Monitorian.exe /set "Monitor Name" [0-100]` |
+| **Relative Brightness Adjustment** | `Monitorian.exe /set +[Value]` or `Monitorian.exe /set -[Value]` |
+| **Get Contrast** | `Monitorian.exe /get contrast` |
+| **Set Contrast** | `Monitorian.exe /set contrast [0-100]` |
 
+---
+
+## Portable Mode Execution
+
+Monitorian 2.0 provides two convenient ways to run portably without leaving data in your user profile:
+
+1. **Automatic Detection:** Simply run `Monitorian-Portable.exe`. It automatically detects its executable name and stores all settings in its local directory.
+2. **Marker File:** Place an empty file named `portable.ini` alongside `Monitorian.exe` to redirect configuration storage to the application folder.
+
+> [!NOTE]
+> If the application directory is read-only (such as `C:\Program Files\`), Monitorian 2.0 automatically falls back to `%LocalAppData%\Monitorian` to ensure your settings are never lost.
+
+---
+
+## System Requirements
+
+- **Operating System:** Windows 10 (version 1607 or newer) or Windows 11
+- **Runtime:** .NET Framework 4.8 (pre-installed on modern Windows versions)
+- **Display Hardware:** External monitors must support and enable **DDC/CI** in their hardware on-screen menu.
+
+---
+
+## Building from Source
+
+You can build Monitorian 2.0 locally using Visual Studio 2022 or the standalone MSBuild Build Tools:
+
+```powershell
+# 1. Clone the repository
+git clone https://github.com/kshitij-garg/Monitorian-2.0.git
+cd Monitorian-2.0
+
+# 2. Restore NuGet dependencies
+msbuild Source/Monitorian.sln /t:Restore /p:Configuration=Release
+
+# 3. Compile Release binaries
+msbuild Source/Monitorian.sln /p:Configuration=Release
 ```
-[Device Instance ID] [Monitor name] [Contrast] C
-```
 
-'C' at the end indicates contrast. If contrast is not supported by a monitor, '-' will be shown instead.
-
-The brightness or contrast ranges from 0 to 100%. When you use `/set` option, it can be specified with the number itself (e.g. 20), increase (e.g. +10) or decrease (e.g. -10).
-
-The options can be executed consecutively (e.g. `monitorian /set 20 /set contrast 40`, up to 10 options).
-
-You can call this app by its name `Monitorian` in command prompt, bat file or desktop shortcut.
-
-For example, creating a desktop shortcut to set brightness of a monitor to 50 will be the following.
-
-![Shortcut](Images/Shortcut_set.png)
-
-From Task Scheduler, it can be performed by the path to its alias `%LOCALAPPDATA%\Microsoft\WindowsApps\Monitorian.exe`. For example, to increase brightness of all monitors by 30%, the Action will be the following:
-
-![Task Scheduler](Images/TaskScheduler_action.png)
-
-In addition, you can customize flexible and versatile commands for specific needs:
-
- - [Conditional Commands](https://github.com/emoacht/Monitorian/blob/master/docs/COMMANDS.md#conditional-commands) - To be executed when a specified condition is met
- - [Time Commands](https://github.com/emoacht/Monitorian/blob/master/docs/COMMANDS.md#time-commands) - To be executed when a specified daily due time comes
- - [Key Commands](https://github.com/emoacht/Monitorian/blob/master/docs/COMMANDS.md#key-commands) - To be executed a specified hot key is pressed
-
-The code for add-on features is not included in this repository.
-
-## Detection of external monitors
-
-This app checks if each external monitor is controllable through DDC/CI and shows only controllable ones. 
-
-For this purpose, this app requests a monitor to send its capabilities information through DDC/CI and checks if it includes the capabilities to get/set the brightness. If capabilities information is not received or these capabilities are not included, such monitor will be regarded as not controllable through DDC/CI.
-
-This function has been tested and worked well in most cases. Therefore, if a monitor is not shown, it is most likely caused by hardware-oriented reasons that cannot be solved by this app. Such reasons include:
-
-1. The monitor model does not support DDC/CI.
-
-1. The monitor's DDC/CI setting is OFF. You may need to change the setting by OSD menu.
-
-1. The monitor's DDC/CI function is weird. Some monitors are found not to return correct capabilities information.
-
-1. The PC's connector does not support DDC/CI.
-
-1. The cable, converter, or docking station which connects the PC and the monitor is not compatible with DDC/CI. Thunderbolt/USB-C cables are generally compatible but converters aren't. Surface Dock and Surface Dock 2 are known to be compatible. 
-
-1. The monitor or the PC have issues including contact failure in connector. This is particularly the case for old monitors.
-
-If you think it is worth to report, read [reporting](#reporting) and then create an issue with logs and other relevant information.
-
-## Development
-
-To begin with, please read [contributing guidelines](https://github.com/emoacht/Monitorian/blob/master/docs/CONTRIBUTING.md).
-
-This app is a WPF app developed and tested with Surface Pro series.
-
-### Reporting
-
-The controllability of an external monitor depends on whether the monitor successfully responds to DDC/CI commands. Even if a monitor is expected to be DDC/CI compatible, it may fail to respond typically when the system starts or resumes.
-
-In any case, reporting on the controllability of a monitor MUST include probe.log and operation.log described below. The logs will be the starting point to look into the issue.
-
-### Probe
-
- - You can check the compatibility of your monitor by __probe.log__. It will include raw information on monitors, including capabilities through DDC/CI, from various APIs that are used to find accessible monitors. To get this log, tap `Probe into monitors` in the hidden menu described below.
- - To open the hidden menu, <ins>click app title at the top of menu window 3 times.</ins> 
-
-### Rescan
-
- - As part of testing, you can manually trigger to rescan monitors via `Rescan monitors` in the hidden menu. A system sound will be played when completed.
-
-### Operations
-
- - As part of testing, you can set this app to record operations to scan monitors and reflect their states. To enable the recording, check `Record operations to log` in the hidden menu. After some information is recorded, you will be able to copy __operation.log__ by `Copy accumulated log`.
- - If you notice an issue, <ins>enable the recording and then wait until the issue happens. When you notice the issue again, copy this log and check the information including the change before and after the issue.</ins>
-
-### Command-line arguments
-
- - As part of testing, you can store persistent arguments in `Command-line arguments` in the hidden menu. They will be tested along with current arguments when this app starts.
- - For example, if you want this app to always use English language (default), set `/lang en` in this box.
-
-### Exceptions
-
- - If anything unexpected happens, __exception.log__ will be saved. It will be useful source of information when looking into an issue.
-
-### Setup
-
-1. [Install Visual Studio](https://docs.microsoft.com/en-us/visualstudio/install/install-visual-studio).
-2. In Visual Studio Installer, go to **Individual components** tab and make sure the following components are checked and installed.
-
-| Components                                                  | Note                                                                                        |
-|-------------------------------------------------------------|---------------------------------------------------------------------------------------------|
-| .NET Framework 4.8 SDK<br>.NET Framework 4.8 targeting pack | The version must match TargetFrameworkVersion of<br>project (.csproj) file of each project. |
-| Windows 10 or 11 SDK                                        | The version must be equal to or newer than 10.0.19041.0.                                    |
-
-3. In Visual Studio, open Extension Manager and make sure **HeatWave for VS2022** is installed.
-
-4. Load the solution by specifying `/Source/Monitorian.sln`. Then go to the solution explorer and right click the solution name and execute `Restore NuGet Packages`.
-
-### Globalization
-
-An alternative language can be shown by adding a Resources (.resx) file into `/Source/Monitorian.Core/Properties` folder. Each Resources file stores name/value pairs for a specific language and will be selected automatically depending on the user's environment.
-
- - The file name must be in `Resources.[language-culture].resx` format.
- - The name of a name/value pair must correspond to that in the default `Resources.resx` file to override it.
-
-### Reference
-
- - VESA [Monitor Control Command Set (MCCS)](https://www.google.co.jp/search?q=VESA+Monitor+Control+Command+Set+Standard+MCCS) standard
-
-## History
-
-Ver 4.15 2026-7-4
-
- - Enable showing monitor identity
- - Add Slovenian (sl) language. Thanks to @anderlli0053!
-
-Ver 4.14 2026-3-22
-
- - Fix window placement
- - Add Persian (fa-IR) language. Thanks to @sinadalvand!
-
-Ver 4.13 2025-8-4
-
- - Enable to adjust SDR content brightness
-
-Ver 4.11 2025-6-11
-
- - Enable to invert scroll direction
-
-Ver 4.10 2024-12-26
-
- - Improve internal code
- - Add Vietnamese (vi-VN) language. Thanks to @dongsinhho!
-
-Ver 4.9 2024-11-16
-
- - Improve internal code
- - Add Swedish (sv-SE) language. Thanks to @Sopor!
-
-Ver 4.8 2024-10-15
-
- - Fix bug
-
-Ver 4.7 2024-7-21
-
- - Improve internal code
- - Add Albanian (sq) language. Thanks to @RDN000Add!
-
-Ver 4.6 2023-12-8
-
- - Modify app icon
- - Add Greek (el-GR) language. Thanks to @NickMihal!
-
-Ver 4.5 2023-9-29
-
- - Modify behaviors and so on
-
-Ver 4.4 2023-6-20
-
- - Fix bugs and so on
-
-Ver 4.3 2023-4-21
-
- - Fix window position on Windows 11 Build 22621
-
-Ver 4.2 2023-3-21
-
- - Change function to change in unison
- - Supplement French (fr) language. Thanks to @Rikiiiiiii!
- 
-Ver 4.1 2023-3-13
-
- - Improve internal code
- - Supplement Ukrainian (uk-UA) language. Thanks to @kaplun07!
- - Supplement Russian (ru-RU) language. Thanks to @San4es!
-
-Ver 4.0 2022-12-31
-
- - Modify UI
- - Add Ukrainian (uk-UA) language. Thanks to @kaplun07!
-
-Ver 3.15 2022-12-4
-
- - Fix touchpad swipe
- - Supplement Simplified Chinese (zh-Hans) language. Thanks to @FrzMtrsprt!
-
-Ver 3.14 2022-10-23
-
- - Make change of monitors arrangement reflected immediately
-
-Ver 3.13 2022-8-29
-
- - Shorten scan time when multiple external monitors exist
- - Supplement German (de) language. Thanks to @uDEV2019!
- 
-Ver 3.12 2022-7-4
-
- - Enable mouse horizontal wheel to change brightness concurrently (except that in unison)
-
-Ver 3.11 2022-6-2
-
- - Enable to use accent color for brightness
- - Supplement Korean (ko-KR) language. Thanks to @VenusGirl!
- - Fix error message for unreachable monitor
-
-Ver 3.10 2022-4-12
-
- - Redesign small slider
- - Add Catalan (ca) language. Thanks to @ericmp33!
- - Supplement Spanish (es) language. Thanks to @ericmp33!
- - Improve Simplified Chinese (zh-Hans) language. Thanks to @FISHandCHEAP!
- - Supplement Traditional Chinese (zh-Hant) language. Thanks to @XMuli!
-
-Ver 3.9 2022-1-20
-
- - Add Portuguese (pt-BR) language. Thanks to @guilhermgonzaga!
- - Supplement Simplified Chinese (zh-Hans) language. Thanks to @XMuli!
- - Fix Dutch (nl-NL) language. Thanks to @JordyEGNL!
-
-Ver 3.8 2021-12-18
-
- - Add Romanian (ro) language. Thanks to @calini!
-
-Ver 3.7 2021-12-3
-
- - Fix issue of combination of moving in unison and deferring change
- - Modify DPI awareness of the icon
-
-Ver 3.6 2021-9-30
-
- - Fix count for scan process
- - Add Italian (it) language. Thanks to @GhostyJade!
-
-Ver 3.5 2021-9-9
-
- - Make rounded corners default on Windows 11
- - Add Traditional Chinese (zh-Hant) language. Thanks to @toto6038!
-
-Ver 3.4 2021-8-30
-
- - Add Dutch (nl-NL) language. Thanks to @JordyEGNL!
- - Supplement Simplified Chinese (zh-Hans) language. Thanks to @zhujunsan!
-
-Ver 3.3 2021-8-20
-
- - Add Arabic (ar) language. Thanks to @MohammadShughri!
-
-Ver 3.2 2021-8-9
-
- - Supplement German (de) language. Thanks to @uDEV2019!
-
-Ver 3.1 2021-8-4
-
- - Supplement Polish (pl-PL) language. Thanks to @FakeMichau!
- - Add Turkish (tr-TR) language. Thanks to @webbudesign!
- - Supplement Russian (ru-RU) language. Thanks to @SigmaTel71!
- - Add Spanish (es) language. Thanks to @josemirm!
-
-Ver 3.0 2021-7-1
-
- - Change UI
-
-Ver 2.19 2021-6-16
-
- - Enable to adjust brightness by precision touchpad
-
-Ver 2.18 2021-5-23
-
- - Add German (de) language. Thanks to @uDEV2019!
-
-Ver 2.17 2021-5-19
-
- - Add French (fr) language. Thanks to @AlexZeGamer!
-
-Ver 2.16 2021-4-11
-
- - Add Korean (ko-KR) language. Thanks to @VenusGirl!
-
-Ver 2.14 2021-3-26
-
- - Improve internal processes
-
-Ver 2.13 2021-2-13
-
- - Improve internal process
-
-Ver 2.11 2021-1-26
-
- - Add Russian (ru-RU) language. Thanks to @SigmaTel71!
- - Add Polish (pl-PL) language. Thanks to @Daxxxis!
- - Add Simplified Chinese (zh-Hans) language. Thanks to @ComMouse!
-
-Ver 2.9 2020-12-22
-
- - Improve codes
-
-Ver 2.8 2020-11-23
-
- - Adjust mouse wheel roll
-
-Ver 2.7 2020-10-30
-
- - Enable to change adjustable range
- - Adjust scan process
- - Add get/set brightness test to probe
-
-Ver 2.6 2020-8-10
-
- - Enable to defer update of brightness
-
-Ver 2.5 2020-8-1
-
- - Fix issue on empty description
-
-Ver 2.4 2019-12-30
-
- - Improve scan process
-
-Ver 2.3 2019-11-28
-
- - Change scan process
-
-Ver 2.2 2019-11-18
-
- - Change setting to show adjusted brightness by ambient light enabled as default
- - Fix bugs
-
-Ver 2.1 2019-11-6
-
- - Change location to show when the icon is in overflow area
- - Change behavior when sliders are moving in unison
- - Fix bugs
-
-Ver 2.0 2019-8-6
-
- - Enable operation by arrow keys
- - Redesign slider
-
-Ver 1.12 2019-3-9
-
- - Modify to handle raw brightnesses correctly when raw minimum and maximum brightnesses are not standard values. Thanks to @reflecat!
- - Change target framework to .NET Framework 4.7.2
-
-Ver 1.11 2019-2-7
-
- - Further suppress an exception
-
-Ver 1.10 2019-2-3
-
- - Change to enable transparency and blur effects only when transparency effects of OS is on
-
-Ver 1.9 2018-12-5
-
- - Change scan timings after resume
-
-Ver 1.8 2018-11-24
-
- - Supplement generic monitor name with connection type
-
-Ver 1.7 2018-8-22
-
- - Improved finding monitor name for Windows 10 April 2018 Update (1803)
-
-Ver 1.6 2018-5-25
-
- - Extended function to control DDC/CI connected monitor
- - Modified function to enable moving together
-
-Ver 1.5 2018-2-12
-
- - Improved handling of uncontrollable monitor
-
-Ver 1.4 2018-1-17
-
- - Modified handling of monitor names
-
-Ver 1.2 2017-10-12
-
- - Added control by mouse wheel
- - Added function to show adjusted brightness
-
-Ver 1.0 2017-2-22
-
- - Initial release
-
-## License
-
- - MIT License
-
-## Libraries
-
- - [XamlBehaviors for WPF](https://github.com/microsoft/XamlBehaviorsWpf)
-
-## Developer
-
- - emoacht (emotom[atmark]pobox.com)
+The output executables (`Monitorian.exe` and `Monitorian-Portable.exe`) will be generated in `Source/Monitorian/bin/Release/`.
+
+---
+
+## Community & Localization
+
+Monitorian 2.0 includes localization translations provided by community contributors:
+
+- **Arabic (ar)**: [@MohammadShughri](https://github.com/mohammadshughri)
+- **Catalan (ca)**: [@ericmp33](https://github.com/ericmp33)
+- **German (de)**: [@uDEV2019](https://github.com/uDEV2019)
+- **Greek (el-GR)**: [@NickMihal](https://github.com/NickMihal)
+- **Spanish (es)**: [@josemirm](https://github.com/josemirm), [@ericmp33](https://github.com/ericmp33)
+- **Persian (fa-IR)**: [@sinadalvand](https://github.com/sinadalvand)
+- **French (fr)**: [@AlexZeGamer](https://github.com/AlexZeGamer), [@Rikiiiiiii](https://github.com/rikiiiiiii)
+- **Italian (it)**: [@GhostyJade](https://github.com/GhostyJade)
+- **Japanese (ja-JP)**: [@emoacht](https://github.com/emoacht)
+- **Korean (ko-KR)**: [@VenusGirl](https://github.com/VenusGirl)
+- **Dutch (nl-NL)**: [@JordyEGNL](https://github.com/JordyEGNL)
+- **Polish (pl-PL)**: [@Daxxxis](https://github.com/Daxxxis), [@FakeMichau](https://github.com/FakeMichau)
+- **Portuguese (pt-BR)**: [@guilhermgonzaga](https://github.com/guilhermgonzaga)
+- **Romanian (ro)**: [@calini](https://github.com/calini)
+- **Russian (ru-RU)**: [@SigmaTel71](https://github.com/SigmaTel71), [@San4es](https://github.com/San4es)
+- **Slovenian (sl)**: [@anderlli0053](https://github.com/anderlli0053)
+- **Albanian (sq)**: @RDN000
+- **Swedish (sv-SE)**: [@Sopor](https://github.com/Sopor)
+- **Turkish (tr-TR)**: [@webbudesign](https://github.com/webbudesign)
+- **Ukrainian (uk-UA)**: [@kaplun07](https://github.com/kaplun07)
+- **Vietnamese (vi-VN)**: [@dongsinhho](https://github.com/dongsinhho)
+- **Simplified Chinese (zh-Hans)**: [@ComMouse](https://github.com/ComMouse), [@zhujunsan](https://github.com/zhujunsan), [@XMuli](https://github.com/XMuli), [@FISHandCHEAP](https://github.com/Fishandcheap), [@FrzMtrsprt](https://github.com/FrzMtrsprt)
+- **Traditional Chinese (zh-Hant)**: [@toto6038](https://github.com/toto6038), [@XMuli](https://github.com/XMuli)
+
+---
+
+## Credits & License
+
+- **Foundational Architecture:** Created by [emoacht](https://github.com/emoacht).
+- **Monitorian 2.0 Continuation:** Maintained by [kshitij-garg](https://github.com/kshitij-garg).
+- **License:** Distributed under the [MIT License](LICENSE.txt).

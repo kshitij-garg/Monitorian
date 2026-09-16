@@ -118,7 +118,7 @@
     <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(TargetDir)Monitorian-Portable.exe" SkipUnchangedFiles="true" />
     <Copy SourceFiles="$(TargetDir)$(TargetFileName).config" DestinationFiles="$(TargetDir)Monitorian-Portable.exe.config" SkipUnchangedFiles="true" Condition="Exists('$(TargetDir)$(TargetFileName).config')" />
     <ItemGroup>
-      <SatelliteResourceFiles Include="$(SolutionDir)Monitorian.Core\bin\$(Configuration)\**\Monitorian.Core.resources.dll" />
+      <SatelliteResourceFiles Include="$(MSBuildProjectDirectory)\..\Monitorian.Core\bin\$(Configuration)\**\Monitorian.Core.resources.dll" />
     </ItemGroup>
     <Copy SourceFiles="@(SatelliteResourceFiles)" DestinationFiles="@(SatelliteResourceFiles->'$(TargetDir)%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
   </Target>

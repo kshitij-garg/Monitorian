@@ -1,0 +1,63 @@
+name: Bug report
+description: Report a reproducible problem in Monitorian 2.0
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Search existing issues first. For monitor-control problems, confirm that DDC/CI is enabled in the monitor's hardware menu.
+  - type: input
+    id: version
+    attributes:
+      label: Monitorian version
+      placeholder: 2.3.0
+    validations:
+      required: true
+  - type: dropdown
+    id: windows
+    attributes:
+      label: Windows version
+      options:
+        - Windows 11
+        - Windows 10
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Problem
+      description: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      placeholder: |
+        1. Start Monitorian
+        2. Open...
+        3. Select...
+    validations:
+      required: true
+  - type: textarea
+    id: hardware
+    attributes:
+      label: Monitor and connection details
+      description: Include monitor models, connection type, dock/adapter, and whether DDC/CI is enabled.
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Attach exception.log, probe.log, or operation.log after removing sensitive information.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing open and closed issues.
+          required: true
+        - label: I tested the latest release.
+          required: true

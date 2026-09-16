@@ -96,6 +96,7 @@
     <Compile Include="Models\Watcher\SystemEventsComplement.cs" />
     <Compile Include="Models\Watcher\TimerWatcher.cs" />
     <Compile Include="Models\AppDataService.cs" />
+    <Compile Include="Models\CommandLineService.cs" />
     <Compile Include="Models\ConsoleService.cs" />
     <Compile Include="Models\DocumentService.cs" />
     <Compile Include="Models\LanguageService.cs" />

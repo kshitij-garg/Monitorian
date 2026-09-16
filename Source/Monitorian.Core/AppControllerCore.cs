@@ -86,7 +86,7 @@ public class AppControllerCore
 		var mainWindow = new MainWindow(this);
 		_current.MainWindow = mainWindow;
 
-		if (StartupAgent.IsWindowShowExpected())
+		if (StartupAgent.IsWindowShowExpected() && AppKeeper.ForwardingArguments.Count == 0)
 		{
 			mainWindow.CursorLocation = CursorHelper.GetCursorLocation();
 			mainWindow.Show();
@@ -95,6 +95,10 @@ public class AppControllerCore
 		await ScanAsync();
 
 		StartupAgent.HandleRequestAsync = HandleRequestAsync;
+		if (AppKeeper.ForwardingArguments.Count > 0)
+		{
+			_keeper.Write(await HandleRequestAsync(AppKeeper.ForwardingArguments));
+		}
 
 		NotifyIconContainer.MouseLeftButtonClick += OnMainWindowShowRequestedBySelf;
 		NotifyIconContainer.MouseRightButtonClick += OnMenuWindowShowRequested;
@@ -171,51 +175,93 @@ public class AppControllerCore
 		if (args != null && args.Count > 0)
 		{
 			var argsList = args.ToList();
-			if (argsList.Contains("/get", StringComparer.OrdinalIgnoreCase))
+			if (CommandLineService.ContainsCommand(argsList))
 			{
-				var sb = new System.Text.StringBuilder();
-				if (Monitors.Count == 0)
-					sb.AppendLine("No monitors detected.");
-				foreach (var m in Monitors)
-				{
-					sb.AppendLine($"{m.Name} ({m.DeviceInstanceId}) - Brightness: {m.Brightness}%");
-				}
-				return Task.FromResult(sb.ToString().TrimEnd());
-			}
+				if (!CommandLineService.TryParse(argsList, out var command, out var error))
+					return Task.FromResult(error);
 
-			var setIndex = argsList.FindIndex(x => string.Equals(x, "/set", StringComparison.OrdinalIgnoreCase));
-			if (setIndex >= 0 && setIndex + 1 < argsList.Count)
-			{
-				string targetMonitor = null;
-				string brightnessStr = argsList[setIndex + 1];
-
-				if (setIndex + 2 < argsList.Count && !int.TryParse(brightnessStr, out _))
-				{
-					targetMonitor = brightnessStr;
-					brightnessStr = argsList[setIndex + 2];
-				}
-
-				if (int.TryParse(brightnessStr, out int brightness))
-				{
-					brightness = Math.Max(0, Math.Min(100, brightness));
-					int count = 0;
-					
-					foreach (var m in Monitors)
-					{
-						if (targetMonitor == null || m.Name.IndexOf(targetMonitor, StringComparison.OrdinalIgnoreCase) >= 0 || m.DeviceInstanceId.IndexOf(targetMonitor, StringComparison.OrdinalIgnoreCase) >= 0)
-						{
-							m.SetBrightness(brightness);
-							count++;
-						}
-					}
-					return Task.FromResult($"Brightness set to {brightness}% on {count} monitor(s).");
-				}
+				return Task.FromResult(ExecuteCommand(command));
 			}
 		}
 
 		OnMainWindowShowRequestedByOther(null, EventArgs.Empty);
 		return Task.FromResult<string>(null);
 	}
+
+	private string ExecuteCommand(CommandLineCommand command)
+	{
+		var monitors = Monitors
+			.Where(x => MatchesTarget(x, command.Target))
+			.ToArray();
+
+		if (monitors.Length == 0)
+		{
+			return string.IsNullOrEmpty(command.Target)
+				? "No monitors detected."
+				: $"No monitor matched '{command.Target}'.";
+		}
+
+		if (command.Action is CommandLineAction.Get)
+		{
+			return string.Join(Environment.NewLine, monitors.Select(x =>
+			{
+				string value;
+				if (command.Metric is CommandLineMetric.Contrast)
+				{
+					value = !x.IsContrastSupported
+						? "Not supported"
+						: (x.UpdateContrast() ? $"{x.Contrast}%" : "Unavailable");
+				}
+				else
+				{
+					value = $"{x.Brightness}%";
+				}
+				return $"{x.Name} ({x.DeviceInstanceId}) - {command.Metric}: {value}";
+			}));
+		}
+
+		var changedCount = 0;
+		foreach (var monitor in monitors)
+		{
+			if (command.IsRelative
+				&& command.Metric is CommandLineMetric.Contrast
+				&& monitor.IsContrastSupported)
+			{
+				monitor.UpdateContrast();
+			}
+
+			var currentValue = command.Metric is CommandLineMetric.Contrast
+				? monitor.Contrast
+				: monitor.Brightness;
+			if (command.IsRelative && currentValue < 0)
+				continue;
+
+			var value = command.IsRelative
+				? Math.Max(0, Math.Min(100, currentValue + command.Value))
+				: command.Value;
+
+			if (command.Metric is CommandLineMetric.Contrast)
+			{
+				if (monitor.IsContrastSupported && monitor.SetContrast(value))
+					changedCount++;
+			}
+			else
+			{
+				if (monitor.SetBrightness(value))
+					changedCount++;
+			}
+		}
+
+		var metric = command.Metric.ToString();
+		return command.IsRelative
+			? $"{metric} adjusted by {command.Value:+#;-#;0} on {changedCount} monitor(s)."
+			: $"{metric} set to {command.Value}% on {changedCount} monitor(s).";
+	}
+
+	private static bool MatchesTarget(MonitorViewModel monitor, string target) =>
+		string.IsNullOrEmpty(target)
+		|| monitor.Name?.IndexOf(target, StringComparison.OrdinalIgnoreCase) >= 0
+		|| monitor.DeviceInstanceId?.IndexOf(target, StringComparison.OrdinalIgnoreCase) >= 0;
 
 	protected async void OnMainWindowShowRequestedBySelf(object sender, EventArgs e)
 	{

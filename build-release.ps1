@@ -1,8 +1,8 @@
 # Monitorian 2.0 - Build and Release Package Script
-# Usage: .\build-release.ps1 [-Version "2.2.0"]
+# Usage: .\build-release.ps1 [-Version "2.3.0"]
 
 param(
-    [string]$Version = "2.2.0"
+    [string]$Version = "2.3.0"
 )
 
 $ErrorActionPreference = "Stop"

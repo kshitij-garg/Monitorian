@@ -46,7 +46,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandLineServiceTest.cs" />
     <Compile Include="DeviceConversionTest.cs" />
+    <Compile Include="LanguageServiceTest.cs" />
     <Compile Include="MonitorConfigurationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

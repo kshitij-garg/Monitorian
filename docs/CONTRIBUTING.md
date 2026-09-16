@@ -5,11 +5,11 @@
 > If you are looking for the original Monitorian repository or want to report an issue with the base software, please visit [emoacht/Monitorian](https://github.com/emoacht/Monitorian).
 > Contributions here should specifically target the extended features (Portable Mode, Scroll OSD, Restore on Wake).
 
-Thanks to your interest in contributing to this project.
+Thank you for your interest in contributing to this project.
 
 ## 1. General
 
-- <ins>Read through readme</ins> before posting. Avoid asking questions that are already covered in readme.
+- Read the [README](../README.md) before posting. Avoid asking questions that are already covered there.
 
 - <ins>Be prepared to respond to any request</ins> after opening an issue, request or suggestion. In most cases, you will be requested to provide additional information.
 
@@ -17,13 +17,13 @@ Thanks to your interest in contributing to this project.
 
 ## 2. Issues
 
-- Check [Detection of external monitors](https://github.com/kshitij-garg/Monitorian-2.0#detection-of-external-monitors) and [Reporting](https://github.com/kshitij-garg/Monitorian-2.0#reporting).
+- Check the [system requirements](../README.md#system-requirements) and use the structured bug report form.
 
 - Search [Issues](https://github.com/kshitij-garg/Monitorian-2.0/issues) to date. To search open and closed issues at once, remove `is:open` from default syntax in Filters box and use only `is:issue` syntax.
 
 - Include all information necessary for a reader who has no knowledge about your monitor or other devices to understand and reproduce the issue.
 
-- Add __probe.log__ and __operation.log__. A video clip is not very helpful because it will not provide information about what is happening internally.
+- Attach relevant `exception.log`, `probe.log`, or `operation.log` files after removing sensitive information.
 
 - An issue which includes no meaningful clue CAN BE CLOSED without review.
 
@@ -45,13 +45,14 @@ Thanks to your interest in contributing to this project.
 
 ### 4.1 PR for language
 
-- Read [Globalization](https://github.com/kshitij-garg/Monitorian-2.0#globalization) in readme.
+- Read [Community & Localization](../README.md#community--localization).
 - Use phrases used by the OS as much as possible.
 - Do not try to explain everything. You cannot create a flawless expression in a short sentence like menu item.
-- Do not edit the readme.
+- Add or update localization tests when introducing a language.
 
 ### 4.2 PR for functionality
 
 - <ins>Open an issue and get agreement for your proposed change before starting your work.</ins>
 - Split the changes into dedicated commits based on their reasons and objectives. Avoid adding unrelated changes into a commit.
 - It is recommended to use the latest features of C#, provided that they are supported in this project.
+- Run the Debug and Release builds and the MSTest suite. Pull requests must pass Windows CI.

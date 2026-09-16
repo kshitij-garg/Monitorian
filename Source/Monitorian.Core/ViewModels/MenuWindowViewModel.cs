@@ -125,7 +125,6 @@ public class MenuWindowViewModel : ViewModelBase
 				return;
 
 			Settings.SelectedCulture = value.Code;
-			LanguageService.SwitchDefault(value.Code);
 			OnPropertyChanged();
 
 			LanguageChanged?.Invoke(this, EventArgs.Empty);

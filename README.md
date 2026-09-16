@@ -6,7 +6,7 @@
 [![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-blue?style=for-the-badge)](#)
 [![Main Contributor](https://img.shields.io/badge/main%20contributor-kshitij--garg-orange?style=for-the-badge)](https://github.com/kshitij-garg)
 [![License](https://img.shields.io/github/license/kshitij-garg/Monitorian-2.0?style=for-the-badge)](LICENSE.txt)
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge)](#)
+[![Windows CI](https://github.com/kshitij-garg/Monitorian-2.0/actions/workflows/ci.yml/badge.svg)](https://github.com/kshitij-garg/Monitorian-2.0/actions/workflows/ci.yml)
 
 **Monitorian 2.0** is an open-source Windows desktop utility to adjust the brightness and contrast of multiple monitors with ease. Developed and maintained by **[kshitij-garg](https://github.com/kshitij-garg)** (Main Contributor) as an enhanced continuation and independent fork of Monitorian, version 2.0 introduces community-requested quality-of-life improvements with absolute zero friction: a free native CLI engine, tray scroll OSD, automatic brightness restore on wake, full localization across 28 languages (including top Indian languages), and true single-file portable execution.
 
@@ -20,7 +20,7 @@ No installer or administrator privileges required. Download and run directly:
 | :--- | :--- | :--- |
 | **`Monitorian.exe`** | **True Single-File Standalone Executable**<br>Self-contained with all dependencies bundled via Costura.Fody. | [Download `Monitorian.exe`](https://github.com/kshitij-garg/Monitorian-2.0/releases/latest/download/Monitorian.exe) |
 | **`Monitorian-Portable.exe`** | **Zero-Config Portable Executable**<br>Automatically keeps all configuration files in its local folder without writing to `%LocalAppData%`. | [Download `Monitorian-Portable.exe`](https://github.com/kshitij-garg/Monitorian-2.0/releases/latest/download/Monitorian-Portable.exe) |
-| **`Monitorian-2.2.0.zip`** | **Complete Release Archive**<br>Includes standalone executables, configurations, and all 28 localization satellite language packs. | [Download `Monitorian-2.2.0.zip`](https://github.com/kshitij-garg/Monitorian-2.0/releases/latest/download/Monitorian-2.2.0.zip) |
+| **Versioned ZIP archive** | **Complete Release Archive**<br>Includes standalone executables, configurations, and all 28 localization satellite language packs. | [Open the latest release](https://github.com/kshitij-garg/Monitorian-2.0/releases/latest) |
 
 ---
 
@@ -99,7 +99,6 @@ Power-user settings previously tucked behind hidden command-line flags are now d
 
 - **Restore brightness on display wake**: Automatically re-applies your chosen brightness levels after the system wakes from sleep or screen timeout.
 - **Tray icon mouse wheel scroll**: Quickly enable or disable notification icon scrolling.
-- **Show OSD overlay on adjustment**: Toggle the floating on-screen display on or off according to preference.
 
 ---
 
@@ -134,14 +133,16 @@ You can build Monitorian 2.0 locally using Visual Studio 2022 or the standalone 
 git clone https://github.com/kshitij-garg/Monitorian-2.0.git
 cd Monitorian-2.0
 
-# 2. Restore NuGet dependencies
-msbuild Source/Monitorian.sln /t:Restore /p:Configuration=Release
+# 2. Restore dependencies and compile the application
+msbuild Source/Monitorian/Monitorian.csproj /restore /t:Rebuild /p:Configuration=Release /p:Platform=AnyCPU
 
-# 3. Compile Release binaries
-msbuild Source/Monitorian.sln /p:Configuration=Release
+# 3. Build and run the automated tests
+msbuild Source/Monitorian.Test/Monitorian.Test.csproj /restore /t:Rebuild /p:Configuration=Release /p:Platform=AnyCPU
+vstest.console.exe Source/Monitorian.Test/bin/Release/Monitorian.Test.dll
 ```
 
 The output executables (`Monitorian.exe` and `Monitorian-Portable.exe`) will be generated in `Source/Monitorian/bin/Release/`.
+Every push and pull request also runs the Windows CI workflow, which builds Debug and Release configurations, runs unit tests, validates every localization satellite assembly, and smoke-tests startup and CLI forwarding.
 
 ---
 
@@ -185,3 +186,7 @@ Monitorian 2.0 includes localization translations across 28 languages provided b
 - **Main Contributor & Project Lead:** [Kshitij Garg (@kshitij-garg)](https://github.com/kshitij-garg).
 - **Foundational Architecture:** Created by [emoacht](https://github.com/emoacht).
 - **License:** Distributed under the [MIT License](LICENSE.txt).
+- **Contributing:** See the [contribution guide](docs/CONTRIBUTING.md) and [code of conduct](CODE_OF_CONDUCT.md).
+- **Security:** Report vulnerabilities through the process in [SECURITY.md](SECURITY.md).
+- **Changes:** See [CHANGELOG.md](CHANGELOG.md).
+- **Releasing:** See the [GitHub build and release guide](docs/RELEASING.md).

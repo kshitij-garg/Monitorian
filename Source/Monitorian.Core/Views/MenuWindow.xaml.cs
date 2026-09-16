@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Threading;
 
 using Monitorian.Core.Models;
 using Monitorian.Core.ViewModels;
@@ -38,21 +39,47 @@ public partial class MenuWindow : Window
 		controller.WindowPainter.Add(this);
 	}
 
-	private async void OnLanguageChanged(object sender, EventArgs e)
+	private bool _isChangingLanguage;
+
+	private void OnLanguageChanged(object sender, EventArgs e)
 	{
-		if (_isClosing)
+		if (_isClosing || _isChangingLanguage)
 			return;
 
+		_isChangingLanguage = true;
 		_mover.ForegroundWindowChanged -= OnDeactivated;
 		_mover.AppDeactivated -= OnDeactivated;
+		this.Closed += OnClosedForLanguageChange;
 
-		await Task.Delay(50);
+		try
+		{
+			this.Close();
+		}
+		catch (Exception ex)
+		{
+			this.Closed -= OnClosedForLanguageChange;
+			_mover.ForegroundWindowChanged += OnDeactivated;
+			_mover.AppDeactivated += OnDeactivated;
+			_isChangingLanguage = false;
+			Logger.SaveException(ex);
+		}
+	}
 
-		if (_isClosing)
-			return;
+	private void OnClosedForLanguageChange(object sender, EventArgs e)
+	{
+		this.Closed -= OnClosedForLanguageChange;
 
-		this.Close();
-		_controller.ShowMenuWindow(_pivot);
+		this.Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() =>
+		{
+			try
+			{
+				_controller.ShowMenuWindow(_pivot);
+			}
+			catch (Exception ex)
+			{
+				Logger.SaveException(ex);
+			}
+		}));
 	}
 
 	private void LanguageComboBox_DropDownOpened(object sender, EventArgs e)

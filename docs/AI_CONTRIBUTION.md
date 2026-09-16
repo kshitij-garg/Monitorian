@@ -121,10 +121,36 @@ The following is a chronological list of the user's prompts that guided the deve
       - **Lifecycle & Focus Safety:** Enhanced `FocusMenuBehavior.cs` to prevent premature focus snatching when hovering over dropdown popups. Handled `DropDownOpened` and `DropDownClosed` to manage window foreground states and implemented seamless real-time menu reload upon selecting a new language.
       - **Verification:** Verified 37/37 passing MSTest unit tests and verified settings serialization and deserialization via DataContractSerializer.
 
+28. **"check why the app crashes when language is changed" / "then try to fix it"**
+    - *AI Action:*
+      - **Crash Diagnosis:** Traced the language selection binding through settings persistence, culture switching, and menu-window reconstruction. Identified an unguarded `async void` close/reopen sequence racing the ComboBox focus callbacks.
+      - **Lifecycle Fix:** Removed the timer-based reopen, made language changes idempotent, waited for the old window's `Closed` event, and deferred reconstruction to a clean Dispatcher turn with exception logging.
+      - **Culture Cleanup:** Removed the duplicate culture switch from `MenuWindowViewModel`; settings notifications now perform the switch once.
+
+29. **"create a build pipeline which validates all features"**
+    - *AI Action:*
+      - **Windows CI:** Added Debug and Release MSBuild jobs, MSTest execution, binary logs, test reports, localization validation, localized startup, and named-pipe CLI smoke testing.
+      - **Packaging Validation:** Added scripts that verify Costura output, portable configuration, all satellite resource assemblies, versioned ZIP archives, and SHA-256 checksums.
+      - **Localization Tests:** Added automated checks for supported culture codes and runtime resource loading.
+
+30. **"what other things can we add. rate this repo" / "well then try to fix them now"**
+    - *AI Action:*
+      - **CLI Completion:** Implemented monitor-targeted commands, signed relative brightness adjustments, contrast get/set commands, first-launch command processing, and parser tests.
+      - **Repository Governance:** Added CodeQL, Dependabot, CODEOWNERS, issue forms, a pull request template, security policy, code of conduct, and changelog.
+      - **Documentation Accuracy:** Replaced the static passing badge with the real CI badge, corrected build instructions, removed an unsupported OSD setting claim, and repaired contribution links.
+
+31. **"create this as new version and push online"**
+    - *AI Action:*
+      - **Version 2.3.0:** Updated the application assembly and local release defaults to v2.3.0 and finalized the matching changelog.
+      - **GitHub Release Process:** Added repeatable GitHub artifact packaging and `docs/RELEASING.md` with build verification, hardware testing, tagging, asset upload, and checksum instructions.
+
 ## Summary of AI Contributions
 
 | Feature / Fix | Branch | Pull Request | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
+| **Release v2.3.0 Preparation** | `master` | N/A | Completed | Added crash fixes, expanded CLI behavior, CI/security automation, versioned artifacts, checksums, tests, and release documentation. |
+| **Language Switch Stability** | `master` | N/A | Completed | Removed the asynchronous menu teardown race and redundant culture switching. |
+| **Windows CI & Security** | `master` | N/A | Completed | Added Debug/Release builds, tests, localization and package validation, CodeQL, and Dependabot. |
 | **In-App Language Selector & Menu Revamp** | `master` | N/A | Completed | Revamped right-click menu into structured categories; added dark-mode language picker with real-time switching across all 28 languages and persistent settings storage. |
 | **Top 5 Indian Languages Localization** | `master` | N/A | Completed | Added native localization for Hindi, Bengali, Marathi, Telugu, and Tamil. Embedded in single-file executables and synced all 28 satellite directories. |
 | **Main Contributor Attribution** | `master` | N/A | Completed | Credited `kshitij-garg` as Main Contributor & Project Lead across README, metadata, and GitHub release page. |

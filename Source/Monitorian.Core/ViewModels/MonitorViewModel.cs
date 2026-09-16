@@ -251,7 +251,7 @@ public class MonitorViewModel : ViewModelBase
 		SetBrightness(brightness, isCycle);
 	}
 
-	public void SetBrightness(int brightness) => SetBrightness(brightness, false);
+	public bool SetBrightness(int brightness) => SetBrightness(brightness, false);
 
 	private bool SetBrightness(int brightness, bool isCycle)
 	{

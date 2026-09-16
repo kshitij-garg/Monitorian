@@ -1,0 +1,123 @@
+name: Windows CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test-validate:
+    name: ${{ matrix.configuration }}
+    runs-on: windows-2022
+    timeout-minutes: 30
+
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration:
+          - Debug
+          - Release
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Create diagnostics directory
+        shell: pwsh
+        run: New-Item artifacts -ItemType Directory -Force | Out-Null
+
+      - name: Build application
+        shell: pwsh
+        run: >
+          msbuild Source/Monitorian/Monitorian.csproj
+          /restore
+          /t:Rebuild
+          /p:Configuration=${{ matrix.configuration }}
+          /p:Platform=AnyCPU
+          /warnaserror
+          /bl:artifacts/application-${{ matrix.configuration }}.binlog
+          /nologo
+
+      - name: Build tests
+        shell: pwsh
+        run: >
+          msbuild Source/Monitorian.Test/Monitorian.Test.csproj
+          /restore
+          /t:Rebuild
+          /p:Configuration=${{ matrix.configuration }}
+          /p:Platform=AnyCPU
+          /warnaserror
+          /bl:artifacts/tests-${{ matrix.configuration }}.binlog
+          /nologo
+
+      - name: Run unit tests
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $vstest = & $vswhere -latest -products * `
+            -requires Microsoft.VisualStudio.PackageGroup.TestTools.Core `
+            -find '**\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe' |
+            Select-Object -First 1
+
+          if (-not $vstest) {
+            throw "vstest.console.exe was not found."
+          }
+
+          & $vstest "Source\Monitorian.Test\bin\${{ matrix.configuration }}\Monitorian.Test.dll" `
+            /Logger:"trx;LogFileName=tests-${{ matrix.configuration }}.trx" `
+            /ResultsDirectory:artifacts
+
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+          }
+
+      - name: Validate build and localization
+        shell: pwsh
+        run: >
+          ./.github/scripts/Validate-Build.ps1
+          -Configuration ${{ matrix.configuration }}
+
+      - name: Smoke test localized startup and CLI
+        if: matrix.configuration == 'Release'
+        shell: pwsh
+        run: >
+          ./.github/scripts/Validate-Build.ps1
+          -Configuration Release
+          -RunApplicationSmoke
+
+      - name: Create release package
+        if: matrix.configuration == 'Release'
+        shell: pwsh
+        run: ./.github/scripts/New-ReleasePackage.ps1 -Configuration Release
+
+      - name: Upload diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostics-${{ matrix.configuration }}
+          path: |
+            artifacts/*.binlog
+            artifacts/*.trx
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Upload release package
+        if: matrix.configuration == 'Release'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Monitorian-release-${{ github.sha }}
+          path: artifacts/release/*
+          if-no-files-found: error
+          retention-days: 30

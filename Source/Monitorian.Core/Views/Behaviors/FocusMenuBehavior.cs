@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Microsoft.Xaml.Behaviors;
@@ -31,7 +31,8 @@ public class FocusMenuBehavior : Behavior<UIElement>
 
 		// On Windows 11, enabling IME on TextBox causes MouseLeave event and changing the focus after
 		// such event will hinder the input by IME. Thus, the case of TextBox shall be excluded.
-		if (element is TextBoxBase)
+		// Also exclude ComboBox and ComboBoxItem to avoid closing dropdown popups when mouse moves over them.
+		if (element is TextBoxBase or System.Windows.Controls.ComboBox or System.Windows.Controls.ComboBoxItem)
 			return;
 
 		FocusManager.SetFocusedElement(scope, this.AssociatedObject); // UIElement.Focus method is not enough.

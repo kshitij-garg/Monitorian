@@ -165,6 +165,17 @@ public class SettingsCore : BindableBase
 	private bool _enablesIconWheel = true;
 
 	/// <summary>
+	/// Selected culture name (or null for System Default)
+	/// </summary>
+	[DataMember]
+	public string SelectedCulture
+	{
+		get => _selectedCulture;
+		set => SetProperty(ref _selectedCulture, value);
+	}
+	private string _selectedCulture;
+
+	/// <summary>
 	/// Monitor customizations by user
 	/// </summary>
 	[DataMember]

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,24 +14,55 @@ namespace Monitorian.Core.Views;
 
 public partial class MenuWindow : Window
 {
+	private readonly Point _pivot;
 	private readonly FloatWindowMover _mover;
 	private readonly AppControllerCore _controller;
 	public MenuWindowViewModel ViewModel => (MenuWindowViewModel)this.DataContext;
 
 	public MenuWindow(AppControllerCore controller, Point pivot)
 	{
+		this._pivot = pivot;
 		LanguageService.Switch();
 
 		InitializeComponent();
 
 		this._controller = controller;
-		this.DataContext = new MenuWindowViewModel(controller);
+		var viewModel = new MenuWindowViewModel(controller);
+		viewModel.LanguageChanged += OnLanguageChanged;
+		this.DataContext = viewModel;
 
 		_mover = new FloatWindowMover(this, pivot);
 		_mover.ForegroundWindowChanged += OnDeactivated;
 		_mover.AppDeactivated += OnDeactivated;
 
 		controller.WindowPainter.Add(this);
+	}
+
+	private async void OnLanguageChanged(object sender, EventArgs e)
+	{
+		if (_isClosing)
+			return;
+
+		_mover.ForegroundWindowChanged -= OnDeactivated;
+		_mover.AppDeactivated -= OnDeactivated;
+
+		await Task.Delay(50);
+
+		if (_isClosing)
+			return;
+
+		this.Close();
+		_controller.ShowMenuWindow(_pivot);
+	}
+
+	private void LanguageComboBox_DropDownOpened(object sender, EventArgs e)
+	{
+		DepartFromForeground();
+	}
+
+	private void LanguageComboBox_DropDownClosed(object sender, EventArgs e)
+	{
+		ReturnToForeground();
 	}
 
 	public UIElementCollection HeadSection => this.HeadItems.Children;

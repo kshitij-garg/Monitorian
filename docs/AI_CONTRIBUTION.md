@@ -108,10 +108,24 @@ The following is a chronological list of the user's prompts that guided the deve
       - **Main Contributor Attribution:** Updated `README.md` to credit `kshitij-garg` as Main Contributor & Project Lead with a badge and header attribution, and added `kshitij-garg` under Community & Localization for the 5 Indian languages.
       - **Release Page Update:** Rebuilt single-file binaries and bundle archive `Monitorian-2.2.0.zip`. Re-uploaded assets and updated release notes and SHA-256 hashes on the GitHub Release page `v2.2.0`.
 
+27. **"but how does the language selection work. i think we can organise and add language selection right inside the menu of the app on right click. revamp the menu and organise and nest options better ?"**
+    - *AI Action:*
+      - **Language Mechanism Architecture & Persistence:** Upstream Monitorian only supported an undocumented `/lang <culture>` CLI argument with no GUI selector, falling back to the Windows OS display language (`CultureInfo.CurrentUICulture`). Added `SelectedCulture` persistence to `SettingsCore.cs` (`<SelectedCulture>...</SelectedCulture>` in `settings.xml`). Enhanced `LanguageService.cs` with an active catalog of all 28 supported languages (including Hindi, Bengali, Marathi, Telugu, and Tamil) with native script and English display names plus "System Default".
+      - **Right-Click Menu Reorganization:** Revamped `MenuWindow.xaml` from an unstructured 16-item flat list into 5 clean, categorized sections with subtle headers:
+        1. **Controls & Sliders:** Unison, Range, Contrast, SDR content brightness.
+        2. **Display & Layout:** Show adjusted brightness, Sort arrangement, Defer change, Monitor identity badges.
+        3. **Input & Automation:** Tray icon wheel scroll, Invert scroll direction (with nested flyout chevron `›`), Wake brightness restoration.
+        4. **System & Appearance:** Start on sign-in, Large elements, System accent color.
+        5. **Language (🌐):** Embedded dark-mode language picker.
+      - **Dark-Themed Language Selector:** Designed and integrated `LanguageComboBoxStyle` and `LanguageComboBoxItemStyle` in `Generic.xaml` with custom dropdown toggle button, slide animation, and sleek dark scrollbar matching the Monitorian design system.
+      - **Lifecycle & Focus Safety:** Enhanced `FocusMenuBehavior.cs` to prevent premature focus snatching when hovering over dropdown popups. Handled `DropDownOpened` and `DropDownClosed` to manage window foreground states and implemented seamless real-time menu reload upon selecting a new language.
+      - **Verification:** Verified 37/37 passing MSTest unit tests and verified settings serialization and deserialization via DataContractSerializer.
+
 ## Summary of AI Contributions
 
 | Feature / Fix | Branch | Pull Request | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
+| **In-App Language Selector & Menu Revamp** | `master` | N/A | Completed | Revamped right-click menu into structured categories; added dark-mode language picker with real-time switching across all 28 languages and persistent settings storage. |
 | **Top 5 Indian Languages Localization** | `master` | N/A | Completed | Added native localization for Hindi, Bengali, Marathi, Telugu, and Tamil. Embedded in single-file executables and synced all 28 satellite directories. |
 | **Main Contributor Attribution** | `master` | N/A | Completed | Credited `kshitij-garg` as Main Contributor & Project Lead across README, metadata, and GitHub release page. |
 | **Site & License Menu Navigation** | `master` | N/A | Completed | Re-routed right-click menu "Site" and "License" links directly to the Monitorian 2.0 repository and license. Updated app configuration and documentation. |
@@ -125,6 +139,7 @@ The following is a chronological list of the user's prompts that guided the deve
 | **Native CLI Engine** | `feature/cli-engine` | [#781](https://github.com/emoacht/Monitorian/pull/781) | Completed | Fixes Issue #655. Re-implements the closed-source Premium `/get` and `/set` brightness commands natively for free. |
 | **Test Validation** | N/A | N/A | Completed | Passed 37/37 native unit tests via a custom reflection runner to validate all logic. |
 | **Issue Analysis** | N/A | N/A | Completed | Generated `ISSUE_ANALYSIS_SNAPSHOT.md` prioritizing issues by community engagement. |
+
 
 
 

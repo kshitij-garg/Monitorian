@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Monitorian.Core.Models;
@@ -101,6 +103,39 @@ public class MenuWindowViewModel : ViewModelBase
 
 	#endregion
 
+	#region Language
+
+	public IReadOnlyList<LanguageItem> Languages => LanguageService.SupportedLanguages;
+
+	public LanguageItem SelectedLanguage
+	{
+		get
+		{
+			var code = Settings.SelectedCulture;
+			return Languages.FirstOrDefault(x => string.Equals(x.Code, code, StringComparison.OrdinalIgnoreCase))
+				?? Languages[0];
+		}
+		set
+		{
+			if (value is null)
+				return;
+
+			var currentCode = Settings.SelectedCulture;
+			if (string.Equals(currentCode, value.Code, StringComparison.OrdinalIgnoreCase))
+				return;
+
+			Settings.SelectedCulture = value.Code;
+			LanguageService.SwitchDefault(value.Code);
+			OnPropertyChanged();
+
+			LanguageChanged?.Invoke(this, EventArgs.Empty);
+		}
+	}
+
+	public event EventHandler LanguageChanged;
+
+	#endregion
+
 	public event EventHandler CloseAppRequested;
 
 	/// <summary>
@@ -120,6 +155,7 @@ public class MenuWindowViewModel : ViewModelBase
 		if (disposing)
 		{
 			CloseAppRequested = null;
+			LanguageChanged = null;
 		}
 
 		_isDisposed = true;

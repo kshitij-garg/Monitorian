@@ -68,6 +68,11 @@ public class AppControllerCore
 		Settings.MonitorCustomizations.AbsoluteCapacity = MaxKnownMonitorsCount;
 		Settings.PropertyChanged += OnSettingsChanged;
 
+		if (!string.IsNullOrEmpty(Settings.SelectedCulture))
+		{
+			LanguageService.SwitchDefault(Settings.SelectedCulture);
+		}
+
 		OnSettingsInitiated();
 		await OperationRecorder.RecordAsync($"Connectable by named pipes: {StartupAgent.IsConnectable}");
 
@@ -255,7 +260,7 @@ public class AppControllerCore
 		window.ClearHide();
 	}
 
-	protected virtual void ShowMenuWindow(Point pivot)
+	public virtual void ShowMenuWindow(Point pivot)
 	{
 		var window = new MenuWindow(this, pivot);
 		window.ViewModel.CloseAppRequested += (_, _) => _current.Shutdown();
@@ -334,6 +339,10 @@ public class AppControllerCore
 				else
 					OperationRecorder.Disable();
 
+				break;
+
+			case nameof(Settings.SelectedCulture):
+				LanguageService.SwitchDefault(Settings.SelectedCulture);
 				break;
 		}
 	}

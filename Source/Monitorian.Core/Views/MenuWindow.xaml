@@ -5,7 +5,7 @@
 		xmlns:behaviors="clr-namespace:Monitorian.Core.Views.Behaviors"
 		xmlns:models="clr-namespace:Monitorian.Core.Models"
 		xmlns:properties="clr-namespace:Monitorian.Core.Properties"
-		Width="200"
+		Width="230" MaxHeight="680"
 		ResizeMode="NoResize" SizeToContent="WidthAndHeight"
 		ShowInTaskbar="False" Topmost="True"
 		AllowsTransparency="True" WindowStyle="None"
@@ -17,166 +17,225 @@
 		<CommandBinding Command="ApplicationCommands.Close" Executed="OnDeactivated"/>
 	</Window.CommandBindings>
 
-	<StackPanel Margin="0,4">
-		<TextBlock x:Name="AppTitle"
-				   Margin="8,2"
-				   Style="{StaticResource PlainTextStyle}"
-				   Text="{Binding Source={x:Static models:ProductInfo.Title}, Mode=OneTime}"/>
+	<ScrollViewer VerticalScrollBarVisibility="Auto"
+				  HorizontalScrollBarVisibility="Disabled"
+				  Style="{StaticResource PlainScrollBarStyle}">
+		<StackPanel Margin="0,4">
+			<TextBlock x:Name="AppTitle"
+					   Margin="10,4,10,2"
+					   Style="{StaticResource PlainTextStyle}"
+					   FontWeight="SemiBold"
+					   Text="{Binding Source={x:Static models:ProductInfo.Title}, Mode=OneTime}"/>
 
-		<StackPanel x:Name="HeadItems"
-					Margin="0,0,0,6">
-			<TextBlock Margin="8,0"
-					   Style="{StaticResource PlainTextStyle}">
-				<Run Text="{Binding Source={x:Static models:ProductInfo.Version}, Mode=OneTime}"/>
-				<Run Text="|"/>
-				<Run Foreground="{StaticResource App.Foreground.Shadow}"
-					 TextDecorations="Underline" Cursor="Hand"
-					 Text="{x:Static properties:Invariant.Site}">
+			<StackPanel x:Name="HeadItems"
+						Margin="0,0,0,4">
+				<TextBlock Margin="10,0"
+						   Style="{StaticResource PlainTextStyle}">
+					<Run Text="{Binding Source={x:Static models:ProductInfo.Version}, Mode=OneTime}"/>
+					<Run Text="|"/>
+					<Run Foreground="{StaticResource App.Foreground.Shadow}"
+						 TextDecorations="Underline" Cursor="Hand"
+						 Text="{x:Static properties:Invariant.Site}">
+						<i:Interaction.Triggers>
+							<i:EventTrigger EventName="MouseDown">
+								<i:LaunchUriOrFileAction Path="{x:Static models:ProductInfo.ProjectUrl}"/>
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+					</Run>
+					<Run Text="|"/>
+					<Run Foreground="{StaticResource App.Foreground.Shadow}"
+						 TextDecorations="Underline" Cursor="Hand"
+						 Text="{x:Static properties:Invariant.License}">
+						<i:Interaction.Triggers>
+							<i:EventTrigger EventName="MouseDown">
+								<i:LaunchUriOrFileAction Path="{x:Static models:ProductInfo.LicenseUrl}"/>
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+					</Run>
+				</TextBlock>
+			</StackPanel>
+
+			<Separator Style="{StaticResource MenuSeparatorStyle}"/>
+
+			<StackPanel x:Name="MenuItemsTop"/>
+
+			<!-- CONTROLS & SLIDERS -->
+			<TextBlock Margin="10,6,10,2"
+					   FontSize="10"
+					   FontWeight="SemiBold"
+					   Foreground="{StaticResource App.Foreground.Dusk}"
+					   Text="CONTROLS &amp; SLIDERS"/>
+
+			<ContentControl Style="{StaticResource MenuItemStyle}">
+				<ToggleButton Padding="8,4"
+							  Style="{StaticResource CheckButtonItemStyle}"
+							  Content="{x:Static properties:Resources.EnableUnison}"
+							  IsChecked="{Binding Settings.EnablesUnison}"/>
+			</ContentControl>
+
+			<ContentControl Style="{StaticResource MenuItemStyle}">
+				<ToggleButton Padding="8,4"
+							  Style="{StaticResource CheckButtonItemStyle}"
+							  Content="{x:Static properties:Resources.EnableRange}"
+							  IsChecked="{Binding Settings.EnablesRange}"/>
+			</ContentControl>
+
+			<ContentControl Style="{StaticResource MenuItemStyle}">
+				<ToggleButton Padding="8,4"
+							  Style="{StaticResource CheckButtonItemStyle}"
+							  Content="{x:Static properties:Resources.EnableContrast}"
+							  IsChecked="{Binding Settings.EnablesContrast}"/>
+			</ContentControl>
+
+			<ContentControl Style="{StaticResource MenuItemStyle}">
+				<ToggleButton Padding="8,4"
+							  Style="{StaticResource CheckButtonItemStyle}"
+							  Content="{x:Static properties:Resources.AdjustSdrContent}"
+							  IsChecked="{Binding Settings.AdjustsSdrContent}"/>
+			</ContentControl>
+
+			<!-- DISPLAY & LAYOUT -->
+			<Separator Style="{StaticResource MenuSeparatorStyle}"/>
+			<TextBlock Margin="10,6,10,2"
+					   FontSize="10"
+					   FontWeight="SemiBold"
+					   Foreground="{StaticResource App.Foreground.Dusk}"
+					   Text="DISPLAY &amp; LAYOUT"/>
+
+			<ContentControl Style="{StaticResource MenuItemStyle}">
+				<ToggleButton Padding="8,4"
+							  Style="{StaticResource CheckButtonItemStyle}"
+							  Content="{x:Static properties:Resources.ShowAdjusted}"
+							  IsChecked="{Binding Settings.ShowsAdjusted}"/>
+			</ContentControl>
+
+			<ContentControl Style="{StaticResource MenuItemStyle}">
+				<ToggleButton Padding="8,4"
+							  Style="{StaticResource CheckButtonItemStyle}"
+							  Content="{x:Static properties:Resources.SortArrangement}"
+							  IsChecked="{Binding Settings.SortsArrangement}"/>
+			</ContentControl>
+
+			<ContentControl Style="{StaticResource MenuItemStyle}">
+				<ToggleButton Padding="8,4"
+							  Style="{StaticResource CheckButtonItemStyle}"
+							  Content="{x:Static properties:Resources.DeferChange}"
+							  IsChecked="{Binding Settings.DefersChange}"/>
+			</ContentControl>
+
+			<ContentControl Style="{StaticResource MenuItemStyle}">
+				<ToggleButton Padding="8,4"
+							  Style="{StaticResource CheckButtonItemStyle}"
+							  Content="{x:Static properties:Resources.EnableIdentity}"
+							  IsChecked="{Binding Settings.EnablesIdentity}"/>
+			</ContentControl>
+
+			<!-- INPUT & AUTOMATION -->
+			<Separator Style="{StaticResource MenuSeparatorStyle}"/>
+			<TextBlock Margin="10,6,10,2"
+					   FontSize="10"
+					   FontWeight="SemiBold"
+					   Foreground="{StaticResource App.Foreground.Dusk}"
+					   Text="INPUT &amp; AUTOMATION"/>
+
+			<ContentControl Style="{StaticResource MenuItemStyle}">
+				<ToggleButton Padding="8,4"
+							  Style="{StaticResource CheckButtonItemStyle}"
+							  Content="Enable tray icon scroll"
+							  IsChecked="{Binding Settings.EnablesIconWheel}"/>
+			</ContentControl>
+
+			<ContentControl Style="{StaticResource MenuItemStyle}">
+				<Button Padding="8,4"
+						Style="{StaticResource SubmenuButtonItemStyle}"
+						Content="{x:Static properties:Resources.InvertScrollDirection}"
+						Click="InvertScrollDirection_Click"/>
+			</ContentControl>
+
+			<ContentControl Style="{StaticResource MenuItemStyle}">
+				<ToggleButton Padding="8,4"
+							  Style="{StaticResource CheckButtonItemStyle}"
+							  Content="Restore brightness on wake"
+							  IsChecked="{Binding Settings.RestoresBrightnessOnWake}"/>
+			</ContentControl>
+
+			<!-- SYSTEM & APPEARANCE -->
+			<Separator Style="{StaticResource MenuSeparatorStyle}"/>
+			<TextBlock Margin="10,6,10,2"
+					   FontSize="10"
+					   FontWeight="SemiBold"
+					   Foreground="{StaticResource App.Foreground.Dusk}"
+					   Text="SYSTEM &amp; APPEARANCE"/>
+
+			<ContentControl Style="{StaticResource MenuItemStyle}">
+				<ToggleButton Padding="8,4"
+							  Style="{StaticResource CheckButtonItemStyle}"
+							  Content="{x:Static properties:Resources.StartSignIn}"
+							  IsChecked="{Binding IsRegistered}"
+							  Visibility="{Binding CanRegister, Mode=OneTime, Converter={StaticResource BooleanToVisibilityConverterKey}}"/>
+			</ContentControl>
+
+			<ContentControl Style="{StaticResource MenuItemStyle}">
+				<ToggleButton Padding="8,4"
+							  Style="{StaticResource CheckButtonItemStyle}"
+							  Content="{x:Static properties:Resources.UseLargeElements}"
+							  IsChecked="{Binding Settings.UsesLargeElements}"/>
+			</ContentControl>
+
+			<ContentControl Style="{StaticResource MenuItemStyle}"
+							Visibility="{Binding IsAccentColorSupported, Converter={StaticResource BooleanToVisibilityConverterKey}}">
+				<ToggleButton Padding="8,4"
+							  Style="{StaticResource CheckButtonItemStyle}"
+							  Content="{x:Static properties:Resources.UseAccentColor}"
+							  IsChecked="{Binding Settings.UsesAccentColor}"/>
+			</ContentControl>
+
+			<!-- LANGUAGE -->
+			<Separator Style="{StaticResource MenuSeparatorStyle}"/>
+			<TextBlock Margin="10,6,10,2"
+					   FontSize="10"
+					   FontWeight="SemiBold"
+					   Foreground="{StaticResource App.Foreground.Dusk}"
+					   Text="LANGUAGE / भाषा"/>
+
+			<Grid Margin="10,3,10,5">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<TextBlock Grid.Column="0"
+						   Text="🌐"
+						   FontSize="13"
+						   VerticalAlignment="Center"
+						   Margin="0,0,8,0"/>
+				<ComboBox Grid.Column="1"
+						  ItemsSource="{Binding Languages}"
+						  SelectedItem="{Binding SelectedLanguage}"
+						  DisplayMemberPath="DisplayName"
+						  Style="{StaticResource LanguageComboBoxStyle}"
+						  DropDownOpened="LanguageComboBox_DropDownOpened"
+						  DropDownClosed="LanguageComboBox_DropDownClosed"/>
+			</Grid>
+
+			<StackPanel x:Name="MenuItemsMiddle"/>
+
+			<Separator Style="{StaticResource MenuSeparatorStyle}"/>
+
+			<!-- Close -->
+			<ContentControl Style="{StaticResource MenuItemStyle}">
+				<Button Padding="8,4"
+						Style="{StaticResource CloseButtonItemStyle}"
+						Content="{x:Static properties:Resources.Close}">
 					<i:Interaction.Triggers>
-						<i:EventTrigger EventName="MouseDown">
-							<i:LaunchUriOrFileAction Path="{x:Static models:ProductInfo.ProjectUrl}"/>
+						<i:EventTrigger EventName="Click">
+							<i:CallMethodAction TargetObject="{Binding}"
+												MethodName="CloseApp"/>
 						</i:EventTrigger>
 					</i:Interaction.Triggers>
-				</Run>
-				<Run Text="|"/>
-				<Run Foreground="{StaticResource App.Foreground.Shadow}"
-					 TextDecorations="Underline" Cursor="Hand"
-					 Text="{x:Static properties:Invariant.License}">
-					<i:Interaction.Triggers>
-						<i:EventTrigger EventName="MouseDown">
-							<i:LaunchUriOrFileAction Path="{x:Static models:ProductInfo.LicenseUrl}"/>
-						</i:EventTrigger>
-					</i:Interaction.Triggers>
-				</Run>
-			</TextBlock>
+				</Button>
+			</ContentControl>
 		</StackPanel>
-
-		<Separator Style="{StaticResource MenuSeparatorStyle}"/>
-
-		<StackPanel x:Name="MenuItemsTop"/>
-
-		<ContentControl Style="{StaticResource MenuItemStyle}">
-			<ToggleButton Padding="8,4"
-						  Style="{StaticResource CheckButtonItemStyle}"
-						  Content="{x:Static properties:Resources.StartSignIn}"
-						  IsChecked="{Binding IsRegistered}"
-						  Visibility="{Binding CanRegister, Mode=OneTime, Converter={StaticResource BooleanToVisibilityConverterKey}}"/>
-		</ContentControl>
-
-		<ContentControl Style="{StaticResource MenuItemStyle}">
-			<ToggleButton Padding="8,4"
-						  Style="{StaticResource CheckButtonItemStyle}"
-						  Content="{x:Static properties:Resources.UseLargeElements}"
-						  IsChecked="{Binding Settings.UsesLargeElements}"/>
-		</ContentControl>
-
-		<ContentControl Style="{StaticResource MenuItemStyle}"
-						Visibility="{Binding IsAccentColorSupported, Converter={StaticResource BooleanToVisibilityConverterKey}}">
-			<ToggleButton Padding="8,4"
-						  Style="{StaticResource CheckButtonItemStyle}"
-						  Content="{x:Static properties:Resources.UseAccentColor}"
-						  IsChecked="{Binding Settings.UsesAccentColor}"/>
-		</ContentControl>
-
-		<ContentControl Style="{StaticResource MenuItemStyle}">
-			<ToggleButton Padding="8,4"
-						  Style="{StaticResource CheckButtonItemStyle}"
-						  Content="{x:Static properties:Resources.ShowAdjusted}"
-						  IsChecked="{Binding Settings.ShowsAdjusted}"/>
-		</ContentControl>
-
-		<ContentControl Style="{StaticResource MenuItemStyle}">
-			<ToggleButton Padding="8,4"
-						  Style="{StaticResource CheckButtonItemStyle}"
-						  Content="{x:Static properties:Resources.SortArrangement}"
-						  IsChecked="{Binding Settings.SortsArrangement}"/>
-		</ContentControl>
-
-		<ContentControl Style="{StaticResource MenuItemStyle}">
-			<ToggleButton Padding="8,4"
-						  Style="{StaticResource CheckButtonItemStyle}"
-						  Content="{x:Static properties:Resources.DeferChange}"
-						  IsChecked="{Binding Settings.DefersChange}"/>
-		</ContentControl>
-
-		<ContentControl Style="{StaticResource MenuItemStyle}">
-			<ToggleButton Padding="8,4"
-								  Style="{StaticResource CheckButtonItemStyle}"
-								  Content="{x:Static properties:Resources.AdjustSdrContent}"
-								  IsChecked="{Binding Settings.AdjustsSdrContent}"/>
-		</ContentControl>
-
-		<StackPanel x:Name="MenuItemsMiddle"/>
-
-		<ContentControl Style="{StaticResource MenuItemStyle}">
-			<Button Padding="8,4"
-					Style="{StaticResource PlainButtonItemStyle}"
-					Content="{x:Static properties:Resources.InvertScrollDirection}"
-					Click="InvertScrollDirection_Click"/>
-		</ContentControl>
-
-		<Separator Style="{StaticResource MenuSeparatorStyle}"/>
-
-		<ContentControl Style="{StaticResource MenuItemStyle}">
-			<ToggleButton Padding="8,4"
-						  Style="{StaticResource CheckButtonItemStyle}"
-						  Content="{x:Static properties:Resources.EnableUnison}"
-						  IsChecked="{Binding Settings.EnablesUnison}"/>
-		</ContentControl>
-
-		<ContentControl Style="{StaticResource MenuItemStyle}">
-			<ToggleButton Padding="8,4"
-						  Style="{StaticResource CheckButtonItemStyle}"
-						  Content="{x:Static properties:Resources.EnableRange}"
-						  IsChecked="{Binding Settings.EnablesRange}"/>
-		</ContentControl>
-
-		<ContentControl Style="{StaticResource MenuItemStyle}">
-			<ToggleButton Padding="8,4"
-						  Style="{StaticResource CheckButtonItemStyle}"
-						  Content="{x:Static properties:Resources.EnableContrast}"
-						  IsChecked="{Binding Settings.EnablesContrast}"/>
-		</ContentControl>
-
-		<ContentControl Style="{StaticResource MenuItemStyle}">
-			<ToggleButton Padding="8,4"
-						  Style="{StaticResource CheckButtonItemStyle}"
-						  Content="{x:Static properties:Resources.EnableIdentity}"
-						  IsChecked="{Binding Settings.EnablesIdentity}"/>
-		</ContentControl>
-
-		<Separator Style="{StaticResource MenuSeparatorStyle}"/>
-
-		<ContentControl Style="{StaticResource MenuItemStyle}">
-			<ToggleButton Padding="8,4"
-						  Style="{StaticResource CheckButtonItemStyle}"
-						  Content="Restore brightness on wake"
-						  IsChecked="{Binding Settings.RestoresBrightnessOnWake}"/>
-		</ContentControl>
-
-		<ContentControl Style="{StaticResource MenuItemStyle}">
-			<ToggleButton Padding="8,4"
-						  Style="{StaticResource CheckButtonItemStyle}"
-						  Content="Enable tray icon scroll"
-						  IsChecked="{Binding Settings.EnablesIconWheel}"/>
-		</ContentControl>
-
-		<Separator Style="{StaticResource MenuSeparatorStyle}"/>
-
-		<!-- Close -->
-		<ContentControl Style="{StaticResource MenuItemStyle}">
-			<Button Padding="8,4"
-					Style="{StaticResource CloseButtonItemStyle}"
-					Content="{x:Static properties:Resources.Close}">
-				<i:Interaction.Triggers>
-					<i:EventTrigger EventName="Click">
-						<i:CallMethodAction TargetObject="{Binding}"
-											MethodName="CloseApp"/>
-					</i:EventTrigger>
-				</i:Interaction.Triggers>
-			</Button>
-		</ContentControl>
-	</StackPanel>
+	</ScrollViewer>
 
 	<i:Interaction.Behaviors>
 		<behaviors:FocusMenuBehavior/>

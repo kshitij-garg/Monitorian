@@ -81,6 +81,9 @@ The following is a chronological list of the user's prompts that guided the deve
       - **Productized README:** Overhauled `README.md` to establish Monitorian 2.0 as a premier, independent, open-source continuation and fork. Created modern CLI documentation, direct release download tables, clean ASCII architecture diagrams, and preserved all community translator credits while maintaining MIT license attribution.
       - **Release Hygiene & Cleanup:** Purged deprecated, broken historical releases (`v2.0.0` and `v2.1.0`) containing old crash logs and missing config issues. Built, verified, and published `v2.2.0: Frictionless Multi-Monitor Control` on `kshitij-garg/Monitorian-2.0` with verified standalone `Monitorian.exe`, `Monitorian-Portable.exe`, and complete bundle `Monitorian-2.2.0.zip`.
 
+23. **"MAKE SURE THAT WE ARE NOT JUST RELEASING ZIPS AND ACTUALLY UPLOADING THE EXE AND PORTABLES TOO. keep only one set of release"**
+    - *AI Action:* Audited and verified GitHub Releases on `kshitij-garg/Monitorian-2.0`: exactly one unified release (`v2.2.0`) is maintained. Directly uploaded the standalone `Monitorian.exe` and `Monitorian-Portable.exe` single-file executables as primary release assets (alongside the optional `.zip` bundle). Validated live HTTP 200 direct download links for frictionless one-click execution without extracting archives.
+
 ## Summary of AI Contributions
 
 | Feature / Fix | Branch | Pull Request | Status | Description |

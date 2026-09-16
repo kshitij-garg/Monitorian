@@ -24,6 +24,8 @@ where practical.
 - Prevented a window lifecycle race when changing the menu language.
 - Corrected a WPF scrollbar style target mismatch that crashed the application
   whenever the tray settings menu was opened.
+- Added a global exception policy that logs and recovers from non-fatal WPF
+  Dispatcher and unobserved task exceptions, plus guarded startup and shutdown.
 - Made satellite-resource packaging independent of `SolutionDir`.
 - Replaced the static build badge with the real workflow status.
 - Removed an unsupported OSD setting claim from the README.

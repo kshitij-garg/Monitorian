@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -136,13 +138,14 @@ public class AppKeeper
 	private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
 	{
 		OnException(sender, e.Exception, nameof(Application.DispatcherUnhandledException));
-		//e.Handled = true;
+		e.Handled = IsRecoverableException(e.Exception);
 	}
 
 	private void OnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
 	{
 		OnException(sender, e.Exception, nameof(TaskScheduler.UnobservedTaskException));
-		//e.SetObserved();
+		if (IsRecoverableException(e.Exception))
+			e.SetObserved();
 	}
 
 	private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -152,10 +155,34 @@ public class AppKeeper
 
 	private void OnException(object sender, Exception exception, string exceptionName)
 	{
-		if (ConsoleService.WriteLine(exception, exceptionName))
-			return;
+		try
+		{
+			if (ConsoleService.WriteLine(exception, exceptionName))
+				return;
 
-		Logger.SaveException(exception);
+			Logger.SaveException(exception);
+		}
+		catch (Exception reportingException) when (IsRecoverableException(reportingException))
+		{
+			Trace.WriteLine($"Failed to report {exceptionName}.{Environment.NewLine}{reportingException}");
+		}
+	}
+
+	public static bool IsRecoverableException(Exception exception)
+	{
+		if (exception is null)
+			return false;
+
+		if (exception is AggregateException aggregate)
+			return aggregate.Flatten().InnerExceptions.All(IsRecoverableException);
+
+		return exception is not OutOfMemoryException
+			and not StackOverflowException
+			and not AccessViolationException
+			and not AppDomainUnloadedException
+			and not BadImageFormatException
+			and not CannotUnloadAppDomainException
+			and not SEHException;
 	}
 
 	#endregion

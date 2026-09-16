@@ -150,6 +150,12 @@ The following is a chronological list of the user's prompts that guided the deve
       - **WPF Style Fix:** Added a correctly typed `PlainScrollViewerStyle` that applies the custom scrollbar style through nested resources, then updated both invalid usages.
       - **Regression Guard:** Extended CI validation to reject any future direct application of `PlainScrollBarStyle` to a `ScrollViewer`.
 
+33. **"can you add proper error handling. i dont want the app to crash"**
+    - *AI Action:*
+      - **Recovery Policy:** Enabled recovery for non-fatal WPF Dispatcher exceptions and observation of recoverable background task failures while preserving fail-fast behavior for corrupted-process conditions.
+      - **Safe Reporting:** Protected exception logging itself so a reporting failure cannot trigger a secondary crash.
+      - **Lifecycle Guards:** Added graceful startup and shutdown exception handling and unit tests that distinguish recoverable application failures from fatal runtime exceptions.
+
 ## Summary of AI Contributions
 
 | Feature / Fix | Branch | Pull Request | Status | Description |
@@ -157,6 +163,7 @@ The following is a chronological list of the user's prompts that guided the deve
 | **Release v2.3.0 Preparation** | `master` | N/A | Completed | Added crash fixes, expanded CLI behavior, CI/security automation, versioned artifacts, checksums, tests, and release documentation. |
 | **Language Switch Stability** | `master` | N/A | Completed | Removed the asynchronous menu teardown race and redundant culture switching. |
 | **Tray Menu Crash Fix** | `master` | N/A | Completed | Corrected the WPF ScrollBar/ScrollViewer style mismatch found in the runtime exception log. |
+| **Application Error Recovery** | `master` | N/A | Completed | Added non-fatal Dispatcher/task recovery, safe exception reporting, guarded startup/shutdown, and policy tests. |
 | **Windows CI & Security** | `master` | N/A | Completed | Added Debug/Release builds, tests, localization and package validation, CodeQL, and Dependabot. |
 | **In-App Language Selector & Menu Revamp** | `master` | N/A | Completed | Revamped right-click menu into structured categories; added dark-mode language picker with real-time switching across all 28 languages and persistent settings storage. |
 | **Top 5 Indian Languages Localization** | `master` | N/A | Completed | Added native localization for Hindi, Bengali, Marathi, Telugu, and Tamil. Embedded in single-file executables and synced all 28 satellite directories. |

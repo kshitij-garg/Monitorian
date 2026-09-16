@@ -12,7 +12,7 @@ namespace Monitorian.Core.Models;
 
 public static class AppDataService
 {
-	public static bool IsPortable { get; private set; }
+	private const string PortableFileName = "portable.ini";
 
 	public static string FolderPath
 	{
@@ -22,10 +22,10 @@ public static class AppDataService
 			{
 				var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 				var exeName = Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()?.Location ?? "");
-				if (File.Exists(Path.Combine(baseDirectory, "portable.ini")) || 
-				    exeName.IndexOf("Portable", StringComparison.OrdinalIgnoreCase) >= 0)
+				if ((File.Exists(Path.Combine(baseDirectory, PortableFileName)) || 
+				     exeName.IndexOf("Portable", StringComparison.OrdinalIgnoreCase) >= 0) &&
+				    CheckWritable(baseDirectory))
 				{
-					IsPortable = true;
 					_folderPath = baseDirectory;
 				}
 				else
@@ -37,6 +37,20 @@ public static class AppDataService
 		}
 	}
 	private static string _folderPath;
+
+	private static bool CheckWritable(string folderPath)
+	{
+		try
+		{
+			var testFile = Path.Combine(folderPath, Path.GetRandomFileName());
+			using (File.Create(testFile, 1, FileOptions.DeleteOnClose)) { }
+			return true;
+		}
+		catch
+		{
+			return false;
+		}
+	}
 
 	public static string EnsureFolderPath()
 	{

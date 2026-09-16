@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Configuration;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -52,16 +52,25 @@ public static class ProductInfo
 	/// <summary>
 	/// Startup task ID
 	/// </summary>
-	public static string StartupTaskId => GetAppSettings();
+	public static string StartupTaskId => GetAppSettings() ?? "MonitorianStartupTask";
 
 	/// <summary>
 	/// Project Url
 	/// </summary>
-	public static string ProjectUrl => GetAppSettings();
+	public static string ProjectUrl => GetAppSettings() ?? "https://github.com/emoacht/Monitorian";
 
 	private static TAttribute GetAttribute<TAttribute>(this Assembly assembly) where TAttribute : Attribute =>
 		(TAttribute)Attribute.GetCustomAttribute(assembly, typeof(TAttribute));
 
-	private static string GetAppSettings([CallerMemberName] string key = null) =>
-		ConfigurationManager.AppSettings[key];
+	private static string GetAppSettings([CallerMemberName] string key = null)
+	{
+		try
+		{
+			return ConfigurationManager.AppSettings[key];
+		}
+		catch
+		{
+			return null;
+		}
+	}
 }

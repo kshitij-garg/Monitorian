@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -35,7 +35,7 @@ public class StartupAgent : IDisposable
 		if (string.IsNullOrWhiteSpace(name))
 			throw new ArgumentNullException(nameof(name));
 		if (string.IsNullOrWhiteSpace(startupTaskId))
-			throw new ArgumentNullException(nameof(startupTaskId));
+			startupTaskId = $"{name}StartupTask";
 
 		_holder = new PipeHolder(name, null);
 		var (created, started, response) = _holder.Create(forwardingArguments?.ToArray());

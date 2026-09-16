@@ -405,7 +405,7 @@ public class AppControllerCore
 			 (e is SessionSwitchCountEventArgs sw && sw.Data == Microsoft.Win32.SessionSwitchReason.SessionUnlock)))
 		{
 			// Give DDC/CI hardware a brief moment to reconnect before pushing brightness commands
-			Task.Run(async () =>
+			_ = Task.Run(async () =>
 			{
 				await Task.Delay(2000);
 				foreach (var m in Monitors)

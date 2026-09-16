@@ -104,7 +104,7 @@ internal static class CommandLineService
 			return false;
 		}
 
-		var valueText = operands[^1];
+		var valueText = operands[operands.Count - 1];
 		if (!int.TryParse(valueText, NumberStyles.Integer, CultureInfo.InvariantCulture, out var value))
 		{
 			error = $"Invalid value '{valueText}'.";

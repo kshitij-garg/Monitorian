@@ -1,4 +1,4 @@
-# Monitorian 2.0
+# Monitorian 2.0 — v2.3.0
 
 ![Monitorian 2.0 Banner](.github/social_preview.jpg)
 
@@ -7,12 +7,24 @@
 [![Main Contributor](https://img.shields.io/badge/main%20contributor-kshitij--garg-orange?style=for-the-badge)](https://github.com/kshitij-garg)
 [![License](https://img.shields.io/github/license/kshitij-garg/Monitorian-2.0?style=for-the-badge)](LICENSE.txt)
 [![Windows CI](https://github.com/kshitij-garg/Monitorian-2.0/actions/workflows/ci.yml/badge.svg)](https://github.com/kshitij-garg/Monitorian-2.0/actions/workflows/ci.yml)
+[![Source Version](https://img.shields.io/badge/source-v2.3.0-7b2cbf?style=for-the-badge)](CHANGELOG.md)
 
 **Monitorian 2.0** is an open-source Windows desktop utility to adjust the brightness and contrast of multiple monitors with ease. Developed and maintained by **[kshitij-garg](https://github.com/kshitij-garg)** (Main Contributor) as an enhanced continuation and independent fork of Monitorian, version 2.0 introduces community-requested quality-of-life improvements with absolute zero friction: a free native CLI engine, tray scroll OSD, automatic brightness restore on wake, full localization across 28 languages (including top Indian languages), and true single-file portable execution.
 
 ---
 
-## Direct Downloads
+## What's new in v2.3.0
+
+- Fixed the crash-prone menu lifecycle when changing languages.
+- Added monitor-targeted CLI commands, relative brightness changes, and contrast get/set support.
+- Added Debug and Release CI builds, tests, localization validation, startup smoke tests, and reproducible release artifacts.
+- Added CodeQL security scanning, Dependabot, governance templates, checksums, and release documentation.
+
+The v2.3.0 source and validated GitHub build are available now. The download links below continue to point to the latest published GitHub release until v2.3.0 is formally published.
+
+---
+
+## Latest Published Release Downloads
 
 No installer or administrator privileges required. Download and run directly:
 
@@ -24,7 +36,7 @@ No installer or administrator privileges required. Download and run directly:
 
 ---
 
-## What's New in Monitorian 2.0
+## Monitorian 2.0 highlights
 
 ![Monitorian 2.0 Interface](Images/ui_main_window.jpg)
 

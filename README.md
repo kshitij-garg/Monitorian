@@ -25,17 +25,7 @@ No installer or administrator privileges required. Download and run directly:
 
 ## What's New in Monitorian 2.0
 
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                          MONITORIAN 2.0                                │
-│                                                                        │
-│   [Free CLI Engine]        [Tray Scroll OSD]       [Restore on Wake]   │
-│   Native /get & /set       Hover & wheel adjust    Auto-reapply level  │
-│                                                                        │
-│   [Single-File Executable] [Zero-Config Portable]  [Exposed Settings]  │
-│   No external DLLs needed  Zero AppData footprint  Direct UI controls  │
-└────────────────────────────────────────────────────────────────────────┘
-```
+![Monitorian 2.0 Interface](Images/ui_main_window.jpg)
 
 ### Key Highlights
 
@@ -50,9 +40,19 @@ No installer or administrator privileges required. Download and run directly:
 
 ---
 
+## Tray Icon Scroll & Windows 11 OSD
+
+![Tray Icon Scroll OSD](Images/ui_scroll_osd.jpg)
+
+Hover your cursor over the Monitorian notification area icon in the taskbar and scroll your mouse wheel to smoothly adjust brightness up or down. A floating translucent acrylic On-Screen Display (OSD) pill provides immediate visual feedback with your active brightness percentage and current theme styling.
+
+---
+
 ## Command-Line Interface (CLI) Quick Reference
 
-Monitorian 2.0 provides native command-line control for scripting, batch operations, Task Scheduler, and third-party launchers (e.g. Stream Deck, AutoHotkey).
+![Native CLI Engine Terminal](Images/ui_cli_terminal.jpg)
+
+Monitorian 2.0 includes a free, fully open-source native command-line interface. Automate brightness profiles, integrate with Elgato Stream Deck, AutoHotkey, PowerShell scripts, or Windows Task Scheduler with zero friction.
 
 ### Common Commands
 
@@ -90,7 +90,21 @@ Monitorian.exe /set contrast "LG UltraGear" 55
 
 ---
 
+## Exposed UI Settings & Wake Restoration
+
+![Settings Flyout Menu](Images/ui_settings_flyout.jpg)
+
+Power-user settings previously tucked behind hidden command-line flags are now directly available via intuitive toggle switches in the Settings menu:
+
+- **Restore brightness on display wake**: Automatically re-applies your chosen brightness levels after the system wakes from sleep or screen timeout.
+- **Tray icon mouse wheel scroll**: Quickly enable or disable notification icon scrolling.
+- **Show OSD overlay on adjustment**: Toggle the floating on-screen display on or off according to preference.
+
+---
+
 ## Portable Mode Execution
+
+![Zero-Config Portable Workflow](Images/ui_portable_workflow.jpg)
 
 Monitorian 2.0 provides two convenient ways to run portably without leaving data in your user profile:
 

@@ -90,8 +90,7 @@ public class AppControllerCore
 
 		if (StartupAgent.IsWindowShowExpected() && AppKeeper.ForwardingArguments.Count == 0)
 		{
-			mainWindow.CursorLocation = CursorHelper.GetCursorLocation();
-			mainWindow.Show();
+			ShowMainWindow(true);
 		}
 
 		await ScanAsync();
@@ -305,11 +304,18 @@ public class AppControllerCore
 
 	protected async void OnMainWindowShowRequestedByOther(object sender, EventArgs e)
 	{
-		_current.Dispatcher.Invoke(() => ShowMainWindow(true));
-		await CheckUpdateAsync();
+		try
+		{
+			_current.Dispatcher.Invoke(() => ShowMainWindow(true));
+			await CheckUpdateAsync();
 
-		if (_brightnessConnector.IsEnabled)
-			await _brightnessConnector.ConnectAsync(true);
+			if (_brightnessConnector.IsEnabled)
+				await _brightnessConnector.ConnectAsync(true);
+		}
+		catch (Exception ex)
+		{
+			Logger.SaveException(ex);
+		}
 	}
 
 	protected void OnMenuWindowShowRequested(object sender, Point e)
@@ -325,6 +331,7 @@ public class AppControllerCore
 
 		window.CursorLocation = useCursorLocation ? CursorHelper.GetCursorLocation() : null;
 		window.ShowForeground();
+		WindowHelper.EnsureForegroundWindow(window);
 		window.Activate();
 	}
 

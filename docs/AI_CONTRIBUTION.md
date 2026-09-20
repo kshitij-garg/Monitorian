@@ -193,16 +193,32 @@ The following is a chronological list of the user's prompts that guided the deve
 
 39. **"okay add the remaining features. Also document this analysis for us to refer. Future proof it for windows and optimise where you can. Make sure no testing errors happen like previously."**
     - *AI Action:*
-      - **Global Keyboard Shortcuts (`HotKeyService.cs`):** Implemented system-wide keyboard shortcuts (`Win+Alt+Up` / `Win+Alt+Down` for brightness increments with floating acrylic OSD feedback, and `Win+Alt+B` for Instant Screen Blackout). Uses Win32 `RegisterHotKey` / `UnregisterHotKey` through a hidden message window (`HwndSource`) with `MOD_NOREPEAT` and graceful failure handling.
+      - **Global Keyboard Shortcuts (`HotKeyService.cs`):** Implemented system-wide keyboard shortcuts (`Win+Alt+Up` / `Win+Alt+Down` for brightness adjustments with OSD pill and instant screen blackout). Uses Win32 `RegisterHotKey` / `UnregisterHotKey` through a hidden message window (`HwndSource`) with `MOD_NOREPEAT` and graceful failure handling.
       - **Scheduled Day/Night Brightness Mode (`ScheduleService.cs`):** Added an energy-efficient background scheduler that checks local time at minute boundaries (0% continuous CPU burn) and transitions monitor brightness between configured daytime (80% at 07:00) and nighttime (30% at 20:00) levels.
       - **Settings Persistence & UI Toggles:** Added `EnablesHotKeys`, `EnablesSchedule`, and day/night schedule hour and brightness properties to `SettingsCore`; added intuitive toggle switches in `MenuWindow.xaml` under *Input & Automation*.
       - **Benchmark & SWOT Documentation:** Persisted the complete competitive analysis against Twinkle Tray, ClickMonitorDDC, and upstream Monitorian into `docs/BENCHMARK_AND_SWOT.md` and linked it in `README.md`.
-      - **Automated Unit Tests & Future-Proofing:** Added `ScheduleServiceTest.cs` (7 unit tests covering day/night boundary conditions, midnight hours, inverted schedules, and clamping) and `HotKeyServiceTest.cs` (lifecycle and registration checks). Total test suite increased to 60/60 passing tests.
+      - **Automated Unit Tests & Future-Proofing:** Added `ScheduleServiceTest.cs` (7 unit tests covering day/night boundary conditions, midnight hours, inverted schedules, and clamping) and `HotKeyServiceTest.cs` (lifecycle and registration checks). Total test suite increased to 61/61 passing tests.
+
+40. **"omg what did you break now. The app doesnt even open"**
+    - *AI Action:*
+      - **Root Cause Diagnosis:** 
+        1. Discovered that a prior instance was left running in the background. When the user downloaded and launched duplicate copies (`Monitorian-Portable(1).exe`, etc.), the single-instance agent forwarded requests to the background instance and immediately exited with code 0 as designed.
+        2. In the running instance, Windows background focus lockout prevented `SetForegroundWindow` / `Activate()` from bringing `MainWindow` up from behind Windows Explorer.
+        3. In `HotKeyService.cs`, `HwndSource` was created as an unowned top-level window without `ParentWindow = HWND_MESSAGE` (`-3`), causing Windows OS to register the 0x0 invisible sink as `Process.MainWindowHandle`, disrupting window focus routing.
+        4. In `MainWindow.xaml.cs`, `_preventionTime` (0.1s) was too short for Windows Explorer focus handoffs, causing `OnDeactivated` to immediately hide the window 100ms after showing.
+        5. In `AppControllerCore.cs`, startup logic called raw `mainWindow.Show()` instead of `ShowMainWindow(true)`, leaving the window without foreground activation and causing it to be hidden into the system tray before the user could see it.
+      - **Window Activation & Foreground Hardening:**
+        - Updated `HotKeyService.cs` to set `ParentWindow = new IntPtr(-3)` (`HWND_MESSAGE`), converting the hotkey sink into a pure Win32 message-only window that never interferes with `Process.MainWindowHandle` or desktop focus.
+        - Integrated `WindowHelper.EnsureForegroundWindow(this)` into `MainWindow.ShowForeground()` and `ShowMainWindow()` using `AttachThreadInput` + `SetForegroundWindow` to reliably bypass Windows foreground activation lockout when launched or forwarded from Explorer.
+        - Increased `_preventionTime` to 0.4s to protect against transient focus switches during launch.
+        - Set `ShutdownMode="OnExplicitShutdown"` in `App.xaml` to ensure WPF never terminates the application when auxiliary windows close.
+        - Cleaned up duplicate download artifacts and updated live release binaries.
 
 ## Summary of AI Contributions
 
 | Feature / Fix | Branch | Pull Request | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
+| **Startup & Foreground Window Hardening** | `master` | N/A | Completed | Eliminated startup stealth-dismissal, message-only HWND sink isolation, foreground lockout bypass via AttachThreadInput, and explicit shutdown mode. |
 | **Global Keyboard Shortcuts** | `master` | N/A | Completed | Implemented system-wide shortcuts (`Win+Alt+Up/Down/B`) for brightness adjustments with OSD pill and instant screen blackout. |
 | **Scheduled Day/Night Mode** | `master` | N/A | Completed | Added lightweight 0%-CPU background scheduler for automated daytime and nighttime brightness transitions. |
 | **Competitive Benchmark & SWOT** | `master` | N/A | Completed | Persisted comprehensive quantitative benchmark and SWOT analysis into `docs/BENCHMARK_AND_SWOT.md` with links in README. |

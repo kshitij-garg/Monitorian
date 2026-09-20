@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 using Monitorian.Core.Models;
 using Monitorian.Core.ViewModels;
+using ScreenFrame;
 using ScreenFrame.Movers;
 
 namespace Monitorian.Core.Views;
@@ -67,6 +68,8 @@ public partial class MainWindow : Window
 
 			base.Show();
 
+			WindowHelper.EnsureForegroundWindow(this);
+
 			if (currentFocusedElement is not null)
 			{
 				var restoredFocusedElement = FocusManager.GetFocusedElement(this);
@@ -75,7 +78,7 @@ public partial class MainWindow : Window
 			}
 
 			// Set time to prevent hiding procedure from being triggered.
-			_preventionTime = DateTimeOffset.Now + TimeSpan.FromSeconds(0.1);
+			_preventionTime = DateTimeOffset.Now + TimeSpan.FromSeconds(0.4);
 		}
 		catch (ArgumentException ex) when ((uint)ex.HResult is 0x80070057)
 		{

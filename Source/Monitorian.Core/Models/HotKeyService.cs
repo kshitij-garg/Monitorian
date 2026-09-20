@@ -112,6 +112,7 @@ public class HotKeyService : IDisposable
 			Width = 0,
 			Height = 0,
 			WindowStyle = 0,
+			ParentWindow = new IntPtr(-3), // HWND_MESSAGE
 			HwndSourceHook = HwndHook
 		};
 

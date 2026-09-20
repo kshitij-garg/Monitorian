@@ -1,6 +1,10 @@
-﻿## Commands by Command-line Options
+## Commands by Command-line Options
 
-Commands are one of command-line options available as add-on features of Microsoft Store version.
+> [!TIP]
+> **Looking for Direct Command-Line Automation?**
+> Monitorian 2.0 includes a free built-in **Native CLI Engine** for real-time scripting without JSON configuration files. See the [README CLI Quick Reference](../README.md#command-line-interface-cli-quick-reference) for syntax such as `Monitorian.exe /get` and `Monitorian.exe /set 50`.
+>
+> The documentation below describes the optional JSON-based conditional, time, and key trigger rules.
 
 - [Conditional Commands](#conditional-commands)
 - [Time Commands](#time-commands)
@@ -456,10 +460,7 @@ monitorian /load [file path of JSON file enclosed in quotes]
 
 The commands of different types (conditional, time, key) can be stored in one array. Loading new commands will replace all previously loaded ones of the same type.
 
-After loading the commands, you can browse the loaded commands in Command Settings which will appear in menu window.
-
-![Screenshot](../Images/Screenshot_commands.png)<br>
-(Device Instance IDs are dummy)
+After loading the commands, you can browse the loaded commands in Command Settings which will appear in the menu window.
 
 You can unload all loaded commands using `/unload` option.
 

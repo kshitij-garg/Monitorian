@@ -3,7 +3,7 @@
 Notable changes are documented here. This project follows semantic versioning
 where practical.
 
-## 2.3.0 - 2026-09-16
+## 2.3.0 - 2026-09-20
 
 ### Added
 
@@ -26,6 +26,8 @@ where practical.
   whenever the tray settings menu was opened.
 - Added a global exception policy that logs and recovers from non-fatal WPF
   Dispatcher and unobserved task exceptions, plus guarded startup and shutdown.
+- Hardened `ProductInfo` reflection with executing-assembly fallbacks and null-safe
+  attribute queries to prevent `NullReferenceException` in headless or test runners.
 - Made satellite-resource packaging independent of `SolutionDir`.
 - Replaced the static build badge with the real workflow status.
 - Removed an unsupported OSD setting claim from the README.

@@ -15,12 +15,14 @@
 
 ## What's new in v2.3.0
 
-- Fixed the crash-prone menu lifecycle when changing languages.
-- Added monitor-targeted CLI commands, relative brightness changes, and contrast get/set support.
-- Added Debug and Release CI builds, tests, localization validation, startup smoke tests, and reproducible release artifacts.
-- Added CodeQL security scanning, Dependabot, governance templates, checksums, and release documentation.
+- **Tray Menu Crash Resolved:** Corrected the WPF scrollbar target mismatch that caused 100% crashes when opening the right-click tray settings menu.
+- **Application Error Recovery:** Added a global exception policy that logs and recovers from non-fatal Dispatcher and background task failures without terminating the process.
+- **Safe Assembly Reflection:** Hardened `ProductInfo` with fallback mechanisms to prevent `NullReferenceException` when invoked from unmanaged hosts or test runners.
+- **Language Switch Stability:** Eliminated window lifecycle race conditions when dynamically switching between any of the 28 languages.
+- **Extended CLI Automation:** Added monitor-targeted commands by name or device ID, relative brightness steps (`+10`, `-10`), and contrast get/set support.
+- **CI/CD & Security:** Added automated Windows CI (Debug/Release, 47 unit tests, localization verification, startup smoke tests), CodeQL security scanning, Dependabot, and reproducible release packaging.
 
-The v2.3.0 source and validated GitHub build are available now. The download links below continue to point to the latest published GitHub release until v2.3.0 is formally published.
+The v2.3.0 release is now live and published on GitHub Releases. Direct download links below deliver the latest verified standalone executables.
 
 ---
 

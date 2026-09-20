@@ -176,12 +176,18 @@ The following is a chronological list of the user's prompts that guided the deve
       - **Blackout Service Engine:** Implemented `BlackoutService.cs` using borderless, topmost WPF overlay windows across all connected monitors (`Screen.AllScreens`) positioned with physical-pixel `SetWindowPos` (`HWND_TOPMOST`).
       - **Frictionless Dismissal & Anti-Flicker:** Set `Cursors.None` for total screen blackout; added input dismissal on `PreviewKeyDown`, `PreviewMouseDown`, `PreviewMouseWheel`, and `MouseMove`. Included a 350ms grace period and a >10px movement threshold to prevent accidental dismissal from the mouse bounce when releasing the middle click.
       - **Settings & UI Integration:** Added persistent `EnablesMiddleClickBlackout` in `SettingsCore` (enabled by default) and added an intuitive toggle switch in `MenuWindow.xaml` under *Input & Automation*.
-      - **Automated Unit Testing & Validation:** Added `BlackoutServiceTest.cs` (4 unit tests verifying setting defaults, state transitions, toggle, and dismiss), bringing the total test suite to 51/51 passing tests. Validated compilation, localization, and startup smoke tests.
+37. **"okay now benchmark this app with other similar utilities and do a SWOT analysis"**
+    - *AI Action:*
+      - **Competitive Benchmarking:** Evaluated Monitorian 2.0 against all major Windows display management utilities: **Twinkle Tray** (Electron/Node.js), **Original Monitorian / emoacht** (.NET 4.8 / Store freemium), **ClickMonitorDDC** (abandoned Win32 C++), and **Software Dimmers** (Dimmer, CareUEyes, LightBulb).
+      - **Quantitative Comparison:** Contrasted binary size (~1.25 MB vs ~200 MB for Twinkle Tray), runtime memory footprint (~40 MB vs 140–280 MB), cold startup time (<200 ms vs 2–3.5 s), and hardware control protocols.
+      - **Comprehensive SWOT Matrix:** Synthesized Strengths (featherweight footprint, true DDC/CI, zero-paywall CLI, middle-click blackout, wake restoration), Weaknesses (Windows-only, no built-in solar schedule), Opportunities (ambient light sensing, solar schedule, global hotkeys, .NET 8/9 AOT migration), and Threats (native Windows 11 external sliders, GPU I2C quirks).
+      - **Strategic Roadmap:** Documented short-, medium-, and long-term product recommendations in `benchmark_and_swot.md`.
 
 ## Summary of AI Contributions
 
 | Feature / Fix | Branch | Pull Request | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
+| **Competitive Benchmark & SWOT** | `master` | N/A | Completed | Conducted quantitative and architectural benchmarking against Twinkle Tray, ClickMonitorDDC, and upstream Monitorian; delivered detailed SWOT analysis and strategic recommendations. |
 | **Middle-Click Instant Screen Blackout** | `master` | N/A | Completed | Added frictionless multi-monitor pitch-black screen overlay triggered by middle-clicking the tray icon, dismissed by any key, click, or mouse movement. Exposed toggle in Settings. |
 | **Documentation Audit & Sync** | `master` | N/A | Completed | Conducted a comprehensive documentation audit across all markdown files, aligned README release status and highlights with published v2.3.0, and updated changelog/commands. |
 | **Rebase & ProductInfo Hardening** | `master` | N/A | Completed | Rebased local branch onto `v2/master`, verified right-click menu fixes, added defensive entry-assembly fallbacks in `ProductInfo.cs`, and validated full test suite. |

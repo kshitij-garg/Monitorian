@@ -39,6 +39,21 @@ public class BlackoutServiceTest
 	}
 
 	[TestMethod]
+	public void SettingsDeserializationWithoutNewElementPreservesDefaults()
+	{
+		var xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><SettingsCore xmlns=\"http://schemas.datacontract.org/2004/07/Monitorian.Core.Models\"><UsesLargeElements>true</UsesLargeElements></SettingsCore>";
+		using var sr = new System.IO.StringReader(xml);
+		using var xr = System.Xml.XmlReader.Create(sr);
+		var serializer = new System.Runtime.Serialization.DataContractSerializer(typeof(SettingsCore));
+		var loaded = (SettingsCore)serializer.ReadObject(xr);
+
+		Assert.IsTrue(loaded.EnablesMiddleClickBlackout, "EnablesMiddleClickBlackout must default to true when missing from XML");
+		Assert.IsTrue(loaded.EnablesHotKeys, "EnablesHotKeys must default to true when missing from XML");
+		Assert.AreEqual(7, loaded.ScheduleDayHour, "ScheduleDayHour must default to 7 when missing from XML");
+		Assert.AreEqual(20, loaded.ScheduleNightHour, "ScheduleNightHour must default to 20 when missing from XML");
+	}
+
+	[TestMethod]
 	public void BlackoutServiceStartsInactive()
 	{
 		Assert.IsFalse(BlackoutService.IsBlackoutActive);

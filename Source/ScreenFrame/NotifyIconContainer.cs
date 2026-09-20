@@ -83,6 +83,9 @@ public class NotifyIconContainer : IDisposable
 		NotifyIcon = new NotifyIcon();
 		NotifyIcon.MouseClick += OnMouseClick;
 		NotifyIcon.MouseDoubleClick += OnMouseDoubleClick;
+		NotifyIcon.MouseMove += OnMouseMove;
+		NotifyIcon.MouseDown += OnMouseDown;
+		NotifyIcon.MouseUp += OnMouseUp;
 
 		// The internal window of NotifyIcon seems to belong to the primary monitor and
 		// its DPI information cannot be used as is taking into account the primary taskbar which
@@ -91,6 +94,21 @@ public class NotifyIconContainer : IDisposable
 		{
 			CheckDpiChanged();
 			m.Result = IntPtr.Zero;
+		};
+
+		// Intercept the shell's tray callback message directly in WndProc to catch
+		// middle-button clicks that WinForms filters out of its MouseClick event.
+		// Note: Mask with 0xFFFF because under NOTIFYICON_VERSION_4, HIWORD(lParam) contains the icon ID.
+		Handlers[WM_TRAYMOUSEMESSAGE] = (ref Message m) =>
+		{
+			var msg = (int)m.LParam & 0xFFFF;
+			switch (msg)
+			{
+				case WM_MBUTTONDOWN:
+				case WM_MBUTTONUP:
+					FireMiddleButtonClick(this);
+					break;
+			}
 		};
 	}
 
@@ -171,6 +189,13 @@ public class NotifyIconContainer : IDisposable
 	}
 
 	private const int WM_DPICHANGED = 0x02E0;
+
+	// Shell callback message for NotifyIcon mouse events.
+	// The .NET WinForms NotifyIcon internally uses this as its uCallbackMessage.
+	// LOWORD(lParam) contains the actual mouse message (WM_LBUTTONUP, WM_MBUTTONUP, etc.).
+	private const int WM_TRAYMOUSEMESSAGE = 0x0800;
+	private const int WM_MBUTTONDOWN = 0x0207;
+	private const int WM_MBUTTONUP = 0x0208;
 
 	private void HandleDpiChanged(ref Message m)
 	{
@@ -259,7 +284,7 @@ public class NotifyIconContainer : IDisposable
 				break;
 
 			case MouseButtons.Middle:
-				MouseMiddleButtonClick?.Invoke(sender, EventArgs.Empty);
+				FireMiddleButtonClick(sender);
 				break;
 
 			case MouseButtons.Right:
@@ -280,6 +305,49 @@ public class NotifyIconContainer : IDisposable
 		MouseLeftButtonClick?.Invoke(sender, EventArgs.Empty);
 
 		CheckDpiChanged();
+	}
+
+	/// <summary>
+	/// Handles MouseDown from WinForms NotifyIcon as a path for middle-click.
+	/// </summary>
+	private void OnMouseDown(object sender, MouseEventArgs e)
+	{
+		if (e.Button == MouseButtons.Middle)
+		{
+			FireMiddleButtonClick(sender);
+		}
+	}
+
+	/// <summary>
+	/// Handles MouseUp from WinForms NotifyIcon as a backup path for middle-click.
+	/// On some Windows versions/builds, MouseUp fires for middle button even when MouseClick doesn't.
+	/// </summary>
+	private void OnMouseUp(object sender, MouseEventArgs e)
+	{
+		if (e.Button == MouseButtons.Middle)
+		{
+			FireMiddleButtonClick(sender);
+		}
+	}
+
+	/// <summary>
+	/// Timestamp of the last middle-button click firing, used to deduplicate
+	/// events arriving from multiple paths (WndProc, MouseUp, overlay window).
+	/// </summary>
+	private DateTime _lastMiddleClickTime = DateTime.MinValue;
+	private const double MiddleClickDedupMs = 500;
+
+	/// <summary>
+	/// Fires the MouseMiddleButtonClick event with deduplication guard.
+	/// </summary>
+	private void FireMiddleButtonClick(object sender)
+	{
+		var now = DateTime.UtcNow;
+		if ((now - _lastMiddleClickTime).TotalMilliseconds < MiddleClickDedupMs)
+			return;
+
+		_lastMiddleClickTime = now;
+		MouseMiddleButtonClick?.Invoke(sender, EventArgs.Empty);
 	}
 
 	#endregion
@@ -356,6 +424,7 @@ public class NotifyIconContainer : IDisposable
 				Height = 1,
 			};
 
+			_window.MouseDown += OnWindowMouseDown;
 			_window.MouseUp += OnWindowMouseUp;
 			_window.MouseDoubleClick += OnWindowMouseDoubleClick;
 			_window.MouseWheel += OnWindowMouseWheel;
@@ -392,15 +461,31 @@ public class NotifyIconContainer : IDisposable
 			_watcher.AddHook();
 		}
 
+		void OnWindowMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			if (_window is null)
+				return;
+
+			if (e.ChangedButton == System.Windows.Input.MouseButton.Middle)
+			{
+				FireMiddleButtonClick(sender);
+			}
+		}
+
 		void OnWindowMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			if (_window is null)
 				return;
 
+			if (e.ChangedButton == System.Windows.Input.MouseButton.Middle)
+			{
+				FireMiddleButtonClick(sender);
+				return;
+			}
+
 			var button = e.ChangedButton switch
 			{
 				System.Windows.Input.MouseButton.Left => MouseButtons.Left,
-				System.Windows.Input.MouseButton.Middle => MouseButtons.Middle,
 				System.Windows.Input.MouseButton.Right => MouseButtons.Right,
 				_ => default
 			};
@@ -439,6 +524,7 @@ public class NotifyIconContainer : IDisposable
 			_window = null;
 
 			var window = (Window)sender;
+			window.MouseDown -= OnWindowMouseDown;
 			window.MouseUp -= OnWindowMouseUp;
 			window.MouseDoubleClick -= OnWindowMouseDoubleClick;
 			window.MouseWheel -= OnWindowMouseWheel;

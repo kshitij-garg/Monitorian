@@ -303,7 +303,30 @@ public class SettingsCore : BindableBase
 	private string _fileName = SettingsFileName;
 
 	public SettingsCore()
-	{ }
+	{
+		SetDefaultValues();
+	}
+
+	[OnDeserializing]
+	private void OnDeserializing(StreamingContext context)
+	{
+		SetDefaultValues();
+	}
+
+	private void SetDefaultValues()
+	{
+		_usesLargeElements = true;
+		_showsAdjusted = true;
+		_sortsArrangement = true;
+		_restoresBrightnessOnWake = true;
+		_enablesIconWheel = true;
+		_enablesMiddleClickBlackout = true;
+		_enablesHotKeys = true;
+		_scheduleDayHour = 7;
+		_scheduleNightHour = 20;
+		_scheduleDayBrightness = 80;
+		_scheduleNightBrightness = 30;
+	}
 
 	private Throttle _save;
 

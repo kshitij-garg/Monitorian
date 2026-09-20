@@ -214,10 +214,29 @@ The following is a chronological list of the user's prompts that guided the deve
         - Set `ShutdownMode="OnExplicitShutdown"` in `App.xaml` to ensure WPF never terminates the application when auxiliary windows close.
         - Cleaned up duplicate download artifacts and updated live release binaries.
 
+41. **"okay it works but nothing happening when i middle click on tray icon. check logs" / "reccheck"**
+    - *AI Action:*
+      - **Root Cause 1: Settings Deserialization Default Loss:** `DataContractSerializer` allocates uninitialized objects without calling constructors or field initializers. When reading existing `settings.xml` configurations lacking `<EnablesMiddleClickBlackout>`, `_enablesMiddleClickBlackout` defaulted to `false` in memory. `AppDataService.Load` copied this `false` into `Settings.EnablesMiddleClickBlackout`, disabling the feature on any machine upgrading with existing settings.
+      - **Root Cause 2: Windows 11 Tray Middle-Click Interception:** On modern Windows 11 builds, the XAML taskbar shell frequently swallows or redirects middle-click events on notification tray icons, preventing WinForms `NotifyIcon.MouseClick` from firing.
+      - **Root Cause 3: Running Instance Conflict:** The user had an active background process (`Monitorian-Portable.exe` PID 19696 in `Downloads`) running an earlier build lacking the fixes.
+      - **Multi-Layered Event Interception ([`NotifyIconContainer.cs`](file:///d:/Coding/Monitorian/Source/ScreenFrame/NotifyIconContainer.cs)):**
+        - **Layer 1 (WPF Overlay):** Hooked both `MouseDown` and `MouseUp` for `MouseButton.Middle` directly on the transparent topmost overlay window positioned over the tray icon.
+        - **Layer 2 (WinForms Events):** Attached `MouseDown`, `MouseUp`, and `MouseClick` handlers for `MouseButtons.Middle`.
+        - **Layer 3 (Low-Level WndProc):** Hooked `WM_TRAYMOUSEMESSAGE` (0x0800) in `WndProc`, masking `(int)m.LParam & 0xFFFF` to handle both `WM_MBUTTONDOWN` (0x0207) and `WM_MBUTTONUP` (0x0208) under `NOTIFYICON_VERSION_4`.
+        - **Layer 4 (Deduplication Guard):** Built a 500ms timestamp filter (`FireMiddleButtonClick`) preventing double-firing when multiple event pathways trigger.
+      - **Settings Deserialization Guard ([`SettingsCore.cs`](file:///d:/Coding/Monitorian/Source/Monitorian.Core/Models/SettingsCore.cs)):** Added `[OnDeserializing]` and `SetDefaultValues()` to initialize defaults (`EnablesMiddleClickBlackout = true`, `EnablesHotKeys = true`, day/night hours) before reading XML elements. Older configuration files now retain their true defaults upon upgrade.
+      - **Blackout Service Hardening & Diagnostics ([`BlackoutService.cs`](file:///d:/Coding/Monitorian/Source/Monitorian.Core/Models/BlackoutService.cs)):**
+        - Ensured thread-safe UI Dispatcher execution for `Show()`, `Dismiss()`, and `Toggle()`.
+        - Increased mouse dismissal grace period to 500ms and threshold to 16px to prevent optical sensor jitter from prematurely dismissing the blackout.
+        - Applied `WindowHelper.EnsureForegroundWindow` for guaranteed focus and keyboard capture.
+        - Added diagnostic event logging to `OperationRecorder`.
+      - **Verification & Deployment:** Added automated unit test `SettingsDeserializationWithoutNewElementPreservesDefaults` in `BlackoutServiceTest.cs` (62/62 tests passing). Recompiled Release build, passed localized startup and CLI smoke tests, updated `C:\Users\Garg\Downloads\Monitorian-Portable.exe`, and restarted the live process.
+
 ## Summary of AI Contributions
 
-| Feature / Fix | Branch | Pull Request | Status | Description |
+| Feature / Fix | Branch | PR | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
+| **Middle-Click Tray Blackout & Settings Fix** | `master` | N/A | Completed | Solved settings deserialization default loss via `[OnDeserializing]`, added multi-layered middle-click detection (WPF overlay, WinForms MouseDown/Up, low-level WndProc mask), 500ms deduplication, and blackout dismissal jitter resistance. |
 | **Startup & Foreground Window Hardening** | `master` | N/A | Completed | Eliminated startup stealth-dismissal, message-only HWND sink isolation, foreground lockout bypass via AttachThreadInput, and explicit shutdown mode. |
 | **Global Keyboard Shortcuts** | `master` | N/A | Completed | Implemented system-wide shortcuts (`Win+Alt+Up/Down/B`) for brightness adjustments with OSD pill and instant screen blackout. |
 | **Scheduled Day/Night Mode** | `master` | N/A | Completed | Added lightweight 0%-CPU background scheduler for automated daytime and nighttime brightness transitions. |

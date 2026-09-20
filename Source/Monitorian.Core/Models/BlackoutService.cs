@@ -50,8 +50,8 @@ public static class BlackoutService
 	private static readonly List<Window> _windows = [];
 	private static POINT _initialCursorPos;
 	private static DateTime _activatedTime;
-	private const double GracePeriodMs = 350;
-	private const int MoveThresholdPx = 10;
+	private const double GracePeriodMs = 500;
+	private const int MoveThresholdPx = 16;
 
 	public static bool IsBlackoutActive => _windows.Count > 0;
 
@@ -59,6 +59,12 @@ public static class BlackoutService
 
 	public static void Toggle()
 	{
+		if (Application.Current?.Dispatcher is { } dispatcher && !dispatcher.CheckAccess())
+		{
+			dispatcher.Invoke(Toggle);
+			return;
+		}
+
 		if (IsBlackoutActive)
 		{
 			Dismiss();
@@ -71,6 +77,12 @@ public static class BlackoutService
 
 	public static void Show()
 	{
+		if (Application.Current?.Dispatcher is { } dispatcher && !dispatcher.CheckAccess())
+		{
+			dispatcher.Invoke(Show);
+			return;
+		}
+
 		if (IsBlackoutActive)
 			return;
 
@@ -80,6 +92,8 @@ public static class BlackoutService
 		var screens = System.Windows.Forms.Screen.AllScreens;
 		if (screens.Length == 0)
 			return;
+
+		_ = OperationRecorder.RecordAsync($"BlackoutService.Show: Display blackout started on {screens.Length} screen(s).");
 
 		Window primaryWindow = null;
 
@@ -129,6 +143,7 @@ public static class BlackoutService
 		{
 			primaryWindow.Focus();
 			SetForegroundWindow(new WindowInteropHelper(primaryWindow).Handle);
+			ScreenFrame.WindowHelper.EnsureForegroundWindow(primaryWindow);
 		}
 
 		BlackoutChanged?.Invoke(null, EventArgs.Empty);
@@ -136,8 +151,16 @@ public static class BlackoutService
 
 	public static void Dismiss()
 	{
+		if (Application.Current?.Dispatcher is { } dispatcher && !dispatcher.CheckAccess())
+		{
+			dispatcher.Invoke(Dismiss);
+			return;
+		}
+
 		if (!IsBlackoutActive)
 			return;
+
+		_ = OperationRecorder.RecordAsync("BlackoutService.Dismiss: Display blackout dismissed.");
 
 		var windowsToClose = _windows.ToArray();
 		_windows.Clear();

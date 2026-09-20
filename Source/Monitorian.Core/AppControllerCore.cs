@@ -103,8 +103,9 @@ public class AppControllerCore
 
 		NotifyIconContainer.MouseLeftButtonClick += OnMainWindowShowRequestedBySelf;
 		NotifyIconContainer.MouseRightButtonClick += OnMenuWindowShowRequested;
-		NotifyIconContainer.MouseMiddleButtonClick += (_, _) =>
+		NotifyIconContainer.MouseMiddleButtonClick += async (_, _) =>
 		{
+			await OperationRecorder.RecordAsync($"NotifyIconContainer.MouseMiddleButtonClick fired (EnablesMiddleClickBlackout={Settings.EnablesMiddleClickBlackout})");
 			if (Settings.EnablesMiddleClickBlackout)
 				BlackoutService.Toggle();
 		};
@@ -112,8 +113,9 @@ public class AppControllerCore
 		_hotKeyService = new HotKeyService();
 		_hotKeyService.BrightnessUpRequested += () => OnHotKeyBrightnessChange(+1);
 		_hotKeyService.BrightnessDownRequested += () => OnHotKeyBrightnessChange(-1);
-		_hotKeyService.BlackoutToggleRequested += () =>
+		_hotKeyService.BlackoutToggleRequested += async () =>
 		{
+			await OperationRecorder.RecordAsync($"HotKeyService.BlackoutToggleRequested fired (EnablesMiddleClickBlackout={Settings.EnablesMiddleClickBlackout})");
 			if (Settings.EnablesMiddleClickBlackout)
 				BlackoutService.Toggle();
 		};

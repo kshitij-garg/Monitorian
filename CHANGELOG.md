@@ -27,6 +27,8 @@ where practical.
 ### Fixed
 
 - Prevented a window lifecycle race when changing the menu language.
+- Fixed middle-click tray icon blackout on Windows 11 by introducing multi-layered detection (WPF overlay window, WinForms events, and low-level shell callback message interception in WndProc) with 500ms deduplication.
+- Fixed settings deserialization default value loss in DataContractSerializer using [OnDeserializing] callback so upgrades with pre-existing settings files retain true default states.
 - Corrected a WPF scrollbar style target mismatch that crashed the application
   whenever the tray settings menu was opened.
 - Added a global exception policy that logs and recovers from non-fatal WPF

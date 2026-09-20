@@ -104,7 +104,6 @@ public static class BlackoutService
 			window.PreviewMouseDown += OnPreviewMouseDown;
 			window.PreviewMouseWheel += OnPreviewMouseWheel;
 			window.MouseMove += OnMouseMove;
-			window.Deactivated += OnDeactivated;
 
 			_windows.Add(window);
 
@@ -151,7 +150,6 @@ public static class BlackoutService
 				window.PreviewMouseDown -= OnPreviewMouseDown;
 				window.PreviewMouseWheel -= OnPreviewMouseWheel;
 				window.MouseMove -= OnMouseMove;
-				window.Deactivated -= OnDeactivated;
 				window.Close();
 			}
 			catch
@@ -170,12 +168,18 @@ public static class BlackoutService
 
 	private static void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
 	{
+		if ((DateTime.UtcNow - _activatedTime).TotalMilliseconds < GracePeriodMs)
+			return;
+
 		Dismiss();
 		e.Handled = true;
 	}
 
 	private static void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
 	{
+		if ((DateTime.UtcNow - _activatedTime).TotalMilliseconds < GracePeriodMs)
+			return;
+
 		Dismiss();
 		e.Handled = true;
 	}
@@ -183,7 +187,10 @@ public static class BlackoutService
 	private static void OnMouseMove(object sender, MouseEventArgs e)
 	{
 		if ((DateTime.UtcNow - _activatedTime).TotalMilliseconds < GracePeriodMs)
+		{
+			GetCursorPos(out _initialCursorPos);
 			return;
+		}
 
 		if (GetCursorPos(out var current))
 		{
@@ -194,11 +201,5 @@ public static class BlackoutService
 				Dismiss();
 			}
 		}
-	}
-
-	private static void OnDeactivated(object sender, EventArgs e)
-	{
-		// If blackout window loses foreground focus, dismiss safely
-		Dismiss();
 	}
 }

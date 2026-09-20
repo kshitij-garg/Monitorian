@@ -183,6 +183,14 @@ The following is a chronological list of the user's prompts that guided the deve
       - **Comprehensive SWOT Matrix:** Synthesized Strengths (featherweight footprint, true DDC/CI, zero-paywall CLI, middle-click blackout, wake restoration), Weaknesses (Windows-only, no built-in solar schedule), Opportunities (ambient light sensing, solar schedule, global hotkeys, .NET 8/9 AOT migration), and Threats (native Windows 11 external sliders, GPU I2C quirks).
       - **Strategic Roadmap:** Documented short-, medium-, and long-term product recommendations in `benchmark_and_swot.md`.
 
+38. **"i dont know how you tested but middle button press is definitely not working"**
+    - *AI Action:*
+      - **Root-Cause Investigation:** Identified that the user had downloaded and launched `Monitorian-Portable.exe` from GitHub releases prior to the release assets being updated with the middle-click feature.
+      - **Deactivation Dismissal Defect:** Discovered and eliminated a critical bug in `BlackoutService.cs`: `window.Deactivated += OnDeactivated` was causing instant dismissal on multi-monitor systems (where secondary windows receiving focus immediately deactivated primary windows) and whenever the taskbar/shell reclaimed focus after clicking the tray icon.
+      - **Grace Period Hardening:** Added the 350ms grace period to `OnPreviewMouseDown` and `OnPreviewMouseWheel` to prevent the trailing release of the middle-click from dismissing the blackout immediately; continuously updated `_initialCursorPos` during the grace period so mouse movement detection accurately triggers only on deliberate motion (>10px) after the click settles.
+      - **Foreground Management:** Prevented `SetNotifyIconWindowForeground` from being called on middle-click to avoid focus conflicts with the full-screen blackout overlay.
+      - **Release Asset Synchronization:** Rebuilt solution, passed all 51 tests, deployed fresh binary to `Downloads`, updated release packages, and uploaded updated assets directly to GitHub Release `v2.3.0`.
+
 ## Summary of AI Contributions
 
 | Feature / Fix | Branch | Pull Request | Status | Description |

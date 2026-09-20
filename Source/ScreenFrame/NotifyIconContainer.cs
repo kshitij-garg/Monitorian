@@ -251,11 +251,10 @@ public class NotifyIconContainer : IDisposable
 
 	private void OnMouseClick(object sender, MouseEventArgs e)
 	{
-		NotifyIconHelper.SetNotifyIconWindowForeground(NotifyIcon);
-
 		switch (e.Button)
 		{
 			case MouseButtons.Left:
+				NotifyIconHelper.SetNotifyIconWindowForeground(NotifyIcon);
 				MouseLeftButtonClick?.Invoke(sender, EventArgs.Empty);
 				break;
 
@@ -264,6 +263,7 @@ public class NotifyIconContainer : IDisposable
 				break;
 
 			case MouseButtons.Right:
+				NotifyIconHelper.SetNotifyIconWindowForeground(NotifyIcon);
 				// Retrieve cursor location because MouseEventArgs.Location property of MouseClick event
 				// does not contain data.
 				if (CursorHelper.TryGetCursorLocation(out Point location))

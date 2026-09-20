@@ -7,6 +7,8 @@ where practical.
 
 ### Added
 
+- Middle-click tray icon screen blackout: Instant pitch-black multi-monitor overlay for privacy and resting displays; restores immediately on any key press, mouse click, or mouse movement.
+- Configurable toggle for middle-click blackout in the settings menu under Input & Automation.
 - Windows CI for Debug and Release builds, unit tests, localization validation,
   packaging checks, and startup/CLI smoke tests.
 - Versioned GitHub build artifacts with standard and portable ZIP archives and

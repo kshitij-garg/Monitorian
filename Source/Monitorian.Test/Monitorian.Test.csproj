@@ -49,6 +49,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlackoutServiceTest.cs" />
     <Compile Include="CommandLineServiceTest.cs" />
     <Compile Include="DeviceConversionTest.cs" />
     <Compile Include="ExceptionPolicyTest.cs" />

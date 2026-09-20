@@ -102,6 +102,11 @@ public class AppControllerCore
 
 		NotifyIconContainer.MouseLeftButtonClick += OnMainWindowShowRequestedBySelf;
 		NotifyIconContainer.MouseRightButtonClick += OnMenuWindowShowRequested;
+		NotifyIconContainer.MouseMiddleButtonClick += (_, _) =>
+		{
+			if (Settings.EnablesMiddleClickBlackout)
+				BlackoutService.Toggle();
+		};
 
 		NotifyIconContainer.MouseWheel += (_, delta) =>
 		{

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Forms;
@@ -240,6 +240,11 @@ public class NotifyIconContainer : IDisposable
 	public event EventHandler MouseLeftButtonClick;
 
 	/// <summary>
+	/// Occurs when mouse middle button is clicked while mouse pointer is over NotifyIcon.
+	/// </summary>
+	public event EventHandler MouseMiddleButtonClick;
+
+	/// <summary>
 	/// Occurs when mouse right button is clicked while mouse pointer is over NotifyIcon.
 	/// </summary>
 	public event EventHandler<Point> MouseRightButtonClick;
@@ -252,6 +257,10 @@ public class NotifyIconContainer : IDisposable
 		{
 			case MouseButtons.Left:
 				MouseLeftButtonClick?.Invoke(sender, EventArgs.Empty);
+				break;
+
+			case MouseButtons.Middle:
+				MouseMiddleButtonClick?.Invoke(sender, EventArgs.Empty);
 				break;
 
 			case MouseButtons.Right:

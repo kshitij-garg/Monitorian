@@ -170,10 +170,19 @@ The following is a chronological list of the user's prompts that guided the deve
       - **CHANGELOG.md Aligned:** Documented the final v2.3.0 release date (`2026-09-20`) and added the `ProductInfo` reflection safety entry.
       - **COMMANDS.md Refined:** Added a prominent tip directing users to the built-in native Monitorian 2.0 CLI (`/get`, `/set`) and removed a broken image link.
 
+36. **"can you add a feature which makes the whole screen black if middle button is pressed on the tray icon ? i think that is very user friendly. And when any movement happens or any key is pressed, screen can come back"**
+    - *AI Action:*
+      - **Tray Middle-Click Detection:** Added `MouseMiddleButtonClick` event to `Source/ScreenFrame/NotifyIconContainer.cs`, hooked from Win32 `WM_MBUTTONUP` / `MouseButtons.Middle`.
+      - **Blackout Service Engine:** Implemented `BlackoutService.cs` using borderless, topmost WPF overlay windows across all connected monitors (`Screen.AllScreens`) positioned with physical-pixel `SetWindowPos` (`HWND_TOPMOST`).
+      - **Frictionless Dismissal & Anti-Flicker:** Set `Cursors.None` for total screen blackout; added input dismissal on `PreviewKeyDown`, `PreviewMouseDown`, `PreviewMouseWheel`, and `MouseMove`. Included a 350ms grace period and a >10px movement threshold to prevent accidental dismissal from the mouse bounce when releasing the middle click.
+      - **Settings & UI Integration:** Added persistent `EnablesMiddleClickBlackout` in `SettingsCore` (enabled by default) and added an intuitive toggle switch in `MenuWindow.xaml` under *Input & Automation*.
+      - **Automated Unit Testing & Validation:** Added `BlackoutServiceTest.cs` (4 unit tests verifying setting defaults, state transitions, toggle, and dismiss), bringing the total test suite to 51/51 passing tests. Validated compilation, localization, and startup smoke tests.
+
 ## Summary of AI Contributions
 
 | Feature / Fix | Branch | Pull Request | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
+| **Middle-Click Instant Screen Blackout** | `master` | N/A | Completed | Added frictionless multi-monitor pitch-black screen overlay triggered by middle-clicking the tray icon, dismissed by any key, click, or mouse movement. Exposed toggle in Settings. |
 | **Documentation Audit & Sync** | `master` | N/A | Completed | Conducted a comprehensive documentation audit across all markdown files, aligned README release status and highlights with published v2.3.0, and updated changelog/commands. |
 | **Rebase & ProductInfo Hardening** | `master` | N/A | Completed | Rebased local branch onto `v2/master`, verified right-click menu fixes, added defensive entry-assembly fallbacks in `ProductInfo.cs`, and validated full test suite. |
 | **Release v2.3.0 Preparation** | `master` | N/A | Completed | Added crash fixes, expanded CLI behavior, CI/security automation, versioned artifacts, checksums, tests, and release documentation. |

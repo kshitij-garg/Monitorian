@@ -159,6 +159,13 @@
 							  IsChecked="{Binding Settings.RestoresBrightnessOnWake}"/>
 			</ContentControl>
 
+			<ContentControl Style="{StaticResource MenuItemStyle}">
+				<ToggleButton Padding="8,4"
+							  Style="{StaticResource CheckButtonItemStyle}"
+							  Content="Middle-click tray icon to black out screen"
+							  IsChecked="{Binding Settings.EnablesMiddleClickBlackout}"/>
+			</ContentControl>
+
 			<!-- SYSTEM & APPEARANCE -->
 			<Separator Style="{StaticResource MenuSeparatorStyle}"/>
 			<TextBlock Margin="10,6,10,2"

@@ -165,6 +165,17 @@ public class SettingsCore : BindableBase
 	private bool _enablesIconWheel = true;
 
 	/// <summary>
+	/// Whether to enable middle-clicking the tray icon to black out the screen
+	/// </summary>
+	[DataMember]
+	public bool EnablesMiddleClickBlackout
+	{
+		get => _enablesMiddleClickBlackout;
+		set => SetProperty(ref _enablesMiddleClickBlackout, value);
+	}
+	private bool _enablesMiddleClickBlackout = true;
+
+	/// <summary>
 	/// Selected culture name (or null for System Default)
 	/// </summary>
 	[DataMember]

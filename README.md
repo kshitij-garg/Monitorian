@@ -16,6 +16,7 @@
 ## What's new in v2.3.0
 
 - **Tray Menu Crash Resolved:** Corrected the WPF scrollbar target mismatch that caused 100% crashes when opening the right-click tray settings menu.
+- **Instant Screen Blackout (Middle-Click):** Middle-clicking the notification area icon instantly blanks all connected displays pitch black for privacy or OLED resting. Moving the mouse, clicking, or pressing any key instantly restores the screen without hardware reconnect delays.
 - **Application Error Recovery:** Added a global exception policy that logs and recovers from non-fatal Dispatcher and background task failures without terminating the process.
 - **Safe Assembly Reflection:** Hardened `ProductInfo` with fallback mechanisms to prevent `NullReferenceException` when invoked from unmanaged hosts or test runners.
 - **Language Switch Stability:** Eliminated window lifecycle race conditions when dynamically switching between any of the 28 languages.
@@ -48,6 +49,7 @@ No installer or administrator privileges required. Download and run directly:
 | :--- | :--- |
 | ⚡ **Free Native CLI Engine** | Unlocks free command-line brightness and contrast automation directly in the app. No paid store add-ons or subscriptions required. |
 | 🎛️ **Tray Icon Scroll OSD** | Hover over the notification area icon and scroll your mouse wheel to adjust brightness. Features a Windows 11-style auto-theming On-Screen Display. |
+| 🌑 **Instant Screen Blackout** | Middle-click the tray icon to black out all monitors for privacy or OLED standby. Restores immediately on any mouse move, click, or key press. |
 | 🔄 **Restore Brightness on Wake** | Resolves the common DDC/CI issue where external monitors reset to 100% or hardware defaults after waking from sleep, hibernation, or display timeout. |
 | 🧳 **True Single-File Portable Mode** | All WPF dependencies (`StartupAgency`, `ScreenFrame`, `Microsoft.Xaml.Behaviors`) are embedded directly into the binary. Zero installation friction. |
 | ⚙️ **Exposed UI Settings** | Frequently used power-user settings are now exposed directly as toggles in the GUI settings menu. |
@@ -113,6 +115,7 @@ Power-user settings previously tucked behind hidden command-line flags are now d
 
 - **Restore brightness on display wake**: Automatically re-applies your chosen brightness levels after the system wakes from sleep or screen timeout.
 - **Tray icon mouse wheel scroll**: Quickly enable or disable notification icon scrolling.
+- **Middle-click tray icon to black out screen**: Instantly blank all displays on middle-click, dismissable on any mouse movement, click, or keystroke.
 
 ---
 

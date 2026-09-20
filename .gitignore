@@ -244,3 +244,9 @@ ModelManifest.xml
 # Fody
 FodyWeavers.xsd
 **/FodyWeavers.xsd
+
+# Release packaging outputs
+Release-Package/
+Release-Package-Portable/
+Monitorian-*.zip
+

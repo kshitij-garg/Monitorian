@@ -53,8 +53,10 @@
     <Compile Include="CommandLineServiceTest.cs" />
     <Compile Include="DeviceConversionTest.cs" />
     <Compile Include="ExceptionPolicyTest.cs" />
+    <Compile Include="HotKeyServiceTest.cs" />
     <Compile Include="LanguageServiceTest.cs" />
     <Compile Include="MonitorConfigurationTest.cs" />
+    <Compile Include="ScheduleServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -191,11 +191,21 @@ The following is a chronological list of the user's prompts that guided the deve
       - **Foreground Management:** Prevented `SetNotifyIconWindowForeground` from being called on middle-click to avoid focus conflicts with the full-screen blackout overlay.
       - **Release Asset Synchronization:** Rebuilt solution, passed all 51 tests, deployed fresh binary to `Downloads`, updated release packages, and uploaded updated assets directly to GitHub Release `v2.3.0`.
 
+39. **"okay add the remaining features. Also document this analysis for us to refer. Future proof it for windows and optimise where you can. Make sure no testing errors happen like previously."**
+    - *AI Action:*
+      - **Global Keyboard Shortcuts (`HotKeyService.cs`):** Implemented system-wide keyboard shortcuts (`Win+Alt+Up` / `Win+Alt+Down` for brightness increments with floating acrylic OSD feedback, and `Win+Alt+B` for Instant Screen Blackout). Uses Win32 `RegisterHotKey` / `UnregisterHotKey` through a hidden message window (`HwndSource`) with `MOD_NOREPEAT` and graceful failure handling.
+      - **Scheduled Day/Night Brightness Mode (`ScheduleService.cs`):** Added an energy-efficient background scheduler that checks local time at minute boundaries (0% continuous CPU burn) and transitions monitor brightness between configured daytime (80% at 07:00) and nighttime (30% at 20:00) levels.
+      - **Settings Persistence & UI Toggles:** Added `EnablesHotKeys`, `EnablesSchedule`, and day/night schedule hour and brightness properties to `SettingsCore`; added intuitive toggle switches in `MenuWindow.xaml` under *Input & Automation*.
+      - **Benchmark & SWOT Documentation:** Persisted the complete competitive analysis against Twinkle Tray, ClickMonitorDDC, and upstream Monitorian into `docs/BENCHMARK_AND_SWOT.md` and linked it in `README.md`.
+      - **Automated Unit Tests & Future-Proofing:** Added `ScheduleServiceTest.cs` (7 unit tests covering day/night boundary conditions, midnight hours, inverted schedules, and clamping) and `HotKeyServiceTest.cs` (lifecycle and registration checks). Total test suite increased to 60/60 passing tests.
+
 ## Summary of AI Contributions
 
 | Feature / Fix | Branch | Pull Request | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| **Competitive Benchmark & SWOT** | `master` | N/A | Completed | Conducted quantitative and architectural benchmarking against Twinkle Tray, ClickMonitorDDC, and upstream Monitorian; delivered detailed SWOT analysis and strategic recommendations. |
+| **Global Keyboard Shortcuts** | `master` | N/A | Completed | Implemented system-wide shortcuts (`Win+Alt+Up/Down/B`) for brightness adjustments with OSD pill and instant screen blackout. |
+| **Scheduled Day/Night Mode** | `master` | N/A | Completed | Added lightweight 0%-CPU background scheduler for automated daytime and nighttime brightness transitions. |
+| **Competitive Benchmark & SWOT** | `master` | N/A | Completed | Persisted comprehensive quantitative benchmark and SWOT analysis into `docs/BENCHMARK_AND_SWOT.md` with links in README. |
 | **Middle-Click Instant Screen Blackout** | `master` | N/A | Completed | Added frictionless multi-monitor pitch-black screen overlay triggered by middle-clicking the tray icon, dismissed by any key, click, or mouse movement. Exposed toggle in Settings. |
 | **Documentation Audit & Sync** | `master` | N/A | Completed | Conducted a comprehensive documentation audit across all markdown files, aligned README release status and highlights with published v2.3.0, and updated changelog/commands. |
 | **Rebase & ProductInfo Hardening** | `master` | N/A | Completed | Rebased local branch onto `v2/master`, verified right-click menu fixes, added defensive entry-assembly fallbacks in `ProductInfo.cs`, and validated full test suite. |

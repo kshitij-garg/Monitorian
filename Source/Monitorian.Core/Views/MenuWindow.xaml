@@ -166,6 +166,20 @@
 							  IsChecked="{Binding Settings.EnablesMiddleClickBlackout}"/>
 			</ContentControl>
 
+			<ContentControl Style="{StaticResource MenuItemStyle}">
+				<ToggleButton Padding="8,4"
+							  Style="{StaticResource CheckButtonItemStyle}"
+							  Content="Enable global hotkeys (Win+Alt+Up/Down/B)"
+							  IsChecked="{Binding Settings.EnablesHotKeys}"/>
+			</ContentControl>
+
+			<ContentControl Style="{StaticResource MenuItemStyle}">
+				<ToggleButton Padding="8,4"
+							  Style="{StaticResource CheckButtonItemStyle}"
+							  Content="Enable day/night scheduled brightness"
+							  IsChecked="{Binding Settings.EnablesSchedule}"/>
+			</ContentControl>
+
 			<!-- SYSTEM & APPEARANCE -->
 			<Separator Style="{StaticResource MenuSeparatorStyle}"/>
 			<TextBlock Margin="10,6,10,2"

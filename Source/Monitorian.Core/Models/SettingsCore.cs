@@ -176,6 +176,72 @@ public class SettingsCore : BindableBase
 	private bool _enablesMiddleClickBlackout = true;
 
 	/// <summary>
+	/// Whether to enable global keyboard shortcuts (Win+Alt+Up/Down/B)
+	/// </summary>
+	[DataMember]
+	public bool EnablesHotKeys
+	{
+		get => _enablesHotKeys;
+		set => SetProperty(ref _enablesHotKeys, value);
+	}
+	private bool _enablesHotKeys = true;
+
+	/// <summary>
+	/// Whether to enable scheduled day/night brightness transitions
+	/// </summary>
+	[DataMember]
+	public bool EnablesSchedule
+	{
+		get => _enablesSchedule;
+		set => SetProperty(ref _enablesSchedule, value);
+	}
+	private bool _enablesSchedule = false;
+
+	/// <summary>
+	/// Start hour for daytime brightness (0-23)
+	/// </summary>
+	[DataMember]
+	public int ScheduleDayHour
+	{
+		get => _scheduleDayHour;
+		set => SetProperty(ref _scheduleDayHour, Math.Max(0, Math.Min(23, value)));
+	}
+	private int _scheduleDayHour = 7;
+
+	/// <summary>
+	/// Start hour for nighttime brightness (0-23)
+	/// </summary>
+	[DataMember]
+	public int ScheduleNightHour
+	{
+		get => _scheduleNightHour;
+		set => SetProperty(ref _scheduleNightHour, Math.Max(0, Math.Min(23, value)));
+	}
+	private int _scheduleNightHour = 20;
+
+	/// <summary>
+	/// Daytime brightness percentage (0-100)
+	/// </summary>
+	[DataMember]
+	public int ScheduleDayBrightness
+	{
+		get => _scheduleDayBrightness;
+		set => SetProperty(ref _scheduleDayBrightness, Math.Max(0, Math.Min(100, value)));
+	}
+	private int _scheduleDayBrightness = 80;
+
+	/// <summary>
+	/// Nighttime brightness percentage (0-100)
+	/// </summary>
+	[DataMember]
+	public int ScheduleNightBrightness
+	{
+		get => _scheduleNightBrightness;
+		set => SetProperty(ref _scheduleNightBrightness, Math.Max(0, Math.Min(100, value)));
+	}
+	private int _scheduleNightBrightness = 30;
+
+	/// <summary>
 	/// Selected culture name (or null for System Default)
 	/// </summary>
 	[DataMember]

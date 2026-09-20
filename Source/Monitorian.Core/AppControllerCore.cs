@@ -40,6 +40,8 @@ public class AppControllerCore
 	private readonly DisplayInformationWatcher _displayInformationWatcher;
 	private readonly BrightnessWatcher _brightnessWatcher;
 	private readonly BrightnessConnector _brightnessConnector;
+	private HotKeyService _hotKeyService;
+	private ScheduleService _scheduleService;
 
 	public AppControllerCore(AppKeeper keeper, SettingsCore settings)
 	{
@@ -108,6 +110,27 @@ public class AppControllerCore
 				BlackoutService.Toggle();
 		};
 
+		_hotKeyService = new HotKeyService();
+		_hotKeyService.BrightnessUpRequested += () => OnHotKeyBrightnessChange(+1);
+		_hotKeyService.BrightnessDownRequested += () => OnHotKeyBrightnessChange(-1);
+		_hotKeyService.BlackoutToggleRequested += () =>
+		{
+			if (Settings.EnablesMiddleClickBlackout)
+				BlackoutService.Toggle();
+		};
+
+		_scheduleService = new ScheduleService();
+		_scheduleService.PeriodChanged += (period, brightness) =>
+		{
+			_current.Dispatcher.Invoke(() =>
+			{
+				foreach (var m in Monitors.Where(x => x.IsControllable))
+				{
+					m.SetBrightness(brightness);
+				}
+			});
+		};
+
 		NotifyIconContainer.MouseWheel += (_, delta) =>
 		{
 			if (ViewManager.IsIconWheelEnabled() || Settings.EnablesIconWheel)
@@ -173,6 +196,9 @@ public class AppControllerCore
 		_displayInformationWatcher.Dispose();
 		_brightnessWatcher.Dispose();
 		_brightnessConnector.Dispose();
+
+		_hotKeyService?.Dispose();
+		_scheduleService?.Dispose();
 	}
 
 	protected virtual Task<string> HandleRequestAsync(IReadOnlyCollection<string> args)
@@ -331,6 +357,12 @@ public class AppControllerCore
 
 		if (Settings.RecordsOperationLog)
 			await OperationRecorder.EnableAsync("Initiated");
+
+		if (Settings.EnablesHotKeys)
+			_hotKeyService?.Register();
+
+		if (Settings.EnablesSchedule)
+			_scheduleService?.Start(Settings);
 	}
 
 	protected virtual async void OnSettingsChanged(object sender, PropertyChangedEventArgs e)
@@ -358,6 +390,24 @@ public class AppControllerCore
 
 			case nameof(Settings.InvertsScrollDirection):
 				ViewManager.InvertsScrollDirection = Settings.InvertsScrollDirection;
+				break;
+
+			case nameof(Settings.EnablesHotKeys):
+				if (Settings.EnablesHotKeys)
+					_hotKeyService?.Register();
+				else
+					_hotKeyService?.Unregister();
+				break;
+
+			case nameof(Settings.EnablesSchedule):
+			case nameof(Settings.ScheduleDayHour):
+			case nameof(Settings.ScheduleNightHour):
+			case nameof(Settings.ScheduleDayBrightness):
+			case nameof(Settings.ScheduleNightBrightness):
+				if (Settings.EnablesSchedule)
+					_scheduleService?.Start(Settings);
+				else
+					_scheduleService?.Stop();
 				break;
 
 			case nameof(Settings.EnablesUnison) when !Settings.EnablesUnison:
@@ -663,6 +713,37 @@ public class AppControllerCore
 		var iconRect = NotifyIconContainer.GetIconRect();
 		var pivot = new System.Windows.Point(iconRect.X + iconRect.Width / 2, iconRect.Y);
 		_osdWindow.ShowValue(monitor.Brightness, pivot);
+	}
+
+	private void OnHotKeyBrightnessChange(int direction)
+	{
+		_current.Dispatcher.Invoke(() =>
+		{
+			var monitors = Monitors.Where(x => x.IsTarget && x.IsControllable).ToArray();
+			var monitor = monitors.FirstOrDefault(x => ReferenceEquals(x, SelectedMonitor))
+				?? monitors.FirstOrDefault();
+			if (monitor is null)
+				return;
+
+			EnsureUnisonWorkable(monitor);
+
+			const int step = 5;
+			if (direction > 0)
+			{
+				monitor.IncrementBrightness(step, false);
+			}
+			else
+			{
+				monitor.DecrementBrightness(step, false);
+			}
+
+			if (_osdWindow == null)
+				_osdWindow = new Views.OsdWindow();
+
+			var iconRect = NotifyIconContainer.GetIconRect();
+			var pivot = new System.Windows.Point(iconRect.X + iconRect.Width / 2, iconRect.Y);
+			_osdWindow.ShowValue(monitor.Brightness, pivot);
+		});
 	}
 
 	protected internal MonitorViewModel SelectedMonitor

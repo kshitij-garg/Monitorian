@@ -7,8 +7,11 @@ where practical.
 
 ### Added
 
+- Global keyboard shortcuts (`Win+Alt+Up`/`Down` for brightness adjustments with OSD feedback, `Win+Alt+B` for instant blackout).
+- Energy-efficient scheduled day/night brightness transitions with 0% continuous background CPU overhead.
 - Middle-click tray icon screen blackout: Instant pitch-black multi-monitor overlay for privacy and resting displays; restores immediately on any key press, mouse click, or mouse movement.
-- Configurable toggle for middle-click blackout in the settings menu under Input & Automation.
+- Configurable toggles for global hotkeys, scheduled brightness, and middle-click blackout in the settings menu under Input & Automation.
+- Comprehensive competitive benchmark and SWOT analysis in docs/BENCHMARK_AND_SWOT.md.
 - Windows CI for Debug and Release builds, unit tests, localization validation,
   packaging checks, and startup/CLI smoke tests.
 - Versioned GitHub build artifacts with standard and portable ZIP archives and

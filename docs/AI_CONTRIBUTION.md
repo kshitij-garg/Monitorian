@@ -156,10 +156,18 @@ The following is a chronological list of the user's prompts that guided the deve
       - **Safe Reporting:** Protected exception logging itself so a reporting failure cannot trigger a secondary crash.
       - **Lifecycle Guards:** Added graceful startup and shutdown exception handling and unit tests that distinguish recoverable application failures from fatal runtime exceptions.
 
+34. **"rebase yourself and analyse the current codebase. The build in the repo crashes when run. right click 100% is broken. Fix the all the files and update it to repo"**
+    - *AI Action:*
+      - **Repository Rebase:** Fetched all remotes and rebased local `master` cleanly onto `v2/master` (`kshitij-garg/Monitorian-2.0`).
+      - **Crash Diagnostics:** Analyzed runtime event logs and identified the root cause of the 100% right-click crash: `PlainScrollBarStyle` targeting `ScrollBar` had been assigned directly to `ScrollViewer`, throwing `XamlParseException` on right-click menu open.
+      - **ProductInfo Hardening:** Hardened `ProductInfo.cs` with executing assembly fallbacks and null-safe attribute queries to prevent `NullReferenceException` when `Assembly.GetEntryAssembly()` is null in unmanaged or test contexts.
+      - **Validation & Build:** Ran MSBuild compilation, 47/47 passing tests, culture and localization validation, localized startup/CLI forwarding smoke tests, and verified that both standard and portable single-file executables run without crashing.
+
 ## Summary of AI Contributions
 
 | Feature / Fix | Branch | Pull Request | Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
+| **Rebase & ProductInfo Hardening** | `master` | N/A | Completed | Rebased local branch onto `v2/master`, verified right-click menu fixes, added defensive entry-assembly fallbacks in `ProductInfo.cs`, and validated full test suite. |
 | **Release v2.3.0 Preparation** | `master` | N/A | Completed | Added crash fixes, expanded CLI behavior, CI/security automation, versioned artifacts, checksums, tests, and release documentation. |
 | **Language Switch Stability** | `master` | N/A | Completed | Removed the asynchronous menu teardown race and redundant culture switching. |
 | **Tray Menu Crash Fix** | `master` | N/A | Completed | Corrected the WPF ScrollBar/ScrollViewer style mismatch found in the runtime exception log. |

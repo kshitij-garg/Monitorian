@@ -12,12 +12,15 @@ public static class ProductInfo
 {
 	private readonly struct ProductInfoBase(Assembly assembly)
 	{
-		public readonly Version Version = assembly.GetName().Version;
-		public readonly string Product = assembly.GetAttribute<AssemblyProductAttribute>().Product;
-		public readonly string Title = assembly.GetAttribute<AssemblyTitleAttribute>().Title;
+		private static readonly Assembly _fallbackAssembly = Assembly.GetExecutingAssembly();
+		private readonly Assembly _assembly = assembly ?? _fallbackAssembly;
+
+		public readonly Version Version = (assembly ?? _fallbackAssembly).GetName().Version;
+		public readonly string Product = (assembly ?? _fallbackAssembly).GetAttribute<AssemblyProductAttribute>()?.Product ?? "Monitorian";
+		public readonly string Title = (assembly ?? _fallbackAssembly).GetAttribute<AssemblyTitleAttribute>()?.Title ?? "Monitorian";
 	}
 
-	private static readonly Lazy<ProductInfoBase> _instance = new(() => new(Assembly.GetEntryAssembly()));
+	private static readonly Lazy<ProductInfoBase> _instance = new(() => new(Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly()));
 
 	/// <summary>
 	/// Version (from entry assembly)
@@ -47,7 +50,7 @@ public static class ProductInfo
 	/// <summary>
 	/// Product of core library (from executing assembly)
 	/// </summary>
-	public static string CoreProduct => Assembly.GetExecutingAssembly().GetAttribute<AssemblyProductAttribute>().Product;
+	public static string CoreProduct => Assembly.GetExecutingAssembly().GetAttribute<AssemblyProductAttribute>()?.Product ?? "Monitorian";
 
 	/// <summary>
 	/// Startup task ID

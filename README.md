@@ -24,7 +24,7 @@
 - **Safe Assembly Reflection:** Hardened `ProductInfo` with fallback mechanisms to prevent `NullReferenceException` when invoked from unmanaged hosts or test runners.
 - **Language Switch Stability:** Eliminated window lifecycle race conditions when dynamically switching between any of the 28 languages.
 - **Extended CLI Automation:** Added monitor-targeted commands by name or device ID, relative brightness steps (`+10`, `-10`), and contrast get/set support.
-- **CI/CD & Security:** Added automated Windows CI (Debug/Release, 47 unit tests, localization verification, startup smoke tests), CodeQL security scanning, Dependabot, and reproducible release packaging.
+- **CI/CD & Security:** Added automated Windows CI (Debug/Release, 62 unit tests, localization verification, startup smoke tests), CodeQL security scanning, Dependabot, and reproducible release packaging.
 
 The v2.3.0 release is now live and published on GitHub Releases. Direct download links below deliver the latest verified standalone executables.
 

@@ -27,12 +27,14 @@ public class HotKeyService : IDisposable
 	private const uint VK_UP = 0x26;
 	private const uint VK_DOWN = 0x28;
 	private const uint VK_B = 0x42;
+	private const uint VK_M = 0x4D;
 
 	private const int WM_HOTKEY = 0x0312;
 
 	public const int HotKeyBrightnessUpId = 1001;
 	public const int HotKeyBrightnessDownId = 1002;
 	public const int HotKeyBlackoutToggleId = 1003;
+	public const int HotKeyQuickAccessId = 1004;
 
 	#endregion
 
@@ -44,6 +46,7 @@ public class HotKeyService : IDisposable
 	public event Action BrightnessUpRequested;
 	public event Action BrightnessDownRequested;
 	public event Action BlackoutToggleRequested;
+	public event Action QuickAccessRequested;
 
 	public bool IsRegistered => _registeredIds.Count > 0;
 
@@ -65,6 +68,9 @@ public class HotKeyService : IDisposable
 
 		// Win + Alt + B
 		RegisterSingle(HotKeyBlackoutToggleId, MOD_WIN | MOD_ALT | MOD_NOREPEAT, VK_B);
+
+		// Win + Alt + M
+		RegisterSingle(HotKeyQuickAccessId, MOD_WIN | MOD_ALT | MOD_NOREPEAT, VK_M);
 
 		return IsRegistered;
 	}
@@ -139,6 +145,11 @@ public class HotKeyService : IDisposable
 
 				case HotKeyBlackoutToggleId:
 					BlackoutToggleRequested?.Invoke();
+					handled = true;
+					break;
+
+				case HotKeyQuickAccessId:
+					QuickAccessRequested?.Invoke();
 					handled = true;
 					break;
 			}

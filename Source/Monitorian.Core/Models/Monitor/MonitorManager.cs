@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -27,6 +27,7 @@ internal class MonitorManager
 		public string DisplayName { get; }
 		public ConnectionType Connection { get; }
 		public bool IsInternal => _deviceConfigItem.IsInternal;
+		public byte DisplayIndex => _deviceConfigItem.DisplayIndex;
 		public DisplayIdSet DisplayIdSet => _deviceConfigItem.DisplayIdSet;
 
 		public DisplayItem(
@@ -132,14 +133,30 @@ internal class MonitorManager
 
 	private static IEnumerable<BasicItem> EnumerateBasicItems(DeviceContext.DeviceItem[] deviceItems, DisplayItem[] displayItems)
 	{
+		var remainingDisplayItems = displayItems.ToList();
+
 		foreach (var deviceItem in deviceItems)
 		{
 			if (_precludedIds.Value.Contains(deviceItem.DeviceInstanceId))
 				continue;
 
-			var displayItem = displayItems.FirstOrDefault(x => string.Equals(deviceItem.DeviceInstanceId, x.DeviceInstanceId, StringComparison.OrdinalIgnoreCase));
+			// Priority 1: Match by both DeviceInstanceId and DisplayIndex
+			var displayItem = remainingDisplayItems.FirstOrDefault(x =>
+				(x.DisplayIndex > 0 && x.DisplayIndex == deviceItem.DisplayIndex) &&
+				string.Equals(deviceItem.DeviceInstanceId, x.DeviceInstanceId, StringComparison.OrdinalIgnoreCase));
+
+			// Priority 2: Fallback to DeviceInstanceId if DisplayIndex was 0 or unassigned
+			if (displayItem is null)
+			{
+				displayItem = remainingDisplayItems.FirstOrDefault(x =>
+					string.Equals(deviceItem.DeviceInstanceId, x.DeviceInstanceId, StringComparison.OrdinalIgnoreCase));
+			}
+
 			if (displayItem is null)
 				continue;
+
+			// Consume matched displayItem so identical monitors receive independent DisplayIdSets (#756)
+			remainingDisplayItems.Remove(displayItem);
 
 			if (!string.IsNullOrWhiteSpace(displayItem.DisplayName))
 			{

@@ -119,6 +119,23 @@ public class AppControllerCore
 			if (Settings.EnablesMiddleClickBlackout)
 				BlackoutService.Toggle();
 		};
+		_hotKeyService.QuickAccessRequested += () =>
+		{
+			if (Settings.EnablesHotKeys && Settings.EnablesQuickAccess)
+			{
+				_current.Dispatcher.Invoke(() =>
+				{
+					if (CursorHelper.TryGetCursorLocation(out Point cursorLocation))
+					{
+						ShowMainWindowAtCursor(cursorLocation);
+					}
+					else
+					{
+						ShowMainWindow();
+					}
+				});
+			}
+		};
 
 		_scheduleService = new ScheduleService();
 		_scheduleService.PeriodChanged += (period, brightness) =>
@@ -333,6 +350,17 @@ public class AppControllerCore
 
 		window.CursorLocation = useCursorLocation ? CursorHelper.GetCursorLocation() : null;
 		window.ShowForeground();
+		WindowHelper.EnsureForegroundWindow(window);
+		window.Activate();
+	}
+
+	protected virtual void ShowMainWindowAtCursor(Point cursorLocation)
+	{
+		var window = (MainWindow)_current.MainWindow;
+		if (window is { CanBeShown: false } or { Visibility: Visibility.Visible, IsForeground: true })
+			return;
+
+		window.ShowAtCursor(cursorLocation);
 		WindowHelper.EnsureForegroundWindow(window);
 		window.Activate();
 	}

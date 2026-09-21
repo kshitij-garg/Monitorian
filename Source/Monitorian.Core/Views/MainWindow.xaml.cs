@@ -47,6 +47,13 @@ public partial class MainWindow : Window
 		set => _mover.CursorLocation = value;
 	}
 
+	public void ShowAtCursor(Point cursorLocation)
+	{
+		_mover.CursorLocation = cursorLocation;
+		_mover.ShowAtCursor = true;
+		ShowForeground();
+	}
+
 	public bool IsForeground => _mover.IsForeground();
 
 	public void ShowForeground()

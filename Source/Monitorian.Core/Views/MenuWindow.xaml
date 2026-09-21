@@ -169,8 +169,15 @@
 			<ContentControl Style="{StaticResource MenuItemStyle}">
 				<ToggleButton Padding="8,4"
 							  Style="{StaticResource CheckButtonItemStyle}"
-							  Content="Enable global hotkeys (Win+Alt+Up/Down/B)"
+							  Content="Enable global hotkeys (Win+Alt+Up/Down/B/M)"
 							  IsChecked="{Binding Settings.EnablesHotKeys}"/>
+			</ContentControl>
+
+			<ContentControl Style="{StaticResource MenuItemStyle}">
+				<ToggleButton Padding="8,4"
+							  Style="{StaticResource CheckButtonItemStyle}"
+							  Content="Quick access at cursor (Win+Alt+M)"
+							  IsChecked="{Binding Settings.EnablesQuickAccess}"/>
 			</ContentControl>
 
 			<ContentControl Style="{StaticResource MenuItemStyle}">

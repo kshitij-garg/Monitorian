@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Forms;
 
@@ -29,14 +29,83 @@ public class StickWindowMover : BasicWindowMover
 	public override PivotAlignment PivotAlignment { get; protected set; }
 
 	/// <summary>
+	/// Whether to show window at cursor position instead of taskbar
+	/// </summary>
+	public bool ShowAtCursor { get; set; } = false;
+
+	/// <summary>
 	/// Attempts to get the adjacent location using specified window width and height.
 	/// </summary>
 	/// <param name="windowWidth">Window width</param>
 	/// <param name="windowHeight">Window height</param>
 	/// <param name="location">Location of window</param>
 	/// <returns>True if successfully gets</returns>
-	protected override bool TryGetAdjacentLocation(double windowWidth, double windowHeight, out Rect location) =>
-		TryGetAdjacentLocationToTaskbar(windowWidth, windowHeight, out location);
+	protected override bool TryGetAdjacentLocation(double windowWidth, double windowHeight, out Rect location)
+	{
+		if (ShowAtCursor && CursorLocation.HasValue)
+		{
+			if (TryGetAdjacentLocationToCursor(CursorLocation.Value, windowWidth, windowHeight, out location))
+			{
+				ShowAtCursor = false;
+				return true;
+			}
+		}
+		return TryGetAdjacentLocationToTaskbar(windowWidth, windowHeight, out location);
+	}
+
+	/// <summary>
+	/// Attempts to get the adjacent location to cursor point using specified window width and height.
+	/// </summary>
+	public bool TryGetAdjacentLocationToCursor(Point cursor, double windowWidth, double windowHeight, out Rect location)
+	{
+		if (!WindowHelper.TryGetMonitorRect(cursor, out _, out Rect workRect))
+		{
+			location = default;
+			return false;
+		}
+
+		var isLeftToRight = !CultureInfoAddition.UserDefaultUICulture.TextInfo.IsRightToLeft;
+
+		PivotAlignment = isLeftToRight
+			? PivotAlignment.TopLeft
+			: PivotAlignment.TopRight;
+
+		double x = cursor.X;
+		double y = cursor.Y;
+
+		const double cursorOffset = 4D;
+		if (isLeftToRight)
+		{
+			x += cursorOffset;
+			y += cursorOffset;
+		}
+		else
+		{
+			x -= (windowWidth + cursorOffset);
+			y += cursorOffset;
+		}
+
+		// Ensure the window fits within the monitor's work area
+		x = Math.Min(x + windowWidth, workRect.Right) - windowWidth;
+		y = Math.Min(y + windowHeight, workRect.Bottom) - windowHeight;
+		x = Math.Max(x, workRect.Left);
+		y = Math.Max(y, workRect.Top);
+
+		location = new Rect(x, y, windowWidth, windowHeight);
+		return true;
+	}
+
+	/// <summary>
+	/// Gets Per-Monitor DPI of the monitor.
+	/// </summary>
+	protected override DpiScale GetDpi()
+	{
+		if (CursorLocation.HasValue)
+		{
+			return VisualTreeHelperAddition.GetDpi(CursorLocation.Value);
+		}
+		return base.GetDpi();
+	}
 
 	private enum IconPlacement
 	{

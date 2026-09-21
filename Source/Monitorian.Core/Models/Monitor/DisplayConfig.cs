@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -389,6 +389,9 @@ internal class DisplayConfig
 		[DataMember(Order = 5)]
 		public bool IsAvailable { get; }
 
+		[DataMember(Order = 6)]
+		public byte DisplayIndex { get; }
+
 		public DisplayIdSet DisplayIdSet { get; }
 
 		public DisplayItem(
@@ -398,7 +401,8 @@ internal class DisplayConfig
 			bool isInternal,
 			float refreshRate,
 			bool isAvailable,
-			DisplayIdSet displayIdSet)
+			DisplayIdSet displayIdSet,
+			byte displayIndex = 0)
 		{
 			this.DeviceInstanceId = deviceInstanceId;
 			this.DisplayName = displayName;
@@ -407,6 +411,7 @@ internal class DisplayConfig
 			this.RefreshRate = refreshRate;
 			this.IsAvailable = isAvailable;
 			this.DisplayIdSet = displayIdSet;
+			this.DisplayIndex = displayIndex;
 		}
 	}
 
@@ -447,6 +452,14 @@ internal class DisplayConfig
 
 			var deviceInstanceId = DeviceConversion.ConvertToDeviceInstanceId(deviceName.monitorDevicePath);
 
+			byte displayIndex = 0;
+			if (TryGetSourceDeviceName(displayPath.sourceInfo.adapterId, displayPath.sourceInfo.id, out var sourceName))
+			{
+				var match = System.Text.RegularExpressions.Regex.Match(sourceName.viewGdiDeviceName ?? string.Empty, @"DISPLAY(?<index>\d{1,2})\s*$");
+				if (match.Success)
+					displayIndex = byte.Parse(match.Groups["index"].Value);
+			}
+
 			yield return new DisplayItem(
 				deviceInstanceId: deviceInstanceId,
 				displayName: deviceName.monitorFriendlyDeviceName,
@@ -454,8 +467,26 @@ internal class DisplayConfig
 				isInternal: (deviceName.outputTechnology is DISPLAYCONFIG_VIDEO_OUTPUT_TECHNOLOGY.DISPLAYCONFIG_OUTPUT_TECHNOLOGY_INTERNAL),
 				refreshRate: displayPath.targetInfo.refreshRate.Numerator / (float)displayPath.targetInfo.refreshRate.Denominator,
 				isAvailable: displayPath.targetInfo.targetAvailable,
-				displayIdSet: displayIdSet);
+				displayIdSet: displayIdSet,
+				displayIndex: displayIndex);
 		}
+	}
+
+	private static bool TryGetSourceDeviceName(LUID adapterId, uint id, out DISPLAYCONFIG_SOURCE_DEVICE_NAME sourceName)
+	{
+		sourceName = new DISPLAYCONFIG_SOURCE_DEVICE_NAME
+		{
+			header = new DISPLAYCONFIG_DEVICE_INFO_HEADER
+			{
+				type = DISPLAYCONFIG_DEVICE_INFO_TYPE.DISPLAYCONFIG_DEVICE_INFO_GET_SOURCE_NAME,
+				size = (uint)Marshal.SizeOf<DISPLAYCONFIG_SOURCE_DEVICE_NAME>(),
+				adapterId = adapterId,
+				id = id
+			}
+		};
+
+		int error = DisplayConfigGetDeviceInfo(ref sourceName);
+		return (error is ERROR_SUCCESS);
 	}
 
 	private static bool TryGetDeviceName(DisplayIdSet displayIdSet, out DISPLAYCONFIG_TARGET_DEVICE_NAME deviceName)

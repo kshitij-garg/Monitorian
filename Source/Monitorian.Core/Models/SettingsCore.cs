@@ -187,6 +187,17 @@ public class SettingsCore : BindableBase
 	private bool _enablesHotKeys = true;
 
 	/// <summary>
+	/// Whether to enable quick access at cursor position (Win+Alt+M)
+	/// </summary>
+	[DataMember]
+	public bool EnablesQuickAccess
+	{
+		get => _enablesQuickAccess;
+		set => SetProperty(ref _enablesQuickAccess, value);
+	}
+	private bool _enablesQuickAccess = true;
+
+	/// <summary>
 	/// Whether to enable scheduled day/night brightness transitions
 	/// </summary>
 	[DataMember]
@@ -322,6 +333,7 @@ public class SettingsCore : BindableBase
 		_enablesIconWheel = true;
 		_enablesMiddleClickBlackout = true;
 		_enablesHotKeys = true;
+		_enablesQuickAccess = true;
 		_scheduleDayHour = 7;
 		_scheduleNightHour = 20;
 		_scheduleDayBrightness = 80;

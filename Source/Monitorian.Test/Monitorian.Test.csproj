@@ -47,6 +47,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="PresentationCore" />
     <Reference Include="WindowsBase" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlackoutServiceTest.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="HotKeyServiceTest.cs" />
     <Compile Include="LanguageServiceTest.cs" />
     <Compile Include="MonitorConfigurationTest.cs" />
+    <Compile Include="QuickAccessAndHdrTest.cs" />
     <Compile Include="ScheduleServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -63,6 +65,10 @@
     <ProjectReference Include="..\Monitorian.Core\Monitorian.Core.csproj">
       <Project>{0c509b78-ff37-4f5d-9582-189ee5316c27}</Project>
       <Name>Monitorian.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ScreenFrame\ScreenFrame.csproj">
+      <Project>{edd1c1b9-c241-4d89-8334-0d29f95c2445}</Project>
+      <Name>ScreenFrame</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

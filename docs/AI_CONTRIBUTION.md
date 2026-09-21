@@ -246,39 +246,49 @@ The following is a chronological list of the user's prompts that guided the deve
       - **Metadata Optimization:** Overhauled repo descriptions, updated homepages directly to GitHub releases, and redirected `kshitij-garg/Monitorian` away from upstream's store page.
       - **Community Launch & Comparison:** Created official launch announcement in GitHub Discussions (#7) and added a quick benchmark matrix against Twinkle Tray and ClickMonitorDDC in `README.md`.
 
-## Summary of AI Contributions
-
-| Feature / Fix | Branch | PR | Status | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| **Public Visibility & Community Outreach** | `master` | N/A | Completed | Upstream comments on PR #776 / Issues #774 and #782, 20 high-traffic topics, metadata overhaul, official discussion announcement, and README SEO. |
-| **Release v2.3.0 Synchronization & Hygiene** | `master` | N/A | Completed | Synchronized repository remotes, purged stale legacy tags/builds, retagged v2.3.0 at latest commit, verified 62 unit tests, and published verified dual-repo release. |
-| **Middle-Click Tray Blackout & Settings Fix** | `master` | N/A | Completed | Solved settings deserialization default loss via `[OnDeserializing]`, added multi-layered middle-click detection (WPF overlay, WinForms MouseDown/Up, low-level WndProc mask), 500ms deduplication, and blackout dismissal jitter resistance. |
-| **Startup & Foreground Window Hardening** | `master` | N/A | Completed | Eliminated startup stealth-dismissal, message-only HWND sink isolation, foreground lockout bypass via AttachThreadInput, and explicit shutdown mode. |
-| **Global Keyboard Shortcuts** | `master` | N/A | Completed | Implemented system-wide shortcuts (`Win+Alt+Up/Down/B`) for brightness adjustments with OSD pill and instant screen blackout. |
-| **Scheduled Day/Night Mode** | `master` | N/A | Completed | Added lightweight 0%-CPU background scheduler for automated daytime and nighttime brightness transitions. |
-| **Competitive Benchmark & SWOT** | `master` | N/A | Completed | Persisted comprehensive quantitative benchmark and SWOT analysis into `docs/BENCHMARK_AND_SWOT.md` with links in README. |
-| **Middle-Click Instant Screen Blackout** | `master` | N/A | Completed | Added frictionless multi-monitor pitch-black screen overlay triggered by middle-clicking the tray icon, dismissed by any key, click, or mouse movement. Exposed toggle in Settings. |
-| **Documentation Audit & Sync** | `master` | N/A | Completed | Conducted a comprehensive documentation audit across all markdown files, aligned README release status and highlights with published v2.3.0, and updated changelog/commands. |
-| **Rebase & ProductInfo Hardening** | `master` | N/A | Completed | Rebased local branch onto `v2/master`, verified right-click menu fixes, added defensive entry-assembly fallbacks in `ProductInfo.cs`, and validated full test suite. |
-| **Release v2.3.0 Preparation** | `master` | N/A | Completed | Added crash fixes, expanded CLI behavior, CI/security automation, versioned artifacts, checksums, tests, and release documentation. |
-| **Language Switch Stability** | `master` | N/A | Completed | Removed the asynchronous menu teardown race and redundant culture switching. |
-| **Tray Menu Crash Fix** | `master` | N/A | Completed | Corrected the WPF ScrollBar/ScrollViewer style mismatch found in the runtime exception log. |
-| **Application Error Recovery** | `master` | N/A | Completed | Added non-fatal Dispatcher/task recovery, safe exception reporting, guarded startup/shutdown, and policy tests. |
-| **Windows CI & Security** | `master` | N/A | Completed | Added Debug/Release builds, tests, localization and package validation, CodeQL, and Dependabot. |
-| **In-App Language Selector & Menu Revamp** | `master` | N/A | Completed | Revamped right-click menu into structured categories; added dark-mode language picker with real-time switching across all 28 languages and persistent settings storage. |
-| **Top 5 Indian Languages Localization** | `master` | N/A | Completed | Added native localization for Hindi, Bengali, Marathi, Telugu, and Tamil. Embedded in single-file executables and synced all 28 satellite directories. |
-| **Main Contributor Attribution** | `master` | N/A | Completed | Credited `kshitij-garg` as Main Contributor & Project Lead across README, metadata, and GitHub release page. |
-| **Site & License Menu Navigation** | `master` | N/A | Completed | Re-routed right-click menu "Site" and "License" links directly to the Monitorian 2.0 repository and license. Updated app configuration and documentation. |
-| **Productization & Rebrand** | `master` | N/A | Completed | Transitioned to independent product fork. Rebuilt README without upstream media, eliminated dead links, and polished documentation. |
-| **Release v2.2.0 Publishing** | `master` | N/A | Completed | Purged broken historical releases. Published verified single-file executables and full bundles to GitHub Releases. |
-| **Portable Mode** | `feature/portable-version` | [#776](https://github.com/emoacht/Monitorian/pull/776) | Updated | Addressed upstream review comments: declared `PortableFileName` constant, removed `IsPortable`, added write permission check, and purged AI docs. |
-| **Startup Robustness & Portable Build** | `master` | N/A | Completed | Eliminated crash when `.config` is missing or renamed (`Monitorian-Portable.exe`). Automated portable build output in `Monitorian.csproj`. |
-| **Restore on Wake** | `feature/brightness-restore` | [#777](https://github.com/emoacht/Monitorian/pull/777) | Updated | Fixes Issue #115. Hooks into `SystemEvents.PowerModeChanged` and `DisplaySettingsWatcher` to reapply brightness on wake. Includes a `Task.Delay` to handle hardware DDC/CI wake times. |
-| **Incremental UI** | `feature/ui-settings-exposure` | [#778](https://github.com/emoacht/Monitorian/pull/778) | Updated | Fixes Issue #190. Exposes `/iconwheel` and `/restore hard` explicitly in the `MenuWindow.xaml` settings. |
-| **Tray Icon OSD** | `feature/icon-scroll-osd` | [#779](https://github.com/emoacht/Monitorian/pull/779) | Updated | Fixes Issue #637. Adds a dynamic, auto-theming, fading WPF overlay above the tray icon when adjusting brightness via mouse scroll. |
-| **Native CLI Engine** | `feature/cli-engine` | [#781](https://github.com/emoacht/Monitorian/pull/781) | Completed | Fixes Issue #655. Re-implements the closed-source Premium `/get` and `/set` brightness commands natively for free. |
-| **Test Validation** | N/A | N/A | Completed | Passed 37/37 native unit tests via a custom reflection runner to validate all logic. |
-| **Issue Analysis** | N/A | N/A | Completed | Generated `ISSUE_ANALYSIS_SNAPSHOT.md` prioritizing issues by community engagement. |
+248: 
+249: 44. **"implement both. Create just a beta version with next numbering for version and then release it in a different branch altogether. test thoroughly and then comment on these issues once everything is done like updaing repo, documentation etc. Also respond to og repo owner to try our build for few days and see if its good"**
+250:     - *AI Action:*
+251:       - **Branch Isolation:** Created dedicated `beta` branch tracking off `master` so development and beta releases remain strictly isolated from stable production.
+252:       - **Issue #238 Resolution (Quick Access at Cursor):** Enhanced `StickWindowMover.cs` with `ShowAtCursor` mode and `TryGetAdjacentLocationToCursor` applying per-monitor DPI scaling via `VisualTreeHelperAddition.GetDpi(cursorLocation)` and clamping to current work area boundaries. Added `ShowAtCursor` to `MainWindow.xaml.cs`. Registered system hotkey `Win+Alt+M` in `HotKeyService.cs` (with toggle in Settings under *Input & Automation*).
+253:       - **Issue #756 Resolution (Multi-Monitor HDR Disambiguation):** Identified and resolved root cause of dual/triple identical HDR monitors adjusting in tandem: `MonitorManager.EnumerateBasicItems` was matching duplicate display entries to the first candidate without removal. Implemented `TryGetSourceDeviceName` via `DISPLAYCONFIG_DEVICE_INFO_GET_SOURCE_NAME` in `DisplayConfig.cs` to retrieve GDI view names (`\\.\DISPLAY1`, `\\.\DISPLAY2`), correlated GDI device index with device instance IDs, and consumed matched entries from the candidate list so identical displays receive unique `DisplayIdSet` target IDs.
+254:       - **Unit Testing & Test Suite Expansion:** Created `QuickAccessAndHdrTest.cs` covering cursor work area clamping, hotkey registration and event firing, settings default preservation, and GDI view name parsing (expanding test suite to 67 automated tests).
+255:       - **Beta Release v2.4.0-beta1:** Bumped assembly version to `2.4.0.1`, compiled Release build, generated single-file executables and ZIP package, published GitHub Pre-Release on branch `beta`, and engaged upstream community on Issues #238, #756, and PR #776.
+256: 
+257: ## Summary of AI Contributions
+258: 
+259: | Feature / Fix | Branch | PR | Status | Description |
+260: | :--- | :--- | :--- | :--- | :--- |
+261: | **Quick Access at Cursor & Multi-HDR Disambiguation (v2.4.0-beta1)** | `beta` | N/A | Completed | Implemented Quick Access flyout at cursor position (`Win+Alt+M`, #238) and fixed identical HDR multi-monitor target ID collision via GDI source view disambiguation (#756). Released on branch `beta`. |
+262: | **Public Visibility & Community Outreach** | `master` | N/A | Completed | Upstream comments on PR #776 / Issues #774 and #782, 20 high-traffic topics, metadata overhaul, official discussion announcement, and README SEO. |
+263: | **Release v2.3.0 Synchronization & Hygiene** | `master` | N/A | Completed | Synchronized repository remotes, purged stale legacy tags/builds, retagged v2.3.0 at latest commit, verified 62 unit tests, and published verified dual-repo release. |
+264: | **Middle-Click Tray Blackout & Settings Fix** | `master` | N/A | Completed | Solved settings deserialization default loss via `[OnDeserializing]`, added multi-layered middle-click detection (WPF overlay, WinForms MouseDown/Up, low-level WndProc mask), 500ms deduplication, and blackout dismissal jitter resistance. |
+265: | **Startup & Foreground Window Hardening** | `master` | N/A | Completed | Eliminated startup stealth-dismissal, message-only HWND sink isolation, foreground lockout bypass via AttachThreadInput, and explicit shutdown mode. |
+266: | **Global Keyboard Shortcuts** | `master` | N/A | Completed | Implemented system-wide shortcuts (`Win+Alt+Up/Down/B`) for brightness adjustments with OSD pill and instant screen blackout. |
+267: | **Scheduled Day/Night Mode** | `master` | N/A | Completed | Added lightweight 0%-CPU background scheduler for automated daytime and nighttime brightness transitions. |
+268: | **Competitive Benchmark & SWOT** | `master` | N/A | Completed | Persisted comprehensive quantitative benchmark and SWOT analysis into `docs/BENCHMARK_AND_SWOT.md` with links in README. |
+269: | **Middle-Click Instant Screen Blackout** | `master` | N/A | Completed | Added frictionless multi-monitor pitch-black screen overlay triggered by middle-clicking the tray icon, dismissed by any key, click, or mouse movement. Exposed toggle in Settings. |
+270: | **Documentation Audit & Sync** | `master` | N/A | Completed | Conducted a comprehensive documentation audit across all markdown files, aligned README release status and highlights with published v2.3.0, and updated changelog/commands. |
+271: | **Rebase & ProductInfo Hardening** | `master` | N/A | Completed | Rebased local branch onto `v2/master`, verified right-click menu fixes, added defensive entry-assembly fallbacks in `ProductInfo.cs`, and validated full test suite. |
+272: | **Release v2.3.0 Preparation** | `master` | N/A | Completed | Added crash fixes, expanded CLI behavior, CI/security automation, versioned artifacts, checksums, tests, and release documentation. |
+273: | **Language Switch Stability** | `master` | N/A | Completed | Removed the asynchronous menu teardown race and redundant culture switching. |
+274: | **Tray Menu Crash Fix** | `master` | N/A | Completed | Corrected the WPF ScrollBar/ScrollViewer style mismatch found in the runtime exception log. |
+275: | **Application Error Recovery** | `master` | N/A | Completed | Added non-fatal Dispatcher/task recovery, safe exception reporting, guarded startup/shutdown, and policy tests. |
+276: | **Windows CI & Security** | `master` | N/A | Completed | Added Debug/Release builds, tests, localization and package validation, CodeQL, and Dependabot. |
+277: | **In-App Language Selector & Menu Revamp** | `master` | N/A | Completed | Revamped right-click menu into structured categories; added dark-mode language picker with real-time switching across all 28 languages and persistent settings storage. |
+278: | **Top 5 Indian Languages Localization** | `master` | N/A | Completed | Added native localization for Hindi, Bengali, Marathi, Telugu, and Tamil. Embedded in single-file executables and synced all 28 satellite directories. |
+279: | **Main Contributor Attribution** | `master` | N/A | Completed | Credited `kshitij-garg` as Main Contributor & Project Lead across README, metadata, and GitHub release page. |
+280: | **Site & License Menu Navigation** | `master` | N/A | Completed | Re-routed right-click menu "Site" and "License" links directly to the Monitorian 2.0 repository and license. Updated app configuration and documentation. |
+281: | **Productization & Rebrand** | `master` | N/A | Completed | Transitioned to independent product fork. Rebuilt README without upstream media, eliminated dead links, and polished documentation. |
+282: | **Release v2.2.0 Publishing** | `master` | N/A | Completed | Purged broken historical releases. Published verified single-file executables and full bundles to GitHub Releases. |
+283: | **Portable Mode** | `feature/portable-version` | [#776](https://github.com/emoacht/Monitorian/pull/776) | Updated | Addressed upstream review comments: declared `PortableFileName` constant, removed `IsPortable`, added write permission check, and purged AI docs. |
+284: | **Startup Robustness & Portable Build** | `master` | N/A | Completed | Eliminated crash when `.config` is missing or renamed (`Monitorian-Portable.exe`). Automated portable build output in `Monitorian.csproj`. |
+285: | **Restore on Wake** | `feature/brightness-restore` | [#777](https://github.com/emoacht/Monitorian/pull/777) | Updated | Fixes Issue #115. Hooks into `SystemEvents.PowerModeChanged` and `DisplaySettingsWatcher` to reapply brightness on wake. Includes a `Task.Delay` to handle hardware DDC/CI wake times. |
+286: | **Incremental UI** | `feature/ui-settings-exposure` | [#778](https://github.com/emoacht/Monitorian/pull/778) | Updated | Fixes Issue #190. Exposes `/iconwheel` and `/restore hard` explicitly in the `MenuWindow.xaml` settings. |
+287: | **Tray Icon OSD** | `feature/icon-scroll-osd` | [#779](https://github.com/emoacht/Monitorian/pull/779) | Updated | Fixes Issue #637. Adds a dynamic, auto-theming, fading WPF overlay above the tray icon when adjusting brightness via mouse scroll. |
+288: | **Native CLI Engine** | `feature/cli-engine` | [#781](https://github.com/emoacht/Monitorian/pull/781) | Completed | Fixes Issue #655. Re-implements the closed-source Premium `/get` and `/set` brightness commands natively for free. |
+289: | **Test Validation** | N/A | N/A | Completed | Passed 37/37 native unit tests via a custom reflection runner to validate all logic. |
+290: | **Issue Analysis** | N/A | N/A | Completed | Generated `ISSUE_ANALYSIS_SNAPSHOT.md` prioritizing issues by community engagement. |
 
 
 

@@ -3,6 +3,17 @@
 Notable changes are documented here. This project follows semantic versioning
 where practical.
 
+## 2.4.0-beta1 - 2026-09-21
+
+### Added
+
+- **Quick Access at Cursor Position (Issue #238):** Summon the Monitorian slider flyout directly under the mouse cursor anywhere across multi-monitor desktops using the global shortcut `Win + Alt + M` or settings toggle, eliminating the need to move cursor to the notification tray.
+- **Automated Unit Tests:** Added `QuickAccessAndHdrTest.cs` validating cursor edge-clamping, hotkey wiring, settings deserialization defaults, and GDI index parsing.
+
+### Fixed
+
+- **Multi-Monitor HDR Brightness Disambiguation (Issue #756):** Resolved tandem brightness adjustment on dual/triple identical HDR monitors (e.g. LG UltraGear). Corrected DisplayConfig path mapping using GDI source device names and guaranteed unique `(AdapterId, TargetId)` `DisplayIdSet` assignments per monitor.
+
 ## 2.3.0 - 2026-09-20
 
 ### Added

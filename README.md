@@ -170,6 +170,27 @@ Every push and pull request also runs the Windows CI workflow, which builds Debu
 
 ---
 
+## Comparison: Why Monitorian 2.0?
+
+If you are evaluating alternatives like **Twinkle Tray** or **ClickMonitorDDC**, here is how Monitorian 2.0 compares:
+
+| Metric / Capability | Monitorian 2.0 | Twinkle Tray | ClickMonitorDDC | Upstream Monitorian |
+| :--- | :--- | :--- | :--- | :--- |
+| **Technology** | **Native .NET / WPF** | Electron / Node.js | Win32 C++ (Abandoned) | Native .NET / WPF |
+| **Binary Footprint** | **~1.3 MB** (Single-file) | ~200 MB installer | ~1.5 MB | ~1.3 MB (MSI) |
+| **Idle Memory** | **~35–45 MB** | ~140–280 MB | ~15 MB | ~40 MB |
+| **Cold Startup Time** | **<250 ms** | 2.5–4.0 s | <150 ms | <250 ms |
+| **Global Hotkeys** | ✅ (`Win+Alt+Up/Down/B`) | ⚠️ Limited | ✅ Win32 hotkeys | ❌ None |
+| **Scheduled Transitions** | ✅ Minute-boundary (0% CPU) | ✅ Solar / time schedule | ❌ None | ❌ None |
+| **Middle-Click Blackout**| ✅ Multi-monitor overlay | ❌ None | ❌ None | ❌ None |
+| **CLI Automation** | ✅ **Free & Built-in** | ❌ None | ✅ Powerful CLI | 🔒 Paid Store Add-on |
+| **Portable Mode** | ✅ **Zero-config single-file** | ❌ Installer required | ✅ Portable zip | ❌ MSI only |
+| **Active Maintenance** | ✅ **Active (2026)** | ⚠️ Infrequent | ❌ Abandoned | ⚠️ Stalled |
+
+Read the full competitive analysis and SWOT evaluation in [docs/BENCHMARK_AND_SWOT.md](docs/BENCHMARK_AND_SWOT.md).
+
+---
+
 ## Community & Localization
 
 Monitorian 2.0 includes localization translations across 28 languages provided by community contributors:
